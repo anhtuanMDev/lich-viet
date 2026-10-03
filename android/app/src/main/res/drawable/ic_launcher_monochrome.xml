@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sinh bởi scripts/generate-icons.js – đừng sửa tay. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#000000"
+        android:fillType="evenOdd"
+        android:pathData="M39,32 H69 A6,6 0 0 1 75,38 V72 A6,6 0 0 1 69,78 H39 A6,6 0 0 1 33,72 V38 A6,6 0 0 1 39,32 Z M33,43 H75 V45 H33 Z M52.26,50.13 A11,11 0 1,0 63.95,65.71 A9.78,9.78 0 0,1 52.26,50.13 Z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M44,28 A2,2 0 0 1 46,30 V35 A2,2 0 0 1 44,37 A2,2 0 0 1 42,35 V30 A2,2 0 0 1 44,28 Z M64,28 A2,2 0 0 1 66,30 V35 A2,2 0 0 1 64,37 A2,2 0 0 1 62,35 V30 A2,2 0 0 1 64,28 Z" />
+</vector>

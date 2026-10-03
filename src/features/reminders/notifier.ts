@@ -70,6 +70,9 @@ const buildNotification = (item: NotificationInput): Notification => ({
   data: { [URL_KEY]: item.url },
   android: {
     channelId: CHANNEL_ID,
+    // Icon trắng đơn sắc + màu nhấn (res/drawable/ic_notification.xml, sinh bởi scripts/generate-icons.js).
+    smallIcon: 'ic_notification',
+    color: '#B3261E',
     // Không có pressAction thì bấm vào thông báo trên Android sẽ không mở app.
     pressAction: { id: 'default' },
   },

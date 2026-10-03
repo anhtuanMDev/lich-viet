@@ -7,6 +7,11 @@ module.exports = {
   },
   overrides: [
     {
+      // Script Node chạy ngoài app (sinh icon…).
+      files: ['scripts/**/*.js'],
+      env: { node: true },
+    },
+    {
       files: ['*.ts', '*.tsx'],
       rules: {
         '@typescript-eslint/consistent-type-imports': 'error',
