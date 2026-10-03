@@ -1,0 +1,1 @@
+export { syncWidgets } from './syncWidgets';
