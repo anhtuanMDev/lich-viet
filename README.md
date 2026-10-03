@@ -92,6 +92,24 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 - `app/background/syncAll.ts` cập nhật lịch nhắc + widget: khi mở/quay lại app, khi dữ liệu đổi, và chạy nền ~12 giờ/lần.
 - **Cần làm khi ký app thật**: bật App Groups (`group.com.lichviet.app`) cho cả `com.lichviet.app` và `com.lichviet.app.widget` trong Apple Developer, chọn Team cho cả hai target.
 
+## Báo cáo lỗi (Firebase Crashlytics)
+
+- Mọi code gọi qua `@shared/crash` (`reportError(error, 'nhãn')`, `initCrashReporting()` ở `index.js`); không import Firebase trực tiếp. **Không đưa nội dung người dùng nhập (tên sự kiện, ghi chú) vào lỗi/log** – chính sách quyền riêng tư cam kết điều này.
+- `ErrorBoundary` (`src/app`) bọc toàn bộ điều hướng: lỗi render → màn hình "Đã xảy ra lỗi" + nút "Thử lại", gửi báo cáo non-fatal.
+- Người dùng tắt được ở Cài đặt → "Gửi báo cáo lỗi" (`settings.crashReports`, mặc định bật). Bản debug không gửi (`firebase.json`: `crashlytics_debug_enabled: false`).
+- **Chưa có file cấu hình Firebase thì app vẫn build và chạy**, Crashlytics tự thành no-op (Gradle chỉ áp plugin khi có file; iOS bỏ qua bước Crashlytics qua `scripts/ios-crashlytics-phase.sh`). Build release Android thiếu file sẽ in cảnh báo.
+- Bật thật:
+  1. Firebase Console → tạo project → thêm app Android `com.lichviet.app` và iOS `com.lichviet.app` (**chốt bundle id trước** – đổi sau phải đăng ký lại). Không cần bật Google Analytics.
+  2. Tải `google-services.json` → `android/app/`.
+  3. Tải `GoogleService-Info.plist` → kéo vào Xcode, target `LichViet` (tick "Copy items if needed").
+  4. Build release: plugin tự tải mapping R8 (Android) và dSYM (iOS) để giải mã stack trace.
+- iOS cài Firebase qua CocoaPods với static frameworks (`$RNFirebaseDisableSPM` trong `Podfile`) để giữ khởi động nhanh. Firebase ngừng phát hành bản mới lên CocoaPods từ 10/2026 – khi `@react-native-firebase` yêu cầu SDK mới hơn 12.18, chuyển sang SPM (bỏ cờ, `use_frameworks! :linkage => :dynamic`).
+
+## Icon
+
+- Nguồn duy nhất: `scripts/generate-icons.js` (hình học + màu). Sửa → `node scripts/generate-icons.js` → commit file sinh ra.
+- Sinh ra: adaptive icon Android (vector + lớp monochrome cho themed icon), PNG cho Android 7.x, icon thông báo `ic_notification` (trắng đơn sắc), AppIcon iOS 1024 (không alpha), icon 512 và ảnh nổi bật cho Google Play trong `docs/store/assets/`.
+
 ## Phát hành
 
 ### Android – khoá ký (upload key)
@@ -106,6 +124,12 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 ### iOS
 
 - Cả hai target dùng `CODE_SIGN_STYLE = Automatic`; chọn Team trong Xcode (Signing & Capabilities) cho `LichViet` và `LichVietWidget`, bật App Groups như mục Widget.
+
+### Store & quyền riêng tư
+
+- Chính sách quyền riêng tư: `docs/privacy-policy.md`, công khai qua GitHub Pages (Settings → Pages → branch `main`, thư mục `/docs`) tại `https://anhtuanmdev.github.io/lich-viet/privacy-policy` – link này nằm trong Cài đặt của app.
+- Khai báo store: `docs/store/google-play.md` (Data safety, USE_EXACT_ALARM, content rating…), `docs/store/app-store.md` (App Privacy, age rating…), `docs/store/listing.md` (tên, mô tả, từ khoá).
+- Đổi dữ liệu thu thập / quyền / SDK → cập nhật cả chính sách, các file khai báo và `PrivacyInfo.xcprivacy`.
 
 ## Quy ước code
 

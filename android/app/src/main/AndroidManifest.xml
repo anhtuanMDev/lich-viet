@@ -13,6 +13,12 @@
         android:maxSdkVersion="32"
         tools:replace="android:maxSdkVersion" />
 
+    <!--
+      notify-kit khai báo sẵn dịch vụ foreground (thông báo chạy liên tục) – app không dùng.
+      Gỡ để không phải khai báo "Foreground service" trên Google Play.
+    -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
+
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -42,6 +48,8 @@
             <data android:scheme="lichviet" />
         </intent-filter>
       </activity>
+
+      <service android:name="app.notifee.core.ForegroundService" tools:node="remove" />
 
       <!-- Widget màn hình chính (react-native-android-widget). -->
       <receiver
