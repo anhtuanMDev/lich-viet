@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12 trở lên: sao lưu lên đám mây và chuyển dữ liệu khi đổi máy (device-to-device).
+  Cùng quy tắc với backup_rules.xml: chỉ thư mục mmkv/.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="file" path="mmkv/" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="file" path="mmkv/" />
+    </device-transfer>
+</data-extraction-rules>
