@@ -55,9 +55,27 @@ react {
 }
 
 /**
- * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
+ * Bật R8 cho bản release: thu gọn bytecode và bỏ tài nguyên không dùng.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
+
+/**
+ * Khoá upload để ký bản release. KHÔNG để khoá hay mật khẩu trong repo:
+ * đọc từ ~/.gradle/gradle.properties (máy dev) hoặc biến môi trường (CI).
+ * Tạo khoá lần đầu: scripts/create-upload-keystore.sh
+ */
+def signingValue = { String name ->
+    def value = project.findProperty(name) ?: System.getenv(name)
+    return value ? value.toString() : null
+}
+def releaseSigning = [
+    storeFile    : signingValue('LICHVIET_UPLOAD_STORE_FILE'),
+    storePassword: signingValue('LICHVIET_UPLOAD_STORE_PASSWORD'),
+    keyAlias     : signingValue('LICHVIET_UPLOAD_KEY_ALIAS'),
+    keyPassword  : signingValue('LICHVIET_UPLOAD_KEY_PASSWORD'),
+]
+def hasReleaseSigning = releaseSigning.values().every { it != null } &&
+        file(releaseSigning.storeFile).exists()
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -83,7 +101,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     signingConfigs {
         debug {
@@ -92,18 +110,41 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(releaseSigning.storeFile)
+                storePassword releaseSigning.storePassword
+                keyAlias releaseSigning.keyAlias
+                keyPassword releaseSigning.keyPassword
+            }
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // Không bao giờ ký release bằng khoá debug (Play từ chối và không thể cập nhật app).
+            signingConfig hasReleaseSigning ? signingConfigs.release : null
             minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
+    }
+}
+
+// Build release (assemble/bundle/install) mà thiếu khoá → dừng ngay với hướng dẫn,
+// thay vì tạo ra file không ký được hoặc lỡ ký bằng khoá debug.
+gradle.taskGraph.whenReady { graph ->
+    def buildsRelease = graph.allTasks.any { task ->
+        task.project == project && task.name ==~ /(assemble|bundle|install|package)Release/
+    }
+    if (buildsRelease && !hasReleaseSigning) {
+        throw new GradleException(
+            "Thiếu khoá ký bản release. Chạy scripts/create-upload-keystore.sh hoặc khai báo " +
+            "LICHVIET_UPLOAD_STORE_FILE, LICHVIET_UPLOAD_STORE_PASSWORD, LICHVIET_UPLOAD_KEY_ALIAS, " +
+            "LICHVIET_UPLOAD_KEY_PASSWORD trong ~/.gradle/gradle.properties hoặc biến môi trường."
+        )
     }
 }
 

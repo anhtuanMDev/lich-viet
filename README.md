@@ -92,6 +92,21 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 - `app/background/syncAll.ts` cập nhật lịch nhắc + widget: khi mở/quay lại app, khi dữ liệu đổi, và chạy nền ~12 giờ/lần.
 - **Cần làm khi ký app thật**: bật App Groups (`group.com.lichviet.app`) cho cả `com.lichviet.app` và `com.lichviet.app.widget` trong Apple Developer, chọn Team cho cả hai target.
 
+## Phát hành
+
+### Android – khoá ký (upload key)
+
+- Tạo một lần trên máy: `./scripts/create-upload-keystore.sh` → tạo `~/.lichviet-signing/upload-keystore.jks` (PKCS12, RSA 4096) và ghi 4 dòng `LICHVIET_UPLOAD_*` vào `~/.gradle/gradle.properties` (chmod 600). Script không ghi đè khoá đã có và không in mật khẩu.
+- **Sao lưu ngay** file `.jks` và 4 dòng `LICHVIET_UPLOAD_*` vào trình quản lý mật khẩu. Mất khoá thì phải xin Google reset upload key (Play App Signing giữ khoá ký thật).
+- CI: truyền 4 biến cùng tên qua biến môi trường thay cho `gradle.properties`.
+- Build: `cd android && ./gradlew bundleRelease` (AAB cho Play) hoặc `assembleRelease` (APK cài thử). Thiếu khoá → build release dừng với thông báo rõ ràng; debug không bị ảnh hưởng.
+- Release bật R8 (`minifyEnabled` + `shrinkResources`). Các thư viện native đã có consumer rules; đã kiểm tra trên bản release: lưu MMKV, deep link, đặt alarm nhắc lịch.
+- Mỗi lần phát hành tăng `versionCode` (và `versionName`) trong `android/app/build.gradle`.
+
+### iOS
+
+- Cả hai target dùng `CODE_SIGN_STYLE = Automatic`; chọn Team trong Xcode (Signing & Capabilities) cho `LichViet` và `LichVietWidget`, bật App Groups như mục Widget.
+
 ## Quy ước code
 
 - TypeScript strict + `noUncheckedIndexedAccess`; kiểu "đóng dấu" `JulianDay` để không truyền nhầm số bất kỳ.
