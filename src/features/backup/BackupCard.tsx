@@ -3,6 +3,7 @@ import { Alert, Platform, Share } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { serializeBackup } from '@core/events';
 import { eventRepository } from '@features/events/eventRepository';
+import { reportError } from '@shared/crash';
 import { AppText, Button, Card } from '@shared/ui';
 
 const AUTO_BACKUP_NOTE = Platform.select({
@@ -27,7 +28,7 @@ export function BackupCard() {
         message: serializeBackup(events),
       });
     } catch (error) {
-      console.warn('[backup] Không chia sẻ được', error);
+      reportError(error, 'backup:share');
       Alert.alert('Không xuất được dữ liệu', 'Vui lòng thử lại.');
     }
   }, []);

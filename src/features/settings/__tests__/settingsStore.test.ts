@@ -6,6 +6,7 @@ describe('decodeSettings', () => {
       weekStart: 0,
       themeMode: DEFAULT_SETTINGS.themeMode,
       reminders: DEFAULT_SETTINGS.reminders,
+      crashReports: DEFAULT_SETTINGS.crashReports,
     });
   });
 
@@ -14,6 +15,7 @@ describe('decodeSettings', () => {
       weekStart: 1,
       themeMode: 'dark',
       reminders: DEFAULT_SETTINGS.reminders,
+      crashReports: true,
     });
   });
 
@@ -26,6 +28,11 @@ describe('decodeSettings', () => {
       time: DEFAULT_SETTINGS.reminders.time,
       lunarPhase: 'dayBefore',
     });
+  });
+
+  it('giữ lựa chọn tắt báo cáo lỗi, bỏ giá trị sai kiểu', () => {
+    expect(decodeSettings({ crashReports: false }).crashReports).toBe(false);
+    expect(decodeSettings({ crashReports: 'no' }).crashReports).toBe(true);
   });
 
   it('dữ liệu không phải object → mặc định', () => {

@@ -1,3 +1,5 @@
+import { reportError } from '@shared/crash';
+
 /**
  * Store đồng bộ, bền vững, có phiên bản schema – nền cho mọi dữ liệu người dùng (sự kiện, cài đặt).
  *
@@ -67,7 +69,10 @@ export function createPersistentStore<T>({
     } catch {
       // JSON hỏng – rơi xuống fallback bên dưới.
     }
-    console.warn(`[storage] Bỏ qua dữ liệu không đọc được ở key "${key}"`);
+    reportError(
+      new Error(`Bỏ qua dữ liệu không đọc được ở key "${key}"`),
+      'storage:decode',
+    );
     return fallback;
   };
 

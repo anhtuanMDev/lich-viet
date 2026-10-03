@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { eventRepository } from '@features/events/eventRepository';
 import { settingsStore } from '@features/settings/settingsStore';
+import { reportError } from '@shared/crash';
 import { syncAll } from './syncAll';
 
 const DEBOUNCE_MS = 400;
@@ -16,7 +17,7 @@ export function useDataSync(): void {
     const schedule = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        syncAll().catch(error => console.warn('[sync] Đồng bộ lỗi', error));
+        syncAll().catch(error => reportError(error, 'sync'));
       }, DEBOUNCE_MS);
     };
 

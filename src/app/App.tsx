@@ -8,9 +8,11 @@ import {
 import type { Theme as NavigationTheme } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useSettings } from '@features/settings';
+import { reportError, setCrashReportingEnabled } from '@shared/crash';
 import { ThemeProvider, useTheme } from '@shared/theme';
 import { configureBackgroundSync } from './background/backgroundSync';
 import { useDataSync } from './background/useDataSync';
+import { ErrorBoundary } from './ErrorBoundary';
 import { linking } from './navigation/linking';
 import { RootNavigator } from './navigation/RootNavigator';
 
@@ -40,17 +42,20 @@ function ThemedNavigation() {
 }
 
 export function App() {
-  const { themeMode } = useSettings();
+  const { themeMode, crashReports } = useSettings();
   useDataSync();
   useEffect(() => {
     configureBackgroundSync().catch(error =>
-      console.warn('[sync] Không cấu hình được chạy nền', error),
+      reportError(error, 'sync:configure'),
     );
   }, []);
+  useEffect(() => setCrashReportingEnabled(crashReports), [crashReports]);
   return (
     <SafeAreaProvider>
       <ThemeProvider mode={themeMode}>
-        <ThemedNavigation />
+        <ErrorBoundary>
+          <ThemedNavigation />
+        </ErrorBoundary>
       </ThemeProvider>
     </SafeAreaProvider>
   );

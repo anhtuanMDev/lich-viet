@@ -30,3 +30,12 @@ jest.mock('react-native-android-widget', () => ({
   FlexWidget: () => null,
   TextWidget: () => null,
 }));
+jest.mock('@react-native-firebase/app', () => ({
+  getApps: jest.fn(() => []),
+}));
+jest.mock('@react-native-firebase/crashlytics', () => ({
+  getCrashlytics: jest.fn(),
+  log: jest.fn(),
+  recordError: jest.fn(),
+  setCrashlyticsCollectionEnabled: jest.fn(() => Promise.resolve(null)),
+}));

@@ -12,3 +12,5 @@ export type { ButtonVariant } from './Button';
 export { TextField } from './TextField';
 export { TimeStepper, formatTime } from './TimeStepper';
 export type { TimeValue } from './TimeStepper';
+export { SwitchRow } from './SwitchRow';
+export { useSwitchColors } from './useSwitchColors';

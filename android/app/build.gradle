@@ -2,6 +2,14 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+// Firebase Crashlytics: cần android/app/google-services.json (tải từ Firebase Console).
+// Chưa có file → bỏ qua plugin, app vẫn build và Crashlytics tự thành no-op.
+// Có file → plugin Crashlytics tự tải mapping R8 lên khi build release để giải mã stack trace.
+if (file("google-services.json").exists()) {
+    apply plugin: "com.google.gms.google-services"
+    apply plugin: "com.google.firebase.crashlytics"
+}
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -145,6 +153,9 @@ gradle.taskGraph.whenReady { graph ->
             "LICHVIET_UPLOAD_STORE_FILE, LICHVIET_UPLOAD_STORE_PASSWORD, LICHVIET_UPLOAD_KEY_ALIAS, " +
             "LICHVIET_UPLOAD_KEY_PASSWORD trong ~/.gradle/gradle.properties hoặc biến môi trường."
         )
+    }
+    if (buildsRelease && !file("google-services.json").exists()) {
+        logger.warn("CẢNH BÁO: thiếu android/app/google-services.json – bản release này KHÔNG gửi báo cáo lỗi Crashlytics.")
     }
 }
 

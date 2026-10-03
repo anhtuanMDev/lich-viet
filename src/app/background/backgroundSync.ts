@@ -1,5 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import type { HeadlessEvent } from 'react-native-background-fetch';
+import { reportError } from '@shared/crash';
 import { syncAll } from './syncAll';
 
 /*
@@ -14,7 +15,7 @@ async function runTask(taskId: string): Promise<void> {
   try {
     await syncAll();
   } catch (error) {
-    console.warn('[sync] Đồng bộ nền lỗi', error);
+    reportError(error, 'sync:background');
   } finally {
     BackgroundFetch.finish(taskId);
   }

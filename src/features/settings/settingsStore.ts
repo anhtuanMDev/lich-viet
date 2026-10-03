@@ -15,6 +15,8 @@ export interface Settings {
   readonly weekStart: WeekStart;
   readonly themeMode: ThemeMode;
   readonly reminders: ReminderSettings;
+  /** Gửi báo cáo lỗi kỹ thuật (Crashlytics). Người dùng tắt được trong Cài đặt. */
+  readonly crashReports: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -24,6 +26,7 @@ export const DEFAULT_SETTINGS: Settings = {
     time: { hour: 7, minute: 0 },
     lunarPhase: 'off',
   },
+  crashReports: true,
 };
 
 const isWeekStart = (value: unknown): value is WeekStart =>
@@ -76,6 +79,10 @@ export function decodeSettings(data: unknown): Settings {
       : DEFAULT_SETTINGS.themeMode,
     // Trường thêm sau phiên bản đầu: dữ liệu cũ không có → lấy mặc định, không cần tăng version.
     reminders: decodeReminders(record.reminders),
+    crashReports:
+      typeof record.crashReports === 'boolean'
+        ? record.crashReports
+        : DEFAULT_SETTINGS.crashReports,
   };
 }
 

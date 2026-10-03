@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { decodeEvents, mergeEvents } from '@core/events';
 import type { CalendarEvent, MergeResult } from '@core/events';
+import { reportError } from '@shared/crash';
 import {
   createPersistentStore,
   storageBackend,
@@ -27,7 +28,10 @@ const eventsStore = createPersistentStore<readonly CalendarEvent[]>({
     }
     const { events, dropped } = decodeEvents(data);
     if (dropped > 0) {
-      console.warn(`[events] Bỏ qua ${dropped} sự kiện không hợp lệ`);
+      reportError(
+        new Error(`Bỏ qua ${dropped} sự kiện không hợp lệ`),
+        'events:decode',
+      );
     }
     return events;
   },
