@@ -21,6 +21,7 @@ export type RootStackParamList = {
     | { readonly eventId?: string; readonly date?: SolarDate }
     | undefined;
   Settings: undefined;
+  ImportBackup: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

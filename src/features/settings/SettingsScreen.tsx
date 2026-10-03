@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import type { WeekStart } from '@core/lunar';
+import { BackupCard } from '@features/backup/BackupCard';
 import { AndroidDeliveryCard } from '@features/reminders/components/AndroidDeliveryCard';
 import { ReminderSettingsCard } from '@features/reminders/components/ReminderSettingsCard';
 import { WidgetSettingsCard } from '@features/widget/WidgetSettingsCard';
@@ -41,6 +42,7 @@ export function SettingsScreen() {
       <ReminderSettingsCard />
       <AndroidDeliveryCard />
       <WidgetSettingsCard />
+      <BackupCard />
       <Card title="Giao diện">
         <SegmentedControl
           options={THEME_OPTIONS}
@@ -58,8 +60,9 @@ export function SettingsScreen() {
       <Card title="Về ứng dụng">
         <AppText color="textMuted">
           Âm lịch tính theo giờ chuẩn Việt Nam (UTC+7), thuật toán của TS. Hồ
-          Ngọc Đức. Hỗ trợ từ năm 1900 đến 2100. Mọi dữ liệu chỉ lưu trên máy
-          của bạn.
+          Ngọc Đức. Hỗ trợ từ năm 1900 đến 2100. Dữ liệu chỉ nằm trên máy và
+          trong bản sao lưu của chính bạn (Google / iCloud) – ứng dụng không gửi
+          lên máy chủ nào.
         </AppText>
       </Card>
     </Screen>

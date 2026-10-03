@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ImportBackupScreen } from '@features/backup';
 import { CalendarScreen } from '@features/calendar';
 import { ConverterScreen } from '@features/converter';
 import { DayDetailScreen } from '@features/day-detail';
@@ -87,6 +88,11 @@ export function RootNavigator() {
         name="Settings"
         component={SettingsScreen}
         options={{ title: 'Cài đặt' }}
+      />
+      <Stack.Screen
+        name="ImportBackup"
+        component={ImportBackupScreen}
+        options={{ title: 'Nhập dữ liệu' }}
       />
     </Stack.Navigator>
   );

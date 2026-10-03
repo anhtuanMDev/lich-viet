@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { decodeEvents } from '@core/events';
-import type { CalendarEvent } from '@core/events';
+import { decodeEvents, mergeEvents } from '@core/events';
+import type { CalendarEvent, MergeResult } from '@core/events';
 import {
   createPersistentStore,
   storageBackend,
@@ -65,6 +65,15 @@ export const eventRepository = {
 
   remove(id: string): void {
     eventsStore.set(prev => prev.filter(event => event.id !== id));
+  },
+
+  /** Nhập từ bản sao lưu: gộp theo id, giữ bản sửa sau cùng, không xoá sự kiện đang có. */
+  importEvents(incoming: readonly CalendarEvent[]): MergeResult {
+    const result = mergeEvents(eventsStore.get(), incoming);
+    if (result.added > 0 || result.updated > 0) {
+      eventsStore.set(result.events);
+    }
+    return result;
   },
 
   subscribe: eventsStore.subscribe,

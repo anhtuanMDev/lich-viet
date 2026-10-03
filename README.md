@@ -64,6 +64,7 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 - Mỗi loại dữ liệu là một `createPersistentStore` dưới một key, ghi dạng `{ v: <version>, data }`. Khi đọc, dữ liệu được giải mã/kiểm tra (`core/events/decode.ts`, `decodeSettings`): bản ghi hỏng bị bỏ qua, app không crash.
 - Đổi cấu trúc dữ liệu → tăng `version` và xử lý phiên bản cũ trong `decode`.
 - Màn hình chỉ truy cập sự kiện qua `features/events/eventRepository.ts`. Nếu sau này cần SQLite, chỉ thay file này.
+- **Sao lưu:** Android Auto Backup bật cho riêng thư mục `files/mmkv/` (`res/xml/backup_rules.xml` cho Android ≤ 11, `data_extraction_rules.xml` cho 12+, gồm cả chuyển dữ liệu khi đổi máy); lịch thông báo đã đặt không được sao lưu – app tự đặt lại khi mở. iOS: MMKV nằm trong `Documents/mmkv` nên đi theo bản sao lưu iCloud/máy tính. Thêm xuất/nhập thủ công (Cài đặt → Sao lưu dữ liệu): định dạng `{ app, format, exportedAt, events }` (`core/events/backup.ts`), khi nhập gộp theo id, giữ bản sửa sau cùng, không xoá gì.
 - Jest thay MMKV và các thư viện native (thông báo, chạy nền, widget) bằng bản giả (`jest.setup.ts`).
 
 ## Quy ước sự kiện âm lịch lặp hằng năm
