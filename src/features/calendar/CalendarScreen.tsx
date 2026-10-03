@@ -102,7 +102,7 @@ export function CalendarScreen() {
         extraData={renderMonth}
         style={[styles.pager, { height: cellHeight * 6 }]}
       />
-      <ScrollView contentContainerStyle={styles.below}>
+      <ScrollView style={styles.agenda} contentContainerStyle={styles.below}>
         <MonthAgenda
           year={visibleMonth.year}
           month={visibleMonth.month}
@@ -116,8 +116,14 @@ export function CalendarScreen() {
 }
 
 const useStyles = createThemedStyles(t => ({
+  // ScrollView/FlatList mặc định flexShrink: 1 → danh sách sự kiện dài sẽ ép lưới lịch
+  // thấp lại và đè lên hàng cuối. Lưới giữ cố định 6 hàng; phần sự kiện tự cuộn.
   pager: {
     flexGrow: 0,
+    flexShrink: 0,
+  },
+  agenda: {
+    flex: 1,
   },
   below: {
     padding: t.spacing.lg,
