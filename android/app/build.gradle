@@ -130,6 +130,8 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            // Cài song song với bản release trên cùng máy (khác khoá ký). Firebase có app riêng cho id này.
+            applicationIdSuffix ".debug"
         }
         release {
             // Không bao giờ ký release bằng khoá debug (Play từ chối và không thể cập nhật app).

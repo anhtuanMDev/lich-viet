@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      React Native (bản debug) khai báo quyền "Thiết bị ở gần" để kết nối Metro trên Android 17 và
+      hỏi quyền ngay khi mở app; bấm "Không cho phép" là màn hình đỏ "Unable to load script".
+      App không cần quyền này: targetSdk < 37 nên chưa bị chặn mạng nội bộ, và `adb reverse`
+      (loopback) luôn được miễn. Gỡ đi thì không còn hộp thoại. Khi nâng targetSdk lên 37 mà
+      Metro chạy qua Wi-Fi/LAN thì cần xem lại.
+    -->
+    <uses-permission
+        android:name="android.permission.ACCESS_LOCAL_NETWORK"
+        tools:node="remove" />
+</manifest>
