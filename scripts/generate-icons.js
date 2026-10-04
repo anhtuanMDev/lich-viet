@@ -92,11 +92,15 @@ function render(svg, width, options = {}) {
     .asPng();
 }
 
-/** PNG RGB 8-bit (bỏ kênh alpha) từ ảnh RGBA đã render - dành cho icon iOS. */
-function renderOpaque(svg, width) {
+/**
+ * PNG RGB 8-bit (bỏ kênh alpha) từ ảnh RGBA đã render - dành cho icon iOS và ảnh nổi bật
+ * Google Play (Play chỉ nhận JPEG hoặc PNG 24-bit, không alpha).
+ */
+function renderOpaque(svg, width, options = {}) {
   const image = new Resvg(svg, {
     fitTo: { mode: 'width', value: width },
     background: RED,
+    ...options,
   }).render();
   const { width: w, height: h, pixels } = image;
   const raw = Buffer.alloc((w * 3 + 1) * h);
@@ -250,7 +254,7 @@ console.log('Store:');
 write('docs/store/assets/play-icon-512.png', render(FULL_SQUARE, 512));
 write(
   'docs/store/assets/feature-graphic-1024x500.png',
-  render(FEATURE_GRAPHIC, 1024, {
+  renderOpaque(FEATURE_GRAPHIC, 1024, {
     font: { loadSystemFonts: true, defaultFontFamily: 'Arial' },
   }),
 );
