@@ -21,9 +21,9 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 | Hạng mục | Trạng thái |
 | --- | --- |
 | Bản build mới nhất | 1.0.0 (versionCode 1) – `releases/1.0.0/lichviet-1.0.0-1-20261004-112211.aab` |
-| Đã tải lên Play Console? | ❓ chưa xác nhận |
-| Track | ❓ chưa xác nhận (internal / closed / production) |
-| Closed testing 12 người × 14 ngày | ❓ chưa xác nhận ngày bắt đầu |
+| Đã tải lên Play Console? | ✅ 2026-10-04 |
+| Track | Internal testing |
+| Closed testing 12 người × 14 ngày | Dự kiến tính từ 2026-10-04 – **chỉ được tính khi bản build nằm ở track Closed testing** (track Internal không tính). Sớm nhất đủ điều kiện xin production: 2026-10-18 |
 
 ## Việc còn tồn (chặn phát hành)
 
@@ -32,7 +32,7 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
       Play từ chối duyệt nếu link chết; link này cũng nằm trong màn Cài đặt của app.
 - [ ] Email hỗ trợ trong `listing.md` còn là `[EMAIL LIÊN HỆ]` – Play bắt buộc có email liên hệ.
 - [ ] Chưa có ảnh chụp màn hình (tối thiểu 2 ảnh điện thoại). Gợi ý trong `listing.md`.
-- [ ] Tag `v1.0.0` mới có ở máy, chưa push lên GitHub (`git push origin v1.0.0`).
+- [ ] Đưa bản 1.0.0 sang track **Closed testing** và mời ≥ 12 người (họ phải opt-in và giữ app suốt 14 ngày).
 - [ ] Khai báo USE_EXACT_ALARM (mục "Calendar") sau khi tải AAB lên – nội dung có sẵn ở `google-play.md` §4.
 
 ## Quy ước để quản lý về sau
@@ -50,3 +50,4 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 | Ngày | Phiên bản | versionCode | Track | Trạng thái | Ghi chú |
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-04 | 1.0.0 | 1 | – | Đã build AAB | Tag `v1.0.0` → commit `663af5b` |
+| 2026-10-04 | 1.0.0 | 1 | Internal | Đã tải lên | |
