@@ -1,6 +1,6 @@
 import type { LunarDate, SolarDate } from '@core/lunar';
 
-/** Ngày gốc của sự kiện – theo dương lịch hoặc âm lịch, không bao giờ lẫn lộn. */
+/** Ngày gốc của sự kiện - theo dương lịch hoặc âm lịch, không bao giờ lẫn lộn. */
 export type EventDate =
   | { readonly calendar: 'solar'; readonly date: SolarDate }
   | { readonly calendar: 'lunar'; readonly date: LunarDate };

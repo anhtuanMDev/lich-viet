@@ -24,7 +24,7 @@ if (!SOURCES[kind]) {
 
 const src = path.join(ROOT, SOURCES[kind]);
 if (!fs.existsSync(src)) {
-  console.error(`Không tìm thấy ${SOURCES[kind]} – build gradle đã chạy chưa?`);
+  console.error(`Không tìm thấy ${SOURCES[kind]} - build gradle đã chạy chưa?`);
   process.exit(1);
 }
 
@@ -36,7 +36,7 @@ if (!versionName || !versionCode) {
   process.exit(1);
 }
 
-// Giờ máy, dạng 20261004-153012 – sắp xếp theo tên là đúng thứ tự thời gian.
+// Giờ máy, dạng 20261004-153012 - sắp xếp theo tên là đúng thứ tự thời gian.
 const pad = n => String(n).padStart(2, '0');
 const d = new Date();
 const timestamp =

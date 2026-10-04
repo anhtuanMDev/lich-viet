@@ -8,13 +8,13 @@ Widget, Thông báo nhắc.
 ## Tên
 
 - **Google Play (≤ 30 ký tự):** `Lịch Việt - Âm lịch, Ngày giỗ`
-- **App Store – tên (≤ 30):** `Lịch Việt - Âm lịch, Ngày giỗ`
-- **App Store – phụ đề (≤ 30):** `Lịch âm dương, nhắc ngày giỗ`
+- **App Store - tên (≤ 30):** `Lịch Việt - Âm lịch, Ngày giỗ`
+- **App Store - phụ đề (≤ 30):** `Lịch âm dương, nhắc ngày giỗ`
 
 ## Mô tả ngắn (Google Play, ≤ 80 ký tự)
 
 ```
-Lịch âm dương chuẩn giờ Việt Nam, nhắc ngày giỗ, mùng 1, rằm – không quảng cáo.
+Lịch âm dương chuẩn giờ Việt Nam, nhắc ngày giỗ, mùng 1, rằm - không quảng cáo.
 ```
 
 ## Từ khoá (App Store, ≤ 100 ký tự, cách nhau bằng dấu phẩy, không lặp từ trong tên)
@@ -26,16 +26,16 @@ lich am,lich duong,van nien,ngay gio,mung 1,ram,can chi,hoang dao,tiet khi,doi n
 ## Mô tả đầy đủ
 
 ```
-Lịch Việt – lịch âm dương gọn nhẹ, chính xác, dành cho người Việt.
+Lịch Việt - lịch âm dương gọn nhẹ, chính xác, dành cho người Việt.
 
-📅 XEM LỊCH ÂM – DƯƠNG
+📅 XEM LỊCH ÂM - DƯƠNG
 • Ngày âm, can chi ngày/tháng/năm, tiết khí, giờ hoàng đạo, ngày hoàng đạo/hắc đạo.
 • Lịch tháng hiển thị cả ngày âm, đánh dấu mùng 1, rằm, ngày lễ.
 • Tính theo giờ chuẩn Việt Nam (UTC+7), thuật toán của TS. Hồ Ngọc Đức, kiểm chứng từng ngày từ năm 1900 đến 2100.
 
 🕯 NHỚ NGÀY GIỖ, SINH NHẬT
 • Lưu sự kiện theo ngày âm hoặc dương, lặp lại hằng năm.
-• Tự xử lý tháng nhuận và tháng thiếu – không bao giờ lỡ ngày giỗ.
+• Tự xử lý tháng nhuận và tháng thiếu - không bao giờ lỡ ngày giỗ.
 
 🔔 NHẮC ĐÚNG GIỜ
 • Nhắc trước 1, 3, 7 ngày hoặc đúng ngày, vào giờ bạn chọn.
@@ -56,7 +56,7 @@ Lịch Việt – lịch âm dương gọn nhẹ, chính xác, dành cho ngườ
 
 ## Thông tin khác
 
-- **Danh mục:** Google Play – Năng suất (Productivity); App Store – Tiện ích (Utilities), phụ: Phong cách sống (Lifestyle).
+- **Danh mục:** Google Play - Năng suất (Productivity); App Store - Tiện ích (Utilities), phụ: Phong cách sống (Lifestyle).
 - **Chính sách quyền riêng tư:** https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/
 - **Email hỗ trợ:** anhtuan03.MDev@gmail.com
 - **Quốc gia phát hành:** chỉ Việt Nam.

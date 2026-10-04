@@ -56,7 +56,7 @@ export function ReminderSettingsCard() {
         <>
           <AppText color="holiday">
             {permission.state === 'denied'
-              ? 'Thông báo đang bị tắt – bạn sẽ không nhận được lời nhắc.'
+              ? 'Thông báo đang bị tắt - bạn sẽ không nhận được lời nhắc.'
               : 'Chưa bật thông báo.'}
           </AppText>
           <Button

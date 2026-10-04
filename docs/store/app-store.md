@@ -11,9 +11,9 @@ Chỉ chọn nhóm **Diagnostics**, khớp với `ios/LichViet/PrivacyInfo.xcpri
 | **Crash Data** | App Functionality | **No** | **No** |
 | **Other Diagnostic Data** | App Functionality, Analytics | **No** | **No** |
 
-- Không chọn Identifiers, Contact Info, Location, User Content… – sự kiện người dùng chỉ lưu trên
+- Không chọn Identifiers, Contact Info, Location, User Content… - sự kiện người dùng chỉ lưu trên
   máy (và iCloud Backup của chính họ, Apple không tính là thu thập).
-- Kết quả hiển thị trên App Store: "Data Not Linked to You – Diagnostics".
+- Kết quả hiển thị trên App Store: "Data Not Linked to You - Diagnostics".
 - **Không** cần App Tracking Transparency (không theo dõi, không quảng cáo, không IDFA).
 
 ## 2. Privacy manifest (đã có trong repo)
@@ -22,8 +22,8 @@ Chỉ chọn nhóm **Diagnostics**, khớp với `ios/LichViet/PrivacyInfo.xcpri
 
 - `NSPrivacyTracking = false`, không có tracking domain.
 - Collected data: Crash Data, Other Diagnostic Data (không liên kết, không theo dõi).
-- Required reason API: UserDefaults (CA92.1, 1C8F.1 – App Group cho widget, C56D.1), File timestamp
-  (C617.1), System boot time (35F9.1) – `pod install` tự gộp từ các thư viện; chạy lại `pod install`
+- Required reason API: UserDefaults (CA92.1, 1C8F.1 - App Group cho widget, C56D.1), File timestamp
+  (C617.1), System boot time (35F9.1) - `pod install` tự gộp từ các thư viện; chạy lại `pod install`
   sau khi đổi thư viện rồi kiểm tra diff.
 
 ## 3. Thông tin khác
@@ -53,4 +53,4 @@ The app is in Vietnamese and is distributed in Vietnam only.
 ## 5. Trước khi nộp
 
 - Chọn Team cho target `LichViet` và `LichVietWidget`, bật App Group `group.com.lichviet.app`.
-- Thêm `GoogleService-Info.plist` (xem README – mục Báo cáo lỗi) để Crashlytics hoạt động và tải dSYM.
+- Thêm `GoogleService-Info.plist` (xem README - mục Báo cáo lỗi) để Crashlytics hoạt động và tải dSYM.

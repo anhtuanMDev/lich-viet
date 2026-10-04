@@ -1,7 +1,7 @@
 /**
- * Golden tests: so khớp TỪNG NGÀY 1900–2100 với một bản cài đặt độc lập
+ * Golden tests: so khớp TỪNG NGÀY 1900-2100 với một bản cài đặt độc lập
  * (@tuquet/lunar, thuật toán Hồ Ngọc Đức, UTC+7). Nếu test này đỏ, KHÔNG sửa
- * kỳ vọng – hãy tìm hiểu vì sao kết quả lệch so với lịch chuẩn.
+ * kỳ vọng - hãy tìm hiểu vì sao kết quả lệch so với lịch chuẩn.
  */
 import * as reference from '@tuquet/lunar';
 import {
@@ -50,7 +50,7 @@ const fmt = (jd: JulianDay): string => {
   return `${day}/${month}/${year}`;
 };
 
-describe('đối chiếu với @tuquet/lunar cho mọi ngày 1900–2100', () => {
+describe('đối chiếu với @tuquet/lunar cho mọi ngày 1900-2100', () => {
   it('đổi dương → âm khớp hoàn toàn', () => {
     const mismatches = collectMismatches(jd => {
       const ours = jdToLunar(jd);

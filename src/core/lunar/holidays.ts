@@ -74,7 +74,7 @@ const EMPTY: readonly Holiday[] = [];
 export interface HolidayQuery {
   readonly solar: SolarDate;
   readonly lunar: LunarDate;
-  /** Ngày âm của hôm sau – dùng để nhận ra ngày cuối tháng Chạp (Giao thừa/Tất niên). */
+  /** Ngày âm của hôm sau - dùng để nhận ra ngày cuối tháng Chạp (Giao thừa/Tất niên). */
   readonly nextLunar: LunarDate;
 }
 

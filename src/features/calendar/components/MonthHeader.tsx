@@ -7,7 +7,7 @@ import { AppText } from '@shared/ui';
 
 export interface MonthHeaderProps {
   readonly month: MonthKey;
-  /** VD: "Tháng 8 – 9 năm Bính Ngọ" */
+  /** VD: "Tháng 8 - 9 năm Bính Ngọ" */
   readonly lunarSubtitle: string;
   readonly showTodayButton: boolean;
   readonly onPrev: () => void;

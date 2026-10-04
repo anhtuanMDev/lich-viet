@@ -2,7 +2,7 @@
 <!--
   Android 11 trở xuống (Auto Backup lên Google Drive).
   Chỉ sao lưu dữ liệu người dùng (MMKV: sự kiện, ngày giỗ, cài đặt).
-  KHÔNG sao lưu lịch thông báo đã đặt (databases của notify-kit) – app tự đặt lại khi mở.
+  KHÔNG sao lưu lịch thông báo đã đặt (databases của notify-kit) - app tự đặt lại khi mở.
 -->
 <full-backup-content>
     <include domain="file" path="mmkv/" />

@@ -140,7 +140,7 @@ function TodayWidgetView({ day, width, palette }: Props) {
   );
 }
 
-/** Hai phiên bản sáng/tối – launcher tự chọn theo chế độ của máy. */
+/** Hai phiên bản sáng/tối - launcher tự chọn theo chế độ của máy. */
 export function renderTodayWidget(day: WidgetDay, width: number) {
   return {
     light: <TodayWidgetView day={day} width={width} palette={LIGHT} />,

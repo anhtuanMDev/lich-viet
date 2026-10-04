@@ -14,7 +14,7 @@
         tools:replace="android:maxSdkVersion" />
 
     <!--
-      notify-kit khai báo sẵn dịch vụ foreground (thông báo chạy liên tục) – app không dùng.
+      notify-kit khai báo sẵn dịch vụ foreground (thông báo chạy liên tục) - app không dùng.
       Gỡ để không phải khai báo "Foreground service" trên Google Play.
     -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
@@ -55,7 +55,7 @@
       <receiver
         android:name=".widget.Today"
         android:exported="false"
-        android:label="Lịch Việt – Hôm nay">
+        android:label="Lịch Việt - Hôm nay">
         <intent-filter>
           <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
           <action android:name="com.lichviet.app.WIDGET_CLICK" />

@@ -33,7 +33,7 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
-# Khoá ký release – không bao giờ commit
+# Khoá ký release - không bao giờ commit
 *.jks
 *.p12
 .kotlin/

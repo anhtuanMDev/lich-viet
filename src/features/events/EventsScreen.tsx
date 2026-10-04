@@ -141,7 +141,7 @@ function EmptyState() {
     <Card>
       <AppText variant="heading">Chưa có sự kiện nào</AppText>
       <AppText color="textMuted">
-        Lưu ngày giỗ, sinh nhật âm lịch hay các dịp quan trọng – app sẽ tự tính
+        Lưu ngày giỗ, sinh nhật âm lịch hay các dịp quan trọng - app sẽ tự tính
         ngày dương lịch tương ứng cho mỗi năm.
       </AppText>
     </Card>

@@ -1,18 +1,18 @@
 ---
-title: Chính sách quyền riêng tư – Lịch Việt
+title: Chính sách quyền riêng tư - Lịch Việt
 ---
 
-# Chính sách quyền riêng tư – Lịch Việt
+# Chính sách quyền riêng tư - Lịch Việt
 
 **Hiệu lực từ:** 03/10/2026  
 **Nhà phát triển:** Alex Vin  
 **Liên hệ:** anhtuan03.MDev@gmail.com
 
-Lịch Việt là ứng dụng xem lịch dương – âm, ghi nhớ ngày giỗ, sinh nhật và nhắc lịch. Ứng dụng
+Lịch Việt là ứng dụng xem lịch dương - âm, ghi nhớ ngày giỗ, sinh nhật và nhắc lịch. Ứng dụng
 **không có tài khoản, không có quảng cáo, không theo dõi người dùng** và không có máy chủ riêng
 lưu dữ liệu của bạn. Tài liệu này giải thích dữ liệu nào được xử lý, ở đâu và vì sao.
 
-## 1. Dữ liệu bạn nhập – chỉ nằm trên máy của bạn
+## 1. Dữ liệu bạn nhập - chỉ nằm trên máy của bạn
 
 - **Sự kiện** bạn tạo (tên, ngày âm/dương, kiểu lặp lại, số ngày nhắc trước, ghi chú) và
   **cài đặt** của ứng dụng được lưu trong bộ nhớ của ứng dụng trên thiết bị.

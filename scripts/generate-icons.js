@@ -3,7 +3,7 @@
  * Sinh toàn bộ icon từ MỘT nguồn hình học (các path bên dưới):
  *   - Android: adaptive icon (vector, có lớp monochrome cho "themed icons" Android 13+),
  *     PNG cho Android 7.x, icon thông báo (vector trắng đơn sắc).
- *   - iOS: AppIcon 1024×1024 (không kênh alpha – App Store từ chối icon có alpha).
+ *   - iOS: AppIcon 1024×1024 (không kênh alpha - App Store từ chối icon có alpha).
  *   - Store: icon Google Play 512×512, ảnh nổi bật (feature graphic) 1024×500.
  *
  * Sửa thiết kế → sửa hằng số ở đây → `node scripts/generate-icons.js` → commit kết quả.
@@ -92,7 +92,7 @@ function render(svg, width, options = {}) {
     .asPng();
 }
 
-/** PNG RGB 8-bit (bỏ kênh alpha) từ ảnh RGBA đã render – dành cho icon iOS. */
+/** PNG RGB 8-bit (bỏ kênh alpha) từ ảnh RGBA đã render - dành cho icon iOS. */
 function renderOpaque(svg, width) {
   const image = new Resvg(svg, {
     fitTo: { mode: 'width', value: width },
@@ -135,7 +135,7 @@ function renderOpaque(svg, width) {
 
 const vectorDrawable = (size, viewport, paths) =>
   `<?xml version="1.0" encoding="utf-8"?>
-<!-- Sinh bởi scripts/generate-icons.js – đừng sửa tay. -->
+<!-- Sinh bởi scripts/generate-icons.js - đừng sửa tay. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="${size}dp"
     android:height="${size}dp"
@@ -154,7 +154,7 @@ ${paths
 `;
 
 const ADAPTIVE_ICON = `<?xml version="1.0" encoding="utf-8"?>
-<!-- Sinh bởi scripts/generate-icons.js – đừng sửa tay. -->
+<!-- Sinh bởi scripts/generate-icons.js - đừng sửa tay. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/ic_launcher_background" />
     <foreground android:drawable="@drawable/ic_launcher_foreground" />
@@ -184,7 +184,7 @@ console.log('Android:');
 write(
   'android/app/src/main/res/values/ic_launcher_background.xml',
   `<?xml version="1.0" encoding="utf-8"?>
-<!-- Sinh bởi scripts/generate-icons.js – đừng sửa tay. -->
+<!-- Sinh bởi scripts/generate-icons.js - đừng sửa tay. -->
 <resources>
     <color name="ic_launcher_background">${RED}</color>
     <color name="notification_accent">${RED}</color>

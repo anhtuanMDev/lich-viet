@@ -57,7 +57,7 @@ export function ImportBackupScreen({
       <Card>
         <AppText color="textMuted">
           Dán toàn bộ nội dung đã xuất từ Lịch Việt vào ô dưới đây. Sự kiện được
-          gộp với dữ liệu hiện có – không sự kiện nào bị xoá.
+          gộp với dữ liệu hiện có - không sự kiện nào bị xoá.
         </AppText>
         <TextField
           label="Nội dung sao lưu"

@@ -231,7 +231,7 @@ struct LichVietWidget: Widget {
     StaticConfiguration(kind: "LichVietWidget", provider: Provider()) { entry in
       LichVietWidgetView(entry: entry)
     }
-    .configurationDisplayName("Lịch Việt – Hôm nay")
+    .configurationDisplayName("Lịch Việt - Hôm nay")
     .description("Ngày dương, ngày âm và sự kiện sắp tới.")
     .supportedFamilies([.systemSmall, .systemMedium])
   }

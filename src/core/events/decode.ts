@@ -10,7 +10,7 @@ import type {
 
 /*
  * Dữ liệu đọc từ bộ nhớ máy là `unknown`: có thể do phiên bản app cũ ghi, hoặc bị hỏng.
- * Mỗi bản ghi được kiểm tra riêng – một bản ghi lỗi không làm mất cả danh sách.
+ * Mỗi bản ghi được kiểm tra riêng - một bản ghi lỗi không làm mất cả danh sách.
  */
 
 type UnknownRecord = Readonly<Record<string, unknown>>;

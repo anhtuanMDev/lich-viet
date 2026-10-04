@@ -5,7 +5,7 @@ import { AppText } from './AppText';
 
 export interface NumberFieldProps {
   readonly label: string;
-  /** Chuỗi thô người dùng gõ – giữ dạng string để cho phép ô trống khi đang sửa. */
+  /** Chuỗi thô người dùng gõ - giữ dạng string để cho phép ô trống khi đang sửa. */
   readonly value: string;
   readonly onChangeValue: (value: string) => void;
   readonly maxLength: number;

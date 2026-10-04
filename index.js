@@ -16,7 +16,7 @@ import { name as appName } from './app.json';
 initCrashReporting();
 
 // Bấm thông báo khi app ở nền: app được mở lại và linking xử lý điều hướng,
-// nên ở đây không cần làm gì – nhưng thư viện yêu cầu phải đăng ký handler.
+// nên ở đây không cần làm gì - nhưng thư viện yêu cầu phải đăng ký handler.
 notifee.onBackgroundEvent(async () => {});
 
 // Android: đồng bộ lịch nhắc + widget cả khi app đã bị tắt.

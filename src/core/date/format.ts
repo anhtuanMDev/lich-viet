@@ -78,8 +78,8 @@ export const lunarCellLabel = ({
 export const formatHourRange = ({
   startHour,
   endHour,
-}: AuspiciousHour): string => `${startHour}h–${endHour}h`;
+}: AuspiciousHour): string => `${startHour}h-${endHour}h`;
 
-/** 2026-10-03 – dạng dùng trong deep link. */
+/** 2026-10-03 - dạng dùng trong deep link. */
 export const toIsoDate = ({ year, month, day }: SolarDate): string =>
   `${year}-${pad2(month)}-${pad2(day)}`;

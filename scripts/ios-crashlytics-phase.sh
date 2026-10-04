@@ -6,7 +6,7 @@ set -e
 
 PLIST="${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist"
 if [[ ! -f "${PLIST}" ]]; then
-  echo "warning: Chưa có GoogleService-Info.plist trong app – bỏ qua Crashlytics (không gửi báo cáo lỗi)."
+  echo "warning: Chưa có GoogleService-Info.plist trong app - bỏ qua Crashlytics (không gửi báo cáo lỗi)."
   exit 0
 fi
 

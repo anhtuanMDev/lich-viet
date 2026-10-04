@@ -12,7 +12,7 @@ module.exports = {
     '@react-native-firebase/crashlytics': {
       platforms: {
         ios: {
-          // Bỏ qua bước Crashlytics khi chưa có GoogleService-Info.plist – xem script.
+          // Bỏ qua bước Crashlytics khi chưa có GoogleService-Info.plist - xem script.
           scriptPhases: [
             {
               name: '[RNFB] Crashlytics Configuration',

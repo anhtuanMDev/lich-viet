@@ -6,7 +6,7 @@ import { syncAll } from './syncAll';
 /*
  * Chạy nền định kỳ để "nạp thêm" lịch nhắc và dữ liệu widget khi người dùng lâu không mở app
  * (quan trọng với iOS vì chỉ đặt trước được ~60 ngày). Hệ điều hành quyết định
- * thời điểm chạy thật, nên đây chỉ là lớp bổ sung – mỗi lần mở app vẫn đồng bộ lại.
+ * thời điểm chạy thật, nên đây chỉ là lớp bổ sung - mỗi lần mở app vẫn đồng bộ lại.
  */
 
 const TWELVE_HOURS_IN_MINUTES = 12 * 60;

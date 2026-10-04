@@ -16,7 +16,7 @@ import type {
   Weekday,
 } from './types';
 
-/** Thông tin rút gọn cho một ô lịch – đủ rẻ để tính hàng nghìn ô. */
+/** Thông tin rút gọn cho một ô lịch - đủ rẻ để tính hàng nghìn ô. */
 export interface DaySummary {
   readonly jd: JulianDay;
   readonly solar: SolarDate;

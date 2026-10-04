@@ -16,11 +16,11 @@ GRADLE_PROPS="${HOME}/.gradle/gradle.properties"
 ALIAS="lichviet-upload"
 
 if [[ -e "${KEYSTORE}" ]]; then
-  echo "Đã có khoá tại ${KEYSTORE} – không tạo lại để tránh mất khoá cũ." >&2
+  echo "Đã có khoá tại ${KEYSTORE} - không tạo lại để tránh mất khoá cũ." >&2
   exit 1
 fi
 if [[ -f "${GRADLE_PROPS}" ]] && grep -q '^LICHVIET_UPLOAD_' "${GRADLE_PROPS}"; then
-  echo "${GRADLE_PROPS} đã có cấu hình LICHVIET_UPLOAD_* – kiểm tra lại trước khi tạo khoá mới." >&2
+  echo "${GRADLE_PROPS} đã có cấu hình LICHVIET_UPLOAD_* - kiểm tra lại trước khi tạo khoá mới." >&2
   exit 1
 fi
 command -v keytool >/dev/null || { echo "Không tìm thấy keytool (cần JDK 17)." >&2; exit 1; }
@@ -47,7 +47,7 @@ touch "${GRADLE_PROPS}"
 chmod 600 "${GRADLE_PROPS}"
 {
   echo ""
-  echo "# Lịch Việt – khoá upload ký bản release (tạo $(date +%Y-%m-%d))"
+  echo "# Lịch Việt - khoá upload ký bản release (tạo $(date +%Y-%m-%d))"
   echo "LICHVIET_UPLOAD_STORE_FILE=${KEYSTORE}"
   echo "LICHVIET_UPLOAD_STORE_PASSWORD=${PASSWORD}"
   echo "LICHVIET_UPLOAD_KEY_ALIAS=${ALIAS}"

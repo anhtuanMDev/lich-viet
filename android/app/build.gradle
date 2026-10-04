@@ -155,7 +155,7 @@ gradle.taskGraph.whenReady { graph ->
         )
     }
     if (buildsRelease && !file("google-services.json").exists()) {
-        logger.warn("CẢNH BÁO: thiếu android/app/google-services.json – bản release này KHÔNG gửi báo cáo lỗi Crashlytics.")
+        logger.warn("CẢNH BÁO: thiếu android/app/google-services.json - bản release này KHÔNG gửi báo cáo lỗi Crashlytics.")
     }
 }
 

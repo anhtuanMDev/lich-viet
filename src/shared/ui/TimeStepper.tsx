@@ -28,7 +28,7 @@ function shift({ hour, minute }: TimeValue, delta: number): TimeValue {
 export const formatTime = ({ hour, minute }: TimeValue): string =>
   `${pad2(hour)}:${pad2(minute)}`;
 
-/** Chọn giờ bằng nút −/+ – đủ dùng cho giờ nhắc, không cần thư viện picker native. */
+/** Chọn giờ bằng nút −/+ - đủ dùng cho giờ nhắc, không cần thư viện picker native. */
 export function TimeStepper({
   value,
   onChange,

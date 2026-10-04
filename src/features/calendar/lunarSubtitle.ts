@@ -6,7 +6,7 @@ const monthLabel = (month: number, isLeap: boolean): string =>
 
 /**
  * Các tháng âm lịch mà một tháng dương lịch đi qua, VD:
- * "Tháng 8 – 9 năm Bính Ngọ" hoặc "Tháng Chạp Ất Tỵ – tháng 1 Bính Ngọ".
+ * "Tháng 8 - 9 năm Bính Ngọ" hoặc "Tháng Chạp Ất Tỵ - tháng 1 Bính Ngọ".
  */
 export function lunarSubtitle(key: MonthKey, weekStart: WeekStart): string {
   const inMonth = getMonthGrid(key, weekStart).filter(
@@ -23,9 +23,9 @@ export function lunarSubtitle(key: MonthKey, weekStart: WeekStart): string {
   if (first.year !== last.year) {
     return `Tháng ${firstLabel} ${formatCanChi(
       yearCanChi(first.year),
-    )} – tháng ${lastLabel} ${formatCanChi(yearCanChi(last.year))}`;
+    )} - tháng ${lastLabel} ${formatCanChi(yearCanChi(last.year))}`;
   }
   const range =
-    firstLabel === lastLabel ? firstLabel : `${firstLabel} – ${lastLabel}`;
+    firstLabel === lastLabel ? firstLabel : `${firstLabel} - ${lastLabel}`;
   return `Tháng ${range} năm ${formatCanChi(yearCanChi(first.year))}`;
 }

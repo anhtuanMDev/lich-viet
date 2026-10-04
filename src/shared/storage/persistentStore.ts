@@ -1,7 +1,7 @@
 import { reportError } from '@shared/crash';
 
 /**
- * Store đồng bộ, bền vững, có phiên bản schema – nền cho mọi dữ liệu người dùng (sự kiện, cài đặt).
+ * Store đồng bộ, bền vững, có phiên bản schema - nền cho mọi dữ liệu người dùng (sự kiện, cài đặt).
  *
  * - Dữ liệu ghi dạng `{ "v": <version>, "data": ... }` dưới một key.
  * - Khi đọc: JSON hỏng / phiên bản lạ / dữ liệu sai kiểu → `decode` trả null → dùng `fallback`,
@@ -10,7 +10,7 @@ import { reportError } from '@shared/crash';
  *   useSyncExternalStore và React.memo.
  */
 
-/** Phần tối thiểu cần từ MMKV – để test bằng bộ nhớ thường và để đổi backend khi cần. */
+/** Phần tối thiểu cần từ MMKV - để test bằng bộ nhớ thường và để đổi backend khi cần. */
 export interface KeyValueBackend {
   getString(key: string): string | undefined;
   set(key: string, value: string): void;
@@ -67,7 +67,7 @@ export function createPersistentStore<T>({
         }
       }
     } catch {
-      // JSON hỏng – rơi xuống fallback bên dưới.
+      // JSON hỏng - rơi xuống fallback bên dưới.
     }
     reportError(
       new Error(`Bỏ qua dữ liệu không đọc được ở key "${key}"`),

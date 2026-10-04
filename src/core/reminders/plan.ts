@@ -16,7 +16,7 @@ export interface PlanOptions {
   readonly from: JulianDay;
   /** Số ngày tính từ `from` cần lên lịch. */
   readonly horizonDays: number;
-  /** Số thông báo tối đa – iOS chỉ giữ 64 thông báo chờ. */
+  /** Số thông báo tối đa - iOS chỉ giữ 64 thông báo chờ. */
   readonly limit: number;
 }
 

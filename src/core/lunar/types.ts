@@ -3,7 +3,7 @@ declare const brand: unique symbol;
 /** Kiểu "đóng dấu" để không truyền nhầm một number bất kỳ vào chỗ cần số ngày Julius. */
 export type Brand<T, B extends string> = T & { readonly [brand]: B };
 
-/** Số ngày Julius (Julian Day Number) – số nguyên, mỗi ngày dương lịch một giá trị. */
+/** Số ngày Julius (Julian Day Number) - số nguyên, mỗi ngày dương lịch một giá trị. */
 export type JulianDay = Brand<number, 'JulianDay'>;
 
 export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;

@@ -8,12 +8,12 @@ import {
 import type { Crashlytics } from '@react-native-firebase/crashlytics';
 
 /*
- * Lớp bọc Crashlytics duy nhất của app – nơi khác không import Firebase trực tiếp.
+ * Lớp bọc Crashlytics duy nhất của app - nơi khác không import Firebase trực tiếp.
  *
  * - Chưa có file cấu hình Firebase (google-services.json / GoogleService-Info.plist)
  *   → không có app Firebase mặc định → mọi hàm ở đây thành no-op, app vẫn chạy.
  * - Chỉ gửi lỗi kỹ thuật (stack trace, ngữ cảnh do code đặt). KHÔNG bao giờ đưa nội dung
- *   người dùng nhập (tên sự kiện, ghi chú) vào message/log – xem chính sách quyền riêng tư.
+ *   người dùng nhập (tên sự kiện, ghi chú) vào message/log - xem chính sách quyền riêng tư.
  */
 
 let instance: Crashlytics | null | undefined;

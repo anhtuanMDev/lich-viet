@@ -15,7 +15,7 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         '@typescript-eslint/consistent-type-imports': 'error',
-        // Cho phép `const X = memo(function X() {})` – giữ tên component trong DevTools.
+        // Cho phép `const X = memo(function X() {})` - giữ tên component trong DevTools.
         '@typescript-eslint/no-shadow': ['warn', { ignoreOnInitialization: true }],
       },
     },

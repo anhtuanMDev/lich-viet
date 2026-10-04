@@ -15,7 +15,7 @@ import {
 import type { JulianDay } from '@core/lunar';
 
 /**
- * Dữ liệu hiển thị cho widget, đã tính sẵn thành chuỗi – widget (SwiftUI / Android RemoteViews)
+ * Dữ liệu hiển thị cho widget, đã tính sẵn thành chuỗi - widget (SwiftUI / Android RemoteViews)
  * chỉ việc hiển thị, không cần biết gì về âm lịch.
  * Đổi cấu trúc → tăng WIDGET_SNAPSHOT_VERSION và cập nhật phía Swift (LichVietWidget.swift).
  */
@@ -31,12 +31,12 @@ export interface WidgetUpcoming {
 
 export interface WidgetHighlight {
   readonly text: string;
-  /** Ngày lễ tô đỏ, sự kiện cá nhân tô xanh – giống trong app. */
+  /** Ngày lễ tô đỏ, sự kiện cá nhân tô xanh - giống trong app. */
   readonly kind: 'holiday' | 'event';
 }
 
 export interface WidgetDay {
-  /** YYYY-MM-DD – khoá để widget chọn đúng ngày. */
+  /** YYYY-MM-DD - khoá để widget chọn đúng ngày. */
   readonly date: string;
   readonly weekday: string;
   readonly day: number;
@@ -46,7 +46,7 @@ export interface WidgetDay {
   readonly lunar: string;
   /** "Ngày Canh Tuất · Năm Bính Ngọ" */
   readonly canChi: string;
-  /** Chủ nhật hoặc ngày nghỉ lễ – tô đỏ. */
+  /** Chủ nhật hoặc ngày nghỉ lễ - tô đỏ. */
   readonly isRedDay: boolean;
   /** Ngày lễ và sự kiện cá nhân của chính ngày này. */
   readonly highlights: readonly WidgetHighlight[];

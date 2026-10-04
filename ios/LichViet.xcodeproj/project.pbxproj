@@ -311,7 +311,7 @@
 			name = "[CP-User] [RNFB] Crashlytics Configuration";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n# Thay script \"[RNFB] Crashlytics Configuration\" (khai báo trong react-native.config.js):\n# chưa thêm GoogleService-Info.plist → bỏ qua thay vì làm hỏng build;\n# có file → chạy script gốc (ghi cấu hình + tải dSYM để giải mã stack trace).\nset -e\n\nPLIST=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\"\nif [[ ! -f \"${PLIST}\" ]]; then\n  echo \"warning: Chưa có GoogleService-Info.plist trong app – bỏ qua Crashlytics (không gửi báo cáo lỗi).\"\n  exit 0\nfi\n\nexec \"${PODS_ROOT}/../../node_modules/@react-native-firebase/crashlytics/ios_config.sh\"\n";
+			shellScript = "#!/usr/bin/env bash\n# Thay script \"[RNFB] Crashlytics Configuration\" (khai báo trong react-native.config.js):\n# chưa thêm GoogleService-Info.plist → bỏ qua thay vì làm hỏng build;\n# có file → chạy script gốc (ghi cấu hình + tải dSYM để giải mã stack trace).\nset -e\n\nPLIST=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\"\nif [[ ! -f \"${PLIST}\" ]]; then\n  echo \"warning: Chưa có GoogleService-Info.plist trong app - bỏ qua Crashlytics (không gửi báo cáo lỗi).\"\n  exit 0\nfi\n\nexec \"${PODS_ROOT}/../../node_modules/@react-native-firebase/crashlytics/ios_config.sh\"\n";
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

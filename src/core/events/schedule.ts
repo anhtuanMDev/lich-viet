@@ -113,7 +113,7 @@ export function nextOccurrence(
   );
 }
 
-/** Lần thứ mấy kể từ ngày gốc (0 = chính ngày gốc) – dùng cho "giỗ lần thứ N". */
+/** Lần thứ mấy kể từ ngày gốc (0 = chính ngày gốc) - dùng cho "giỗ lần thứ N". */
 export function anniversaryAt(
   event: CalendarEvent,
   occurrence: JulianDay,
@@ -124,7 +124,7 @@ export function anniversaryAt(
     : jdToLunar(occurrence).year - origin.date.year;
 }
 
-/** Gom sự kiện theo ngày trong một khoảng – dùng cho lưới tháng (tra cứu O(1) mỗi ô). */
+/** Gom sự kiện theo ngày trong một khoảng - dùng cho lưới tháng (tra cứu O(1) mỗi ô). */
 export function eventsByDay(
   events: readonly CalendarEvent[],
   from: JulianDay,

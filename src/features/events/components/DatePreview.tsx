@@ -4,7 +4,7 @@ import { formatCanChi, toJulianDay, weekdayOf, yearCanChi } from '@core/lunar';
 import type { ConversionResult } from '@shared/date-input';
 import { AppText } from '@shared/ui';
 
-/** Dòng "tương ứng" bên dưới ô nhập ngày – để người dùng chắc chắn đã chọn đúng ngày. */
+/** Dòng "tương ứng" bên dưới ô nhập ngày - để người dùng chắc chắn đã chọn đúng ngày. */
 export function DatePreview({
   calendar,
   result,

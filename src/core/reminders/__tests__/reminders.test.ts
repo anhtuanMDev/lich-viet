@@ -59,7 +59,7 @@ describe('planDailyReminders', () => {
   });
 
   it('bắt được sự kiện nằm ngay sau cửa sổ nhưng có ngày nhắc trong cửa sổ', () => {
-    // Cửa sổ chỉ 5 ngày (3–7/10); sự kiện 10/10, nhắc trước 3 ngày → 7/10.
+    // Cửa sổ chỉ 5 ngày (3-7/10); sự kiện 10/10, nhắc trước 3 ngày → 7/10.
     const plan = planDailyReminders({
       events: [gio],
       settings: OFF,

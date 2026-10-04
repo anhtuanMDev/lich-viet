@@ -25,7 +25,7 @@ export interface EventFormState {
 
 export const TITLE_MAX_LENGTH = 80;
 
-/** Sự kiện mới mặc định nhắc trước 1 ngày – đủ thời gian chuẩn bị cho ngày giỗ. */
+/** Sự kiện mới mặc định nhắc trước 1 ngày - đủ thời gian chuẩn bị cho ngày giỗ. */
 export const DEFAULT_REMINDER: ReminderOffset = 1;
 
 export interface InitialFormSource {

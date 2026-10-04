@@ -7,7 +7,7 @@ export function useStore<T>(store: PersistentStore<T>): T {
 
 /**
  * Chỉ render lại khi phần được chọn thay đổi. `selector` phải trả về giá trị có sẵn trong
- * snapshot (hoặc giá trị nguyên thuỷ) – không tạo object mới mỗi lần gọi.
+ * snapshot (hoặc giá trị nguyên thuỷ) - không tạo object mới mỗi lần gọi.
  */
 export function useStoreSelector<T, S>(
   store: PersistentStore<T>,

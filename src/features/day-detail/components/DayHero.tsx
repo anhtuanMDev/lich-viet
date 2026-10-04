@@ -6,7 +6,7 @@ import { createThemedStyles } from '@shared/theme';
 import { AppText } from '@shared/ui';
 import { HolidayList } from './HolidayList';
 
-/** Khối "tờ lịch": ngày dương thật to, bên dưới là ngày âm – bố cục quen thuộc của lịch bloc. */
+/** Khối "tờ lịch": ngày dương thật to, bên dưới là ngày âm - bố cục quen thuộc của lịch bloc. */
 export function DayHero({ detail }: { readonly detail: DayDetail }) {
   const styles = useStyles();
   const { solar, lunar, weekday, holidays, canChi } = detail;

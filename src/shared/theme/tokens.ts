@@ -6,7 +6,7 @@ export interface ColorTokens {
   readonly text: string;
   readonly textMuted: string;
   readonly textFaint: string;
-  /** Màu nhấn chính – đỏ son quen thuộc của lịch Việt. */
+  /** Màu nhấn chính - đỏ son quen thuộc của lịch Việt. */
   readonly primary: string;
   readonly onPrimary: string;
   readonly primarySoft: string;
@@ -14,7 +14,7 @@ export interface ColorTokens {
   readonly holiday: string;
   /** Ngày âm: mùng 1, rằm. */
   readonly lunarAccent: string;
-  /** Sự kiện cá nhân (giỗ, sinh nhật…) – tách màu với ngày lễ. */
+  /** Sự kiện cá nhân (giỗ, sinh nhật…) - tách màu với ngày lễ. */
   readonly event: string;
   readonly auspicious: string;
   readonly inauspicious: string;

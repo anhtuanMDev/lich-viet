@@ -5,7 +5,7 @@ const MS_PER_HOUR = 3_600_000;
 
 /**
  * Ngày hiện tại theo giờ Việt Nam (UTC+7, không có giờ mùa hè), bất kể múi giờ
- * đang cài trên máy – người dùng ở nước ngoài vẫn thấy đúng ngày âm ở quê nhà.
+ * đang cài trên máy - người dùng ở nước ngoài vẫn thấy đúng ngày âm ở quê nhà.
  */
 export function todayInVietnam(now: number = Date.now()): SolarDate {
   const shifted = new Date(now + VIETNAM_TIMEZONE * MS_PER_HOUR);
@@ -16,7 +16,7 @@ export function todayInVietnam(now: number = Date.now()): SolarDate {
   };
 }
 
-/** Số mili-giây tới 0h ngày hôm sau theo giờ Việt Nam – dùng để đổi "hôm nay" đúng lúc nửa đêm. */
+/** Số mili-giây tới 0h ngày hôm sau theo giờ Việt Nam - dùng để đổi "hôm nay" đúng lúc nửa đêm. */
 export function msUntilNextVietnamMidnight(now: number = Date.now()): number {
   const msPerDay = 24 * MS_PER_HOUR;
   const local = now + VIETNAM_TIMEZONE * MS_PER_HOUR;
