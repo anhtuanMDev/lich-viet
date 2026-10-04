@@ -1,0 +1,9 @@
+<vi-VN>
+Phiên bản đầu tiên của Lịch Việt:
+• Lịch âm dương theo giờ Việt Nam, có can chi, tiết khí, giờ hoàng đạo
+• Lưu ngày giỗ, sinh nhật theo ngày âm hoặc dương, lặp lại hằng năm
+• Nhắc trước 1, 3, 7 ngày hoặc đúng ngày; nhắc mùng 1 và rằm
+• Đổi ngày âm ↔ dương
+• Widget xem lịch ngay trên màn hình chính
+• Sao lưu và khôi phục dữ liệu, hỗ trợ chế độ tối
+</vi-VN>
