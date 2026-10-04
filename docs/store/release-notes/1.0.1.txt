@@ -1,0 +1,4 @@
+<vi-VN>
+• Sửa liên kết "Chính sách quyền riêng tư" trong Cài đặt không mở được trang
+• Chỉnh lại dấu gạch nối trong tiêu đề lịch tháng, giờ hoàng đạo và tên widget
+</vi-VN>
