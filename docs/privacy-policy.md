@@ -1,5 +1,7 @@
 ---
 title: Chính sách quyền riêng tư - Lịch Việt
+# Bản 1.0.0 mở link GitHub Pages cũ -> chuyển sang trang thật trên Vercel.
+redirect_to: https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/
 ---
 
 # Chính sách quyền riêng tư - Lịch Việt
