@@ -34,7 +34,7 @@ Chỉ chọn nhóm **Diagnostics**, khớp với `ios/LichViet/PrivacyInfo.xcpri
 | Export compliance | Đã khai báo `ITSAppUsesNonExemptEncryption = NO` trong `Info.plist` (chỉ dùng HTTPS của hệ thống) → không bị hỏi mỗi lần nộp |
 | Sign-in required | No |
 | Content rights | Không dùng nội dung của bên thứ ba |
-| Privacy Policy URL | `https://anhtuanmdev.github.io/lich-viet/privacy-policy` |
+| Privacy Policy URL | `https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/` |
 | Support URL | `https://github.com/anhtuanMDev/lich-viet/issues` (hoặc trang hỗ trợ riêng) |
 | Availability | Chỉ **Vietnam** |
 | Price | Free |

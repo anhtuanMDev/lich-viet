@@ -6,7 +6,7 @@ Trả lời theo đúng hành vi thật của app (bản 1.0.0). Đổi tính n�
 
 | Mục | Trả lời |
 | --- | --- |
-| Privacy policy | `https://anhtuanmdev.github.io/lich-viet/privacy-policy` |
+| Privacy policy | `https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/` |
 | Ads | **No** – app không chứa quảng cáo |
 | App access | **All functionality is available without special access** (không đăng nhập) |
 | Content rating | Xem mục 2 |

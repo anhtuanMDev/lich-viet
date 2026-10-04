@@ -127,7 +127,7 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 
 ### Store & quyền riêng tư
 
-- Chính sách quyền riêng tư: `docs/privacy-policy.md`, công khai qua GitHub Pages (Settings → Pages → branch `main`, thư mục `/docs`) tại `https://anhtuanmdev.github.io/lich-viet/privacy-policy` – link này nằm trong Cài đặt của app.
+- Chính sách quyền riêng tư: `docs/privacy-policy.md`, công khai tại `https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/` (trang `src/pages/lich-viet/privacy-policy.tsx` trong repo `anhtuanMDev/portfolio`, Vercel tự deploy khi push `main`) – link này nằm trong Cài đặt của app. Sửa chính sách → sửa cả hai nơi.
 - Khai báo store: `docs/store/google-play.md` (Data safety, USE_EXACT_ALARM, content rating…), `docs/store/app-store.md` (App Privacy, age rating…), `docs/store/listing.md` (tên, mô tả, từ khoá).
 - Đổi dữ liệu thu thập / quyền / SDK → cập nhật cả chính sách, các file khai báo và `PrivacyInfo.xcprivacy`.
 

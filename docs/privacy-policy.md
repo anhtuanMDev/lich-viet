@@ -5,8 +5,8 @@ title: Chính sách quyền riêng tư – Lịch Việt
 # Chính sách quyền riêng tư – Lịch Việt
 
 **Hiệu lực từ:** 03/10/2026  
-**Nhà phát triển:** [TÊN NHÀ PHÁT TRIỂN]  
-**Liên hệ:** [EMAIL LIÊN HỆ]
+**Nhà phát triển:** Alex Vin  
+**Liên hệ:** anhtuan03.MDev@gmail.com
 
 Lịch Việt là ứng dụng xem lịch dương – âm, ghi nhớ ngày giỗ, sinh nhật và nhắc lịch. Ứng dụng
 **không có tài khoản, không có quảng cáo, không theo dõi người dùng** và không có máy chủ riêng
@@ -77,7 +77,7 @@ Theo pháp luật Việt Nam về bảo vệ dữ liệu cá nhân, bạn có qu
 - Dữ liệu sự kiện nằm trên máy bạn: bạn xem, sửa, xoá trực tiếp trong ứng dụng; gỡ ứng dụng sẽ xoá
   toàn bộ dữ liệu trên máy (bản sao lưu của Google/iCloud do bạn quản lý trong tài khoản của mình).
 - Rút lại đồng ý gửi báo cáo lỗi: tắt "Gửi báo cáo lỗi" trong Cài đặt bất cứ lúc nào.
-- Mọi câu hỏi hoặc yêu cầu khác, vui lòng liên hệ: **[EMAIL LIÊN HỆ]**. Chúng tôi phản hồi trong vòng
+- Mọi câu hỏi hoặc yêu cầu khác, vui lòng liên hệ: **anhtuan03.MDev@gmail.com**. Chúng tôi phản hồi trong vòng
   72 giờ làm việc. Lưu ý: vì báo cáo lỗi không gắn với danh tính, chúng tôi thường không thể xác
   định báo cáo nào là của bạn; báo cáo sẽ tự xoá sau 90 ngày.
 

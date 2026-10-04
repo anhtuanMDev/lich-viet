@@ -15,6 +15,8 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 | Ký app | Play App Signing; upload key ở `~/.lichviet-signing/upload-keystore.jks` |
 | Quốc gia | chỉ Việt Nam · miễn phí · không quảng cáo, không IAP |
 | Danh mục | Năng suất (Productivity) |
+| Chính sách quyền riêng tư | https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/ (repo `portfolio`, Vercel) |
+| Nhà phát triển / email | Alex Vin · anhtuan03.MDev@gmail.com |
 
 ## Trạng thái hiện tại (cập nhật 2026-10-04)
 
@@ -27,10 +29,10 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 
 ## Việc còn tồn (chặn phát hành)
 
-- [ ] **Link chính sách quyền riêng tư trả về 404** (`https://anhtuanmdev.github.io/lich-viet/privacy-policy`,
-      kiểm tra 2026-10-04). Bật GitHub Pages: Settings → Pages → branch `main`, thư mục `/docs`.
-      Play từ chối duyệt nếu link chết; link này cũng nằm trong màn Cài đặt của app.
-- [ ] Email hỗ trợ trong `listing.md` còn là `[EMAIL LIÊN HỆ]` – Play bắt buộc có email liên hệ.
+- [ ] Cập nhật link chính sách trên Play Console (App content → Privacy policy) thành
+      `https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/`. Bản 1.0.0 trong app vẫn trỏ
+      link GitHub Pages cũ (404) – link mới có từ bản build sau.
+- [ ] Điền email hỗ trợ `anhtuan03.MDev@gmail.com` ở Store settings → Store contact details.
 - [ ] Chưa có ảnh chụp màn hình (tối thiểu 2 ảnh điện thoại). Gợi ý trong `listing.md`.
 - [ ] Đưa bản 1.0.0 sang track **Closed testing** và mời ≥ 12 người (họ phải opt-in và giữ app suốt 14 ngày).
 - [ ] Khai báo USE_EXACT_ALARM (mục "Calendar") sau khi tải AAB lên – nội dung có sẵn ở `google-play.md` §4.

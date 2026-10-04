@@ -57,7 +57,7 @@ Lịch Việt – lịch âm dương gọn nhẹ, chính xác, dành cho ngườ
 ## Thông tin khác
 
 - **Danh mục:** Google Play – Năng suất (Productivity); App Store – Tiện ích (Utilities), phụ: Phong cách sống (Lifestyle).
-- **Chính sách quyền riêng tư:** https://anhtuanmdev.github.io/lich-viet/privacy-policy
-- **Email hỗ trợ:** [EMAIL LIÊN HỆ]
+- **Chính sách quyền riêng tư:** https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/
+- **Email hỗ trợ:** anhtuan03.MDev@gmail.com
 - **Quốc gia phát hành:** chỉ Việt Nam.
 - **Giá:** miễn phí, không mua trong ứng dụng.

@@ -33,9 +33,9 @@ const WEEK_START_OPTIONS: readonly SegmentOption<WeekStartOption>[] = [
 const toWeekStart = (option: WeekStartOption): WeekStart =>
   option === 'monday' ? 1 : 0;
 
-/** Bản công khai của docs/privacy-policy.md (GitHub Pages). */
+/** Bản công khai của docs/privacy-policy.md (trang trong repo portfolio, deploy Vercel). */
 const PRIVACY_POLICY_URL =
-  'https://anhtuanmdev.github.io/lich-viet/privacy-policy';
+  'https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/';
 
 export function SettingsScreen() {
   const settings = useSettings();
