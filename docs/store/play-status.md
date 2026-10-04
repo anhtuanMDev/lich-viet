@@ -17,6 +17,7 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 | Danh mục | Năng suất (Productivity) |
 | Chính sách quyền riêng tư | https://portfolio-three-theta-41.vercel.app/lich-viet/privacy-policy/ (repo `portfolio`, Vercel) |
 | Nhà phát triển / email | Alex Vin · anhtuan03.MDev@gmail.com |
+| Trang web (Store settings) | https://portfolio-three-theta-41.vercel.app/lich-viet/ (repo `portfolio`, `src/pages/lich-viet/index.tsx`; lên production → đặt `IS_PUBLIC = true`) |
 
 ## Trạng thái hiện tại (cập nhật 2026-10-04)
 
