@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit",
     "verify": "npm run typecheck && npm run lint && npm test",
     "pods": "cd ios && bundle exec pod install",
-    "bundle": "cd android && ./gradlew bundleRelease",
-    "apk": "cd android && ./gradlew assembleRelease"
+    "bundle": "cd android && ./gradlew bundleRelease && cd .. && node scripts/copy-release.js aab",
+    "apk": "cd android && ./gradlew assembleRelease && cd .. && node scripts/copy-release.js apk"
   },
   "dependencies": {
     "@react-native-firebase/app": "^26.4.0",
