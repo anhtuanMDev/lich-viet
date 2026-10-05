@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ImportBackupScreen } from '@features/backup';
 import { CalendarScreen } from '@features/calendar';
 import { ConverterScreen } from '@features/converter';
@@ -16,8 +17,18 @@ import type { RootStackParamList, TabParamList } from './types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
+/** Khoảng đệm thêm dưới thanh tab, ngoài vùng an toàn (thanh điều hướng hệ thống). */
+const TAB_BAR_EXTRA_BOTTOM = 8;
+
 function Tabs() {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
+  // Cộng vào inset (thay vì paddingBottom trong tabBarStyle) để thanh tab tự cao thêm,
+  // không ép icon/nhãn.
+  const safeAreaInsets = useMemo(
+    () => ({ bottom: insets.bottom + TAB_BAR_EXTRA_BOTTOM }),
+    [insets.bottom],
+  );
   const screenOptions = useMemo<BottomTabNavigationOptions>(
     () => ({
       headerShown: false,
@@ -32,7 +43,10 @@ function Tabs() {
   );
 
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
+    <Tab.Navigator
+      screenOptions={screenOptions}
+      safeAreaInsets={safeAreaInsets}
+    >
       <Tab.Screen
         name="Today"
         component={TodayScreen}
