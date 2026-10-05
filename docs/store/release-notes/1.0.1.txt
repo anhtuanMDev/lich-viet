@@ -1,4 +1,8 @@
 <vi-VN>
-• Sửa liên kết "Chính sách quyền riêng tư" trong Cài đặt không mở được trang
-• Chỉnh lại dấu gạch nối trong tiêu đề lịch tháng, giờ hoàng đạo và tên widget
+• Bấm vào tiêu đề tháng để chọn nhanh tháng, năm
+• Chi tiết ngày: cuộn xem nội dung mượt, không bị đóng giữa chừng
+• Ô nhập luôn hiện trên bàn phím, thấy rõ chữ đang gõ
+• Phần nhắc lịch khi thêm sự kiện gọn gàng, dễ chọn hơn
+• Thanh điều hướng dưới thoáng hơn
+• Sửa liên kết "Chính sách quyền riêng tư" trong Cài đặt
 </vi-VN>

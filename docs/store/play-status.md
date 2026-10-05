@@ -55,4 +55,4 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-04 | 1.0.0 | 1 | - | Đã build AAB | Tag `v1.0.0` → commit `663af5b` |
 | 2026-10-04 | 1.0.0 | 1 | Internal | Đã tải lên | |
-| 2026-10-04 | 1.0.1 | 2 | - | Đã tăng version | Sửa link chính sách trong Cài đặt, đổi dấu gạch. Gắn tag `v1.0.1` khi tải lên Play |
+| 2026-10-05 | 1.0.1 | 2 | - | Đã tăng version | Chọn nhanh tháng/năm, sửa cuộn sheet Chi tiết ngày, ô nhập tránh bàn phím, gọn phần nhắc lịch, tab bar +8dp, sửa link chính sách. Gắn tag `v1.0.1` khi tải lên Play |
