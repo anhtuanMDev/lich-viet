@@ -13,6 +13,8 @@ export interface MonthHeaderProps {
   readonly onPrev: () => void;
   readonly onNext: () => void;
   readonly onToday: () => void;
+  /** Bấm tiêu đề → mở bảng chọn nhanh tháng/năm. */
+  readonly onPressTitle: () => void;
 }
 
 export const MonthHeader = memo(function MonthHeaderView({
@@ -22,6 +24,7 @@ export const MonthHeader = memo(function MonthHeaderView({
   onPrev,
   onNext,
   onToday,
+  onPressTitle,
 }: MonthHeaderProps) {
   const styles = useStyles();
   return (
@@ -42,14 +45,22 @@ export const MonthHeader = memo(function MonthHeaderView({
 
       <View style={styles.row}>
         <ArrowButton label="Tháng trước" symbol="‹" onPress={onPrev} />
-        <View style={styles.titles} accessibilityRole="header">
+        <Pressable
+          onPress={onPressTitle}
+          accessibilityRole="button"
+          accessibilityHint="Chọn nhanh tháng hoặc năm"
+          style={({ pressed }) => [styles.titles, pressed && styles.pressed]}
+        >
           <AppText variant="title" align="center">
-            {formatMonthTitle(month.year, month.month)}
+            {formatMonthTitle(month.year, month.month)}{' '}
+            <AppText variant="label" color="textFaint">
+              ▾
+            </AppText>
           </AppText>
           <AppText variant="label" color="lunarAccent" align="center">
             {lunarSubtitle}
           </AppText>
-        </View>
+        </Pressable>
         <ArrowButton label="Tháng sau" symbol="›" onPress={onNext} />
       </View>
     </View>
@@ -102,6 +113,9 @@ const useStyles = createThemedStyles(t => ({
   },
   titles: {
     flex: 1,
+  },
+  pressed: {
+    opacity: 0.6,
   },
   todayButton: {
     paddingHorizontal: t.spacing.md,

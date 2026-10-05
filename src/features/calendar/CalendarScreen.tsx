@@ -1,8 +1,8 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FlatList, ScrollView, useWindowDimensions } from 'react-native';
 import type { ListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import type { SolarDate } from '@core/lunar';
+import type { MonthKey, SolarDate } from '@core/lunar';
 import { useEvents } from '@features/events';
 import { useSettings } from '@features/settings';
 import { useToday } from '@shared/hooks/useToday';
@@ -11,6 +11,7 @@ import { Screen } from '@shared/ui';
 import { MonthAgenda } from './components/MonthAgenda';
 import { MonthGrid } from './components/MonthGrid';
 import { MonthHeader } from './components/MonthHeader';
+import { MonthPickerModal } from './components/MonthPickerModal';
 import { WeekdayHeader } from './components/WeekdayHeader';
 import {
   CELL_ASPECT_RATIO,
@@ -53,6 +54,19 @@ export function CalendarScreen() {
   const { goTo } = pager;
   const goToday = useCallback(() => goTo(todayIndex), [goTo, todayIndex]);
 
+  const [pickerVisible, setPickerVisible] = useState(false);
+  const openPicker = useCallback(() => setPickerVisible(true), []);
+  const closePicker = useCallback(() => setPickerVisible(false), []);
+  const pickMonth = useCallback(
+    (month: MonthKey) => {
+      setPickerVisible(false);
+      // Nhảy xa (VD sang năm khác) không chạy animation qua từng tháng.
+      const target = indexOfMonth(month);
+      goTo(target, Math.abs(target - pager.index) <= 1);
+    },
+    [goTo, pager.index],
+  );
+
   const renderMonth = useCallback<ListRenderItem<number>>(
     ({ item }) => {
       const { year, month } = monthAtIndex(item);
@@ -81,6 +95,7 @@ export function CalendarScreen() {
         onPrev={pager.goPrev}
         onNext={pager.goNext}
         onToday={goToday}
+        onPressTitle={openPicker}
       />
       <WeekdayHeader weekStart={weekStart} />
       <FlatList
@@ -111,6 +126,13 @@ export function CalendarScreen() {
           onPressDay={openDay}
         />
       </ScrollView>
+      <MonthPickerModal
+        visible={pickerVisible}
+        month={visibleMonth}
+        today={today}
+        onSelect={pickMonth}
+        onClose={closePicker}
+      />
     </Screen>
   );
 }
