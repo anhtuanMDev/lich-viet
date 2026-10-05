@@ -1,4 +1,4 @@
-import { Linking, Platform } from 'react-native';
+import { AppState, Linking, Platform } from 'react-native';
 import notifee, {
   AlarmType,
   AndroidImportance,
@@ -8,6 +8,8 @@ import notifee, {
   TriggerType,
 } from 'react-native-notify-kit';
 import type { Notification } from 'react-native-notify-kit';
+import { powerManagerRoute } from './powerManager';
+import type { PowerManagerRoute } from './powerManager';
 
 /*
  * Lớp duy nhất biết tới thư viện thông báo. Phần còn lại của app chỉ dùng `Notifier`,
@@ -145,9 +147,9 @@ export interface AndroidDeliveryInfo {
   /** Android 12+: người dùng đã tắt quyền "Báo thức & lời nhắc" → thông báo có thể trễ. */
   readonly exactAlarmsDisabled: boolean;
   readonly batteryOptimized: boolean;
-  /** Hãng có trình quản lý pin riêng (Xiaomi, Oppo, Vivo…) và mở được màn hình cài đặt đó. */
   readonly manufacturer: string | null;
-  readonly hasPowerManagerSettings: boolean;
+  /** Cách mở cài đặt pin của hãng (Xiaomi, Oppo, Vivo…); null nếu không có màn hình riêng. */
+  readonly powerManager: PowerManagerRoute | null;
 }
 
 export async function androidDeliveryInfo(): Promise<AndroidDeliveryInfo | null> {
@@ -164,13 +166,53 @@ export async function androidDeliveryInfo(): Promise<AndroidDeliveryInfo | null>
       settings.android.alarm === AndroidNotificationSetting.DISABLED,
     batteryOptimized,
     manufacturer: power.manufacturer ?? null,
-    hasPowerManagerSettings: Boolean(power.activity),
+    // `activity` chỉ là tên màn hình đầu tiên trong danh sách cài sẵn của thư viện, không đảm
+    // bảo máy có màn hình đó.
+    powerManager: powerManagerRoute(
+      power.manufacturer ?? null,
+      Boolean(power.activity),
+    ),
   };
+}
+
+/** Thời gian chờ màn hình của hãng mở ra trước khi coi là thất bại. */
+const OEM_SCREEN_TIMEOUT_MS = 1500;
+
+/** true nếu app rời màn hình (một màn hình khác đã mở lên) trong `timeoutMs`. */
+function leftAppWithin(timeoutMs: number): Promise<boolean> {
+  return new Promise(resolve => {
+    const subscription = AppState.addEventListener('change', state => {
+      if (state !== 'active') {
+        finish(true);
+      }
+    });
+    const timer = setTimeout(() => finish(false), timeoutMs);
+    function finish(left: boolean) {
+      clearTimeout(timer);
+      subscription.remove();
+      resolve(left);
+    }
+  });
+}
+
+/**
+ * notify-kit thử lần lượt các màn hình cài sẵn và im lặng bỏ qua khi tất cả đều lỗi (promise
+ * vẫn resolve). Không thấy app rời màn hình → mở Thông tin ứng dụng để nút luôn có tác dụng.
+ */
+async function openPowerManager(route: PowerManagerRoute): Promise<void> {
+  if (route === 'appSettings') {
+    return Linking.openSettings();
+  }
+  const left = leftAppWithin(OEM_SCREEN_TIMEOUT_MS);
+  await notifee.openPowerManagerSettings();
+  if (!(await left)) {
+    await Linking.openSettings();
+  }
 }
 
 export const deviceSettings = {
   openApp: () => Linking.openSettings(),
   openExactAlarm: () => notifee.openAlarmPermissionSettings(),
   openBatteryOptimization: () => notifee.openBatteryOptimizationSettings(),
-  openPowerManager: () => notifee.openPowerManagerSettings(),
+  openPowerManager,
 };

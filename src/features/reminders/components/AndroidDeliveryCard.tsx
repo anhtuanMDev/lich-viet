@@ -30,6 +30,7 @@ export function AndroidDeliveryCard() {
     return null;
   }
   const brand = info.manufacturer ? ` ${info.manufacturer}` : '';
+  const { powerManager } = info;
 
   return (
     <Card title="Để nhắc lịch đúng giờ">
@@ -53,7 +54,7 @@ export function AndroidDeliveryCard() {
           <AppText color="textMuted">
             Máy{brand} đang tiết kiệm pin cho Lịch Việt và có thể chặn nhắc lịch
             khi app không mở. Hãy chọn “Không hạn chế” cho Lịch Việt
-            {info.hasPowerManagerSettings ? ' và bật “Tự khởi chạy”' : ''}.
+            {powerManager ? ' và bật “Tự khởi chạy”' : ''}.
           </AppText>
           <Button
             label="Tắt tối ưu pin"
@@ -65,12 +66,25 @@ export function AndroidDeliveryCard() {
               )
             }
           />
-          {info.hasPowerManagerSettings ? (
+          {powerManager === 'appSettings' ? (
+            <AppText color="textMuted">
+              Trong trang ứng dụng, vào mục Pin rồi bật “Cho phép hoạt động
+              nền” và “Cho phép tự khởi chạy”.
+            </AppText>
+          ) : null}
+          {powerManager ? (
             <Button
-              label={`Mở quản lý pin${brand}`}
+              label={
+                powerManager === 'appSettings'
+                  ? 'Mở cài đặt pin của Lịch Việt'
+                  : `Mở quản lý pin${brand}`
+              }
               variant="secondary"
               onPress={() =>
-                runInBackground(deviceSettings.openPowerManager(), 'reminders')
+                runInBackground(
+                  deviceSettings.openPowerManager(powerManager),
+                  'reminders',
+                )
               }
             />
           ) : null}
