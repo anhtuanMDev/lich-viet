@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /**
- * Sinh toàn bộ icon từ MỘT nguồn hình học (các path bên dưới):
- *   - Android: adaptive icon (vector, có lớp monochrome cho "themed icons" Android 13+),
- *     PNG cho Android 7.x, icon thông báo (vector trắng đơn sắc).
- *   - iOS: AppIcon 1024×1024 (không kênh alpha - App Store từ chối icon có alpha).
- *   - Store: icon Google Play 512×512, ảnh nổi bật (feature graphic) 1024×500.
+ * Sinh các icon vẽ từ hình học (các path bên dưới):
+ *   - Android: icon thông báo (vector trắng đơn sắc), màu nhấn thông báo, vector lịch cũ.
+ *   - Store: ảnh nổi bật (feature graphic) 1024×500.
+ *
+ * KHÔNG còn sinh icon app: từ 10/2026 icon launcher Android (mipmap-*, lớp .webp từ Image
+ * Asset của Android Studio), AppIcon iOS và icon Google Play 512 dùng ảnh thiết kế
+ * (assets/logo/). Script cũ ghi đè các file đó - đừng thêm lại.
  *
  * Sửa thiết kế → sửa hằng số ở đây → `node scripts/generate-icons.js` → commit kết quả.
  */
@@ -74,24 +76,6 @@ const svgPaths = paths =>
     )
     .join('');
 
-const BLEED = '18 18 72 72';
-const iconSvg = background =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${BLEED}">${background}${svgPaths(
-    FOREGROUND,
-  )}</svg>`;
-
-const FULL_SQUARE = iconSvg(`<rect width="108" height="108" fill="${RED}"/>`);
-const ROUNDED_SQUARE = iconSvg(
-  `<rect x="22" y="22" width="64" height="64" rx="12" fill="${RED}"/>`,
-);
-const CIRCLE = iconSvg(`<circle cx="54" cy="54" r="32" fill="${RED}"/>`);
-
-function render(svg, width, options = {}) {
-  return new Resvg(svg, { fitTo: { mode: 'width', value: width }, ...options })
-    .render()
-    .asPng();
-}
-
 /**
  * PNG RGB 8-bit (bỏ kênh alpha) từ ảnh RGBA đã render - dành cho icon iOS và ảnh nổi bật
  * Google Play (Play chỉ nhận JPEG hoặc PNG 24-bit, không alpha).
@@ -157,15 +141,6 @@ ${paths
 </vector>
 `;
 
-const ADAPTIVE_ICON = `<?xml version="1.0" encoding="utf-8"?>
-<!-- Sinh bởi scripts/generate-icons.js - đừng sửa tay. -->
-<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@color/ic_launcher_background" />
-    <foreground android:drawable="@drawable/ic_launcher_foreground" />
-    <monochrome android:drawable="@drawable/ic_launcher_monochrome" />
-</adaptive-icon>
-`;
-
 const write = (relative, content) => {
   const file = path.join(ROOT, relative);
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -207,51 +182,7 @@ write(
   'android/app/src/main/res/drawable/ic_notification.xml',
   vectorDrawable(24, 24, [{ d: moon(12, 12, 1), fill: '#FFFFFF' }]),
 );
-write(
-  'android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml',
-  ADAPTIVE_ICON,
-);
-write(
-  'android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml',
-  ADAPTIVE_ICON,
-);
-// Android 7.x (minSdk 24) chưa có adaptive icon → PNG.
-const DENSITIES = { mdpi: 48, hdpi: 72, xhdpi: 96, xxhdpi: 144, xxxhdpi: 192 };
-for (const [density, size] of Object.entries(DENSITIES)) {
-  write(
-    `android/app/src/main/res/mipmap-${density}/ic_launcher.png`,
-    render(ROUNDED_SQUARE, size),
-  );
-  write(
-    `android/app/src/main/res/mipmap-${density}/ic_launcher_round.png`,
-    render(CIRCLE, size),
-  );
-}
-
-console.log('iOS:');
-const APP_ICON_SET = 'ios/LichViet/Images.xcassets/AppIcon.appiconset';
-write(`${APP_ICON_SET}/AppIcon-1024.png`, renderOpaque(FULL_SQUARE, 1024));
-write(
-  `${APP_ICON_SET}/Contents.json`,
-  `${JSON.stringify(
-    {
-      images: [
-        {
-          filename: 'AppIcon-1024.png',
-          idiom: 'universal',
-          platform: 'ios',
-          size: '1024x1024',
-        },
-      ],
-      info: { author: 'xcode', version: 1 },
-    },
-    null,
-    2,
-  )}\n`,
-);
-
 console.log('Store:');
-write('docs/store/assets/play-icon-512.png', render(FULL_SQUARE, 512));
 write(
   'docs/store/assets/feature-graphic-1024x500.png',
   renderOpaque(FEATURE_GRAPHIC, 1024, {

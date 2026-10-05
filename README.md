@@ -107,8 +107,10 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 
 ## Icon
 
-- Nguồn duy nhất: `scripts/generate-icons.js` (hình học + màu). Sửa → `node scripts/generate-icons.js` → commit file sinh ra.
-- Sinh ra: adaptive icon Android (vector + lớp monochrome cho themed icon), PNG cho Android 7.x, icon thông báo `ic_notification` (trắng đơn sắc), AppIcon iOS 1024 (không alpha), icon 512 và ảnh nổi bật cho Google Play trong `docs/store/assets/`.
+- **Icon app** dùng ảnh thiết kế, nguồn ở `assets/logo/` (`background.png`, `foreground.png`):
+  - Android: Android Studio → New → Image Asset (Launcher Icons, Adaptive) với hai lớp trên → `mipmap-*/ic_launcher*.webp`, `mipmap-anydpi-v26/ic_launcher*.xml`, `src/main/ic_launcher-playstore.png` (chép sang `docs/store/assets/play-icon-512.png` cho Play).
+  - iOS: `ios/LichViet/Images.xcassets/AppIcon.appiconset` (đủ các cỡ). **PNG không được có kênh alpha** - App Store từ chối; kiểm tra bằng `sips -g hasAlpha`.
+- `scripts/generate-icons.js` chỉ còn sinh icon thông báo `ic_notification` (trắng đơn sắc), màu nhấn thông báo và ảnh nổi bật Google Play (`docs/store/assets/feature-graphic-1024x500.png`). Script **không** đụng tới icon app.
 
 ## Phát hành
 
