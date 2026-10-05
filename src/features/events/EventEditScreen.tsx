@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Alert, View } from 'react-native';
 import type { RootStackScreenProps } from '@app/navigation/types';
 import type { EventCalendar, EventRepeat, ReminderOffset } from '@core/events';
 import { ensureNotificationPermission } from '@features/reminders/permission';
+import { useSettings } from '@features/settings';
 import { DateInputRow, LeapMonthSwitch } from '@shared/date-input';
 import { useToday } from '@shared/hooks/useToday';
 import { createThemedStyles } from '@shared/theme';
@@ -12,7 +13,9 @@ import {
   Card,
   Screen,
   SegmentedControl,
+  SwitchRow,
   TextField,
+  formatTime,
 } from '@shared/ui';
 import type { SegmentOption } from '@shared/ui';
 import { DatePreview } from './components/DatePreview';
@@ -26,19 +29,22 @@ const CALENDAR_OPTIONS: readonly SegmentOption<EventCalendar>[] = [
   { value: 'solar', label: 'Dương lịch' },
 ];
 
-// SegmentedControl làm việc với chuỗi; quy đổi về ReminderOffset | null ở đây.
-type ReminderOption = 'off' | '0' | '1' | '3' | '7';
+// Bật/tắt nhắc tách ra công tắc riêng; SegmentedControl chỉ còn 4 lựa chọn thời điểm
+// (5 lựa chọn trên một hàng bị vỡ chữ trên điện thoại hẹp). Quy đổi chuỗi ↔ ReminderOffset ở đây.
+type ReminderOption = '0' | '1' | '3' | '7';
 const REMINDER_OPTIONS: readonly SegmentOption<ReminderOption>[] = [
-  { value: 'off', label: 'Không' },
   { value: '0', label: 'Đúng ngày' },
   { value: '1', label: '1 ngày' },
   { value: '3', label: '3 ngày' },
   { value: '7', label: '7 ngày' },
 ];
-const toReminderOption = (value: ReminderOffset | null): ReminderOption =>
-  value === null ? 'off' : (String(value) as ReminderOption);
-const fromReminderOption = (option: ReminderOption): ReminderOffset | null =>
-  option === 'off' ? null : (Number(option) as ReminderOffset);
+/** Lựa chọn khi bật nhắc lần đầu. */
+const DEFAULT_REMINDER: ReminderOffset = 1;
+
+const reminderHint = (offset: ReminderOffset, time: string): string =>
+  offset === 0
+    ? `Thông báo lúc ${time} vào đúng ngày.`
+    : `Thông báo lúc ${time}, trước ${offset} ngày.`;
 
 const REPEAT_OPTIONS: readonly SegmentOption<EventRepeat>[] = [
   { value: 'yearly', label: 'Hằng năm' },
@@ -91,8 +97,20 @@ function EventForm({ eventId, source, onDone }: EventFormProps) {
   const form = useEventForm(source);
   const { state, validation, markSubmitted, setReminder } = form;
 
+  const reminderTime = formatTime(useSettings().reminders.time);
+  // Tắt rồi bật lại thì giữ lựa chọn cũ.
+  const lastReminder = useRef<ReminderOffset>(
+    state.remindDaysBefore ?? DEFAULT_REMINDER,
+  );
+  const toggleReminder = useCallback(
+    (on: boolean) => setReminder(on ? lastReminder.current : null),
+    [setReminder],
+  );
   const changeReminder = useCallback(
-    (option: ReminderOption) => setReminder(fromReminderOption(option)),
+    (option: ReminderOption) => {
+      lastReminder.current = Number(option) as ReminderOffset;
+      setReminder(lastReminder.current);
+    },
     [setReminder],
   );
 
@@ -185,12 +203,24 @@ function EventForm({ eventId, source, onDone }: EventFormProps) {
         ) : null}
       </Card>
 
-      <Card title="Nhắc trước">
-        <SegmentedControl
-          options={REMINDER_OPTIONS}
-          value={toReminderOption(state.remindDaysBefore)}
-          onChange={changeReminder}
+      <Card title="Nhắc lịch">
+        <SwitchRow
+          label="Gửi thông báo nhắc"
+          value={state.remindDaysBefore !== null}
+          onChange={toggleReminder}
         />
+        {state.remindDaysBefore !== null ? (
+          <>
+            <SegmentedControl
+              options={REMINDER_OPTIONS}
+              value={String(state.remindDaysBefore) as ReminderOption}
+              onChange={changeReminder}
+            />
+            <AppText variant="label" color="textMuted">
+              {reminderHint(state.remindDaysBefore, reminderTime)}
+            </AppText>
+          </>
+        ) : null}
       </Card>
 
       <Card>

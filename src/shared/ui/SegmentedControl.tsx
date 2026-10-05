@@ -34,6 +34,10 @@ export function SegmentedControl<T extends string>({
             <AppText
               variant="label"
               color={selected ? 'onPrimary' : 'textMuted'}
+              // Một dòng: chữ xuống hàng làm ô cao lệch nhau và nền chọn méo thành hình tròn.
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.8}
             >
               {option.label}
             </AppText>
@@ -54,7 +58,9 @@ const useStyles = createThemedStyles(t => ({
   segment: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: t.spacing.sm,
+    paddingHorizontal: t.spacing.xs,
     borderRadius: t.radius.pill,
   },
   selected: {
