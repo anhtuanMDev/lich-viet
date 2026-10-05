@@ -23,8 +23,7 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 
 | Hạng mục | Trạng thái |
 | --- | --- |
-| Bản build mới nhất | 1.0.0 (versionCode 1) - `releases/1.0.0/lichviet-1.0.0-1-20261004-112211.aab` |
-| Phiên bản tiếp theo | 1.0.1 (versionCode 2) - đã tăng version, **chưa build/tải lên**. Ghi chú: `release-notes/1.0.1.txt` |
+| Bản build mới nhất | 1.0.2 (versionCode 3) - `releases/1.0.2/lichviet-1.0.2-3-20261005-224416.aab`, tag `v1.0.2`, **chưa tải lên**. Ghi chú: `release-notes/1.0.2.txt` |
 | Đã tải lên Play Console? | ✅ 2026-10-04 |
 | Track | Internal testing |
 | Closed testing 12 người × 14 ngày | Dự kiến tính từ 2026-10-04 - **chỉ được tính khi bản build nằm ở track Closed testing** (track Internal không tính). Sớm nhất đủ điều kiện xin production: 2026-10-18 |
@@ -55,4 +54,5 @@ Cập nhật mỗi khi có thay đổi trên Play Console. Khai báo chi tiết 
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-04 | 1.0.0 | 1 | - | Đã build AAB | Tag `v1.0.0` → commit `663af5b` |
 | 2026-10-04 | 1.0.0 | 1 | Internal | Đã tải lên | |
-| 2026-10-05 | 1.0.1 | 2 | - | Đã tăng version | Chọn nhanh tháng/năm, sửa cuộn sheet Chi tiết ngày, ô nhập tránh bàn phím, gọn phần nhắc lịch, tab bar +8dp, sửa link chính sách. Gắn tag `v1.0.1` khi tải lên Play |
+| - | 1.0.1 | 2 | - | Bỏ qua | Không phát hành; các thay đổi gộp vào 1.0.2 |
+| 2026-10-05 | 1.0.2 | 3 | - | Đã build AAB | Chọn nhanh tháng/năm, sửa cuộn sheet Chi tiết ngày, ô nhập tránh bàn phím, gọn phần nhắc lịch, tab bar +8dp, sửa link chính sách. Tag `v1.0.2` |
