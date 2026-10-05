@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { TextInput, View } from 'react-native';
 import { createThemedStyles, useTheme } from '@shared/theme';
 import { AppText } from './AppText';
+import { useRevealFocusedInput } from './revealInput';
 
 export interface NumberFieldProps {
   readonly label: string;
@@ -21,6 +22,7 @@ export function NumberField({
 }: NumberFieldProps) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const reveal = useRevealFocusedInput();
   const handleChange = useCallback(
     (text: string) => onChangeValue(text.replace(/\D/g, '')),
     [onChangeValue],
@@ -38,6 +40,7 @@ export function NumberField({
         inputMode="numeric"
         maxLength={maxLength}
         selectTextOnFocus
+        onFocus={reveal}
         accessibilityLabel={label}
         placeholderTextColor={colors.textFaint}
         style={[styles.input, invalid && styles.invalid]}

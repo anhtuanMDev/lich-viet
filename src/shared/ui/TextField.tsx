@@ -1,7 +1,9 @@
+import { useCallback } from 'react';
 import { TextInput, View } from 'react-native';
-import type { TextInputProps } from 'react-native';
+import type { FocusEvent, TextInputProps } from 'react-native';
 import { createThemedStyles, useTheme } from '@shared/theme';
 import { AppText } from './AppText';
+import { useRevealFocusedInput } from './revealInput';
 
 export interface TextFieldProps
   extends Omit<TextInputProps, 'style' | 'placeholderTextColor'> {
@@ -13,10 +15,19 @@ export function TextField({
   label,
   error,
   multiline,
+  onFocus,
   ...rest
 }: TextFieldProps) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const reveal = useRevealFocusedInput();
+  const handleFocus = useCallback(
+    (e: FocusEvent) => {
+      reveal();
+      onFocus?.(e);
+    },
+    [onFocus, reveal],
+  );
   return (
     <View style={styles.container}>
       <AppText variant="label" color="textMuted">
@@ -32,6 +43,7 @@ export function TextField({
           error ? styles.invalid : null,
         ]}
         {...rest}
+        onFocus={handleFocus}
       />
       {error ? (
         <AppText
