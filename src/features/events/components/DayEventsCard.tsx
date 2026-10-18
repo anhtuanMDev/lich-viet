@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { anniversaryAt, eventsByDay } from '@core/events';
 import { fromJulianDay } from '@core/lunar';
@@ -38,14 +38,11 @@ export function DayEventsCard({ jd }: { readonly jd: JulianDay }) {
             accessibilityRole="button"
             style={({ pressed }) => [styles.row, pressed && styles.pressed]}
           >
-            <View style={styles.marker} />
-            <View style={styles.body}>
-              <AppText variant="heading">{event.title}</AppText>
-              <AppText variant="label" color="textMuted">
-                {describeOrigin(event)}
-                {anniversary > 0 ? ` · lần thứ ${anniversary}` : ''}
-              </AppText>
-            </View>
+            <AppText variant="heading">{event.title}</AppText>
+            <AppText variant="label" color="textMuted">
+              {describeOrigin(event)}
+              {anniversary > 0 ? ` · lần thứ ${anniversary}` : ''}
+            </AppText>
           </Pressable>
         );
       })}
@@ -60,21 +57,11 @@ export function DayEventsCard({ jd }: { readonly jd: JulianDay }) {
 
 const useStyles = createThemedStyles(t => ({
   row: {
-    flexDirection: 'row',
-    gap: t.spacing.md,
+    gap: t.spacing.xxs,
     paddingVertical: t.spacing.xs,
     borderRadius: t.radius.sm,
   },
   pressed: {
     backgroundColor: t.colors.surfaceMuted,
-  },
-  marker: {
-    width: 4,
-    borderRadius: 2,
-    backgroundColor: t.colors.event,
-  },
-  body: {
-    flex: 1,
-    gap: t.spacing.xxs,
   },
 }));

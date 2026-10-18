@@ -4,7 +4,7 @@ import { anniversaryAt } from '@core/events';
 import type { CalendarEvent } from '@core/events';
 import type { JulianDay } from '@core/lunar';
 import { createThemedStyles } from '@shared/theme';
-import { AppText } from '@shared/ui';
+import { AppText, Chip } from '@shared/ui';
 import {
   describeDaysAway,
   describeOrigin,
@@ -18,6 +18,10 @@ export interface EventRowProps {
   readonly onPress: (id: string) => void;
 }
 
+/**
+ * Tên chiếm trọn chiều ngang; ngày + "Còn N ngày" nằm ở hàng cuối và tự xuống dòng
+ * khi chữ to / màn hẹp - không cột nào bên cạnh ép tên sự kiện.
+ */
 export const EventRow = memo(function EventRowView({
   event,
   next,
@@ -31,41 +35,33 @@ export const EventRow = memo(function EventRowView({
     <Pressable
       onPress={() => onPress(event.id)}
       accessibilityRole="button"
-      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
     >
-      <View style={styles.marker} />
-      <View style={styles.body}>
-        <AppText variant="heading" numberOfLines={1}>
-          {event.title}
-        </AppText>
-        <AppText variant="label" color="textMuted">
-          {describeOrigin(event)}
-          {anniversary > 0 ? ` · lần thứ ${anniversary}` : ''}
-        </AppText>
-        {next ? (
-          <AppText variant="label" color="event">
+      <AppText variant="heading" numberOfLines={2}>
+        {event.title}
+      </AppText>
+      <AppText variant="label" color="textMuted">
+        {describeOrigin(event)}
+        {anniversary > 0 ? ` · lần thứ ${anniversary}` : ''}
+      </AppText>
+      {next ? (
+        <View style={styles.footer}>
+          <AppText variant="label" color="event" style={styles.date}>
             {describeSolarDay(next.date)}
           </AppText>
-        ) : null}
-      </View>
-      {next ? (
-        <AppText
-          variant="label"
-          color={next.daysAway <= 1 ? 'primary' : 'textMuted'}
-          style={styles.badge}
-        >
-          {describeDaysAway(next.daysAway)}
-        </AppText>
+          <Chip
+            label={describeDaysAway(next.daysAway)}
+            tone={next.daysAway <= 1 ? 'primary' : 'neutral'}
+          />
+        </View>
       ) : null}
     </Pressable>
   );
 });
 
 const useStyles = createThemedStyles(t => ({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: t.spacing.md,
+  card: {
+    gap: t.spacing.xxs,
     paddingVertical: t.spacing.md,
     paddingHorizontal: t.spacing.lg,
     backgroundColor: t.colors.surface,
@@ -76,17 +72,15 @@ const useStyles = createThemedStyles(t => ({
   pressed: {
     backgroundColor: t.colors.surfaceMuted,
   },
-  marker: {
-    width: 4,
-    alignSelf: 'stretch',
-    borderRadius: 2,
-    backgroundColor: t.colors.event,
+  footer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: t.spacing.sm,
+    marginTop: t.spacing.xs,
   },
-  body: {
-    flex: 1,
-    gap: t.spacing.xxs,
-  },
-  badge: {
-    flexShrink: 0,
+  date: {
+    flexShrink: 1,
   },
 }));
