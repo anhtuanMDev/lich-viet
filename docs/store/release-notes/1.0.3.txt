@@ -1,0 +1,7 @@
+<vi-VN>
+• Hiển thị gọn gàng khi máy đặt chữ to hoặc cỡ hiển thị lớn
+• Danh sách sự kiện mới: tên đầy đủ, ngày và số ngày còn lại rõ ràng
+• Lịch tháng gọn hơn: mỗi ngày chỉ một dấu chấm
+• Biểu tượng ứng dụng mới
+• Sửa nút mở quản lý pin trên máy Oppo
+</vi-VN>
