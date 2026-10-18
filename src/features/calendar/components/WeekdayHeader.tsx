@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { View } from 'react-native';
 import { weekdayShort } from '@core/date/format';
 import type { Weekday, WeekStart } from '@core/lunar';
-import { createThemedStyles } from '@shared/theme';
+import { createThemedStyles, fontScaleLimit } from '@shared/theme';
 import { AppText } from '@shared/ui';
 
 const orderFrom = (start: WeekStart): Weekday[] =>
@@ -22,6 +22,9 @@ export const WeekdayHeader = memo(function WeekdayHeaderView({
           variant="label"
           color={weekday === 0 ? 'holiday' : 'textMuted'}
           align="center"
+          // Bảy cột chia đều theo ô lịch bên dưới.
+          maxFontSizeMultiplier={fontScaleLimit.compact}
+          numberOfLines={1}
           style={styles.cell}
         >
           {weekdayShort(weekday)}

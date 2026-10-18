@@ -1,5 +1,5 @@
 import { Pressable, View } from 'react-native';
-import { createThemedStyles } from '@shared/theme';
+import { createThemedStyles, fontScaleLimit } from '@shared/theme';
 import { AppText } from './AppText';
 
 export interface SegmentOption<T extends string> {
@@ -36,6 +36,7 @@ export function SegmentedControl<T extends string>({
               color={selected ? 'onPrimary' : 'textMuted'}
               // Một dòng: chữ xuống hàng làm ô cao lệch nhau và nền chọn méo thành hình tròn.
               numberOfLines={1}
+              maxFontSizeMultiplier={fontScaleLimit.compact}
               adjustsFontSizeToFit
               minimumFontScale={0.8}
             >
@@ -55,8 +56,14 @@ const useStyles = createThemedStyles(t => ({
     borderRadius: t.radius.pill,
     padding: t.spacing.xxs,
   },
+  // Chia chỗ theo độ dài nhãn (không chia đều): nhãn dài như "Đúng ngày" không bị co nhỏ
+  // hẳn so với "1 ngày" khi màn hẹp hoặc chữ to.
   segment: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
+    // Nhãn ngắn ("Tắt") không thu thành chấm tròn.
+    minWidth: 56,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: t.spacing.sm,

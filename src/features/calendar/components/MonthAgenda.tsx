@@ -114,7 +114,7 @@ const useStyles = createThemedStyles(t => ({
     backgroundColor: t.colors.surfaceMuted,
   },
   date: {
-    width: 40,
+    minWidth: 40,
     alignItems: 'center',
   },
   names: {

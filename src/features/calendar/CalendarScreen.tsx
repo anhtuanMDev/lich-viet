@@ -14,8 +14,8 @@ import { MonthHeader } from './components/MonthHeader';
 import { MonthPickerModal } from './components/MonthPickerModal';
 import { WeekdayHeader } from './components/WeekdayHeader';
 import {
-  CELL_ASPECT_RATIO,
   MONTH_COUNT,
+  cellHeightFor,
   indexOfMonth,
   monthAtIndex,
 } from './constants';
@@ -34,8 +34,8 @@ export function CalendarScreen() {
   const today = useToday();
   const events = useEvents();
   const { weekStart } = useSettings();
-  const { width } = useWindowDimensions();
-  const cellHeight = Math.round((width / 7) * CELL_ASPECT_RATIO);
+  const { width, fontScale } = useWindowDimensions();
+  const cellHeight = cellHeightFor(width, fontScale);
 
   const pager = useMonthPager(today, width);
   const visibleMonth = monthAtIndex(pager.index);

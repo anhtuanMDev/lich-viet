@@ -84,6 +84,17 @@ export const typography = {
 
 export type TypographyVariant = keyof typeof typography;
 
+/**
+ * Trần hệ số phóng chữ theo cài đặt cỡ chữ của máy (Android tới 2x, iOS Dynamic Type tới ~3.1x).
+ * Mọi Text/TextInput phải đặt `maxFontSizeMultiplier`, nếu không chữ phóng không giới hạn.
+ */
+export const fontScaleLimit = {
+  /** Chữ nội dung trong bố cục tự giãn (cột, thẻ, danh sách). */
+  content: 1.6,
+  /** Chữ trong khung kích thước cố định: ô lịch, thanh tab, chữ số cỡ lớn. */
+  compact: 1.3,
+} as const;
+
 export interface Theme {
   readonly dark: boolean;
   readonly colors: ColorTokens;

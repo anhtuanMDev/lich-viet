@@ -1,6 +1,11 @@
 import { useCallback } from 'react';
 import { TextInput, View } from 'react-native';
-import { createThemedStyles, useTheme } from '@shared/theme';
+import {
+  createThemedStyles,
+  fontScaleLimit,
+  useScaledText,
+  useTheme,
+} from '@shared/theme';
 import { AppText } from './AppText';
 import { useRevealFocusedInput } from './revealInput';
 
@@ -21,7 +26,8 @@ export function NumberField({
   invalid = false,
 }: NumberFieldProps) {
   const styles = useStyles();
-  const { colors } = useTheme();
+  const { colors, typography } = useTheme();
+  const scaledText = useScaledText(typography.title, fontScaleLimit.content);
   const reveal = useRevealFocusedInput();
   const handleChange = useCallback(
     (text: string) => onChangeValue(text.replace(/\D/g, '')),
@@ -42,8 +48,9 @@ export function NumberField({
         selectTextOnFocus
         onFocus={reveal}
         accessibilityLabel={label}
+        {...scaledText.textProps}
         placeholderTextColor={colors.textFaint}
-        style={[styles.input, invalid && styles.invalid]}
+        style={[scaledText.style, styles.input, invalid && styles.invalid]}
       />
     </View>
   );
@@ -55,7 +62,6 @@ const useStyles = createThemedStyles(t => ({
     gap: t.spacing.xs,
   },
   input: {
-    ...t.typography.title,
     color: t.colors.text,
     textAlign: 'center',
     backgroundColor: t.colors.surfaceMuted,

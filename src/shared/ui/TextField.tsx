@@ -1,7 +1,12 @@
 import { useCallback } from 'react';
 import { TextInput, View } from 'react-native';
 import type { FocusEvent, TextInputProps } from 'react-native';
-import { createThemedStyles, useTheme } from '@shared/theme';
+import {
+  createThemedStyles,
+  fontScaleLimit,
+  useScaledText,
+  useTheme,
+} from '@shared/theme';
 import { AppText } from './AppText';
 import { useRevealFocusedInput } from './revealInput';
 
@@ -19,7 +24,8 @@ export function TextField({
   ...rest
 }: TextFieldProps) {
   const styles = useStyles();
-  const { colors } = useTheme();
+  const { colors, typography } = useTheme();
+  const scaledText = useScaledText(typography.body, fontScaleLimit.content);
   const reveal = useRevealFocusedInput();
   const handleFocus = useCallback(
     (e: FocusEvent) => {
@@ -35,9 +41,11 @@ export function TextField({
       </AppText>
       <TextInput
         accessibilityLabel={label}
+        {...scaledText.textProps}
         placeholderTextColor={colors.textFaint}
         multiline={multiline}
         style={[
+          scaledText.style,
           styles.input,
           multiline && styles.multiline,
           error ? styles.invalid : null,
@@ -63,7 +71,6 @@ const useStyles = createThemedStyles(t => ({
     gap: t.spacing.xs,
   },
   input: {
-    ...t.typography.body,
     color: t.colors.text,
     backgroundColor: t.colors.surfaceMuted,
     borderRadius: t.radius.sm,

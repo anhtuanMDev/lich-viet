@@ -16,7 +16,14 @@ export function AuspiciousHoursCard({
         {hours.map(hour => (
           <View key={hour.branch} style={styles.item}>
             <AppText variant="heading">{hour.branch}</AppText>
-            <AppText variant="label" color="textMuted">
+            {/* "15h-17h" ba cột trên màn hẹp + chữ to sẽ dính sang cột bên. */}
+            <AppText
+              variant="label"
+              color="textMuted"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.7}
+            >
               {formatHourRange(hour)}
             </AppText>
           </View>
@@ -35,5 +42,6 @@ const useStyles = createThemedStyles(t => ({
   item: {
     width: '33.33%',
     alignItems: 'center',
+    paddingHorizontal: t.spacing.xs,
   },
 }));

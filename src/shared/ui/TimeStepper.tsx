@@ -97,9 +97,11 @@ const useStyles = createThemedStyles(t => ({
     textAlign: 'center',
     fontVariant: ['tabular-nums'],
   },
+  // min* thay vì cố định: dấu −/+ phóng theo cỡ chữ máy vẫn nằm trọn trong nút tròn.
   button: {
-    width: 44,
-    height: 44,
+    minWidth: 44,
+    minHeight: 44,
+    aspectRatio: 1,
     borderRadius: t.radius.pill,
     alignItems: 'center',
     justifyContent: 'center',

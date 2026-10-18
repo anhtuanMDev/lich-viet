@@ -11,7 +11,7 @@ import { EventEditScreen, EventsScreen } from '@features/events';
 import { SettingsScreen } from '@features/settings';
 import { TodayScreen } from '@features/today';
 import { useTheme } from '@shared/theme';
-import { TabIcon } from './TabIcon';
+import { TabIcon, TabLabel } from './TabIcon';
 import type { RootStackParamList, TabParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -34,6 +34,7 @@ function Tabs() {
       headerShown: false,
       tabBarActiveTintColor: colors.primary,
       tabBarInactiveTintColor: colors.textFaint,
+      tabBarLabel: TabLabel,
       tabBarStyle: {
         backgroundColor: colors.surface,
         borderTopColor: colors.border,

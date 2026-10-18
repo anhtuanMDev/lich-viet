@@ -38,7 +38,7 @@ export function Button({
         disabled && styles.disabled,
       ]}
     >
-      <AppText variant="heading" color={LABEL_COLOR[variant]}>
+      <AppText variant="heading" color={LABEL_COLOR[variant]} align="center">
         {label}
       </AppText>
     </Pressable>

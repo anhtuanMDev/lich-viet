@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Pressable, View } from 'react-native';
 import { formatMonthTitle } from '@core/date/format';
 import type { MonthKey } from '@core/lunar';
-import { createThemedStyles } from '@shared/theme';
+import { createThemedStyles, fontScaleLimit } from '@shared/theme';
 import { AppText } from '@shared/ui';
 
 export interface MonthHeaderProps {
@@ -51,13 +51,29 @@ export const MonthHeader = memo(function MonthHeaderView({
           accessibilityHint="Chọn nhanh tháng hoặc năm"
           style={({ pressed }) => [styles.titles, pressed && styles.pressed]}
         >
-          <AppText variant="title" align="center">
+          {/* Màn Lịch không cuộn: tiêu đề xuống dòng sẽ đẩy lưới lịch ra khỏi màn. */}
+          <AppText
+            variant="title"
+            align="center"
+            maxFontSizeMultiplier={fontScaleLimit.compact}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.7}
+          >
             {formatMonthTitle(month.year, month.month)}{' '}
             <AppText variant="label" color="textFaint">
               ▾
             </AppText>
           </AppText>
-          <AppText variant="label" color="lunarAccent" align="center">
+          <AppText
+            variant="label"
+            color="lunarAccent"
+            align="center"
+            maxFontSizeMultiplier={fontScaleLimit.compact}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.7}
+          >
             {lunarSubtitle}
           </AppText>
         </Pressable>

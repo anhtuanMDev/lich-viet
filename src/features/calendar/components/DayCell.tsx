@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { Pressable, View } from 'react-native';
 import { lunarCellLabel } from '@core/date/format';
 import type { MonthGridCell, SolarDate } from '@core/lunar';
-import { createThemedStyles } from '@shared/theme';
+import { createThemedStyles, fontScaleLimit } from '@shared/theme';
 import type { ColorTokens } from '@shared/theme';
 import { AppText } from '@shared/ui';
 
@@ -57,33 +57,38 @@ export const DayCell = memo(function DayCellView({
         pressed && styles.pressed,
       ]}
     >
+      {/* Ô cao theo cellHeightFor - chữ phải dùng cùng trần phóng chữ. */}
       <AppText
         variant="heading"
         color={isToday ? 'onPrimary' : solarColor(cell)}
+        maxFontSizeMultiplier={fontScaleLimit.compact}
+        numberOfLines={1}
       >
         {cell.solar.day}
       </AppText>
       <AppText
         variant="caption"
         color={isToday ? 'onPrimary' : lunarColor(cell)}
+        maxFontSizeMultiplier={fontScaleLimit.compact}
+        // "1/12N" có thể rộng hơn ô trên màn hẹp.
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.7}
       >
         {lunarCellLabel(cell.lunar)}
       </AppText>
-      {/* Hàng chấm luôn chiếm chỗ để số ngày không bị lệch giữa các ô. */}
+      {/* Hàng chấm luôn chiếm chỗ để số ngày không bị lệch giữa các ô.
+          Chỉ một chấm: sự kiện cá nhân ưu tiên hơn ngày lễ. */}
       <View style={styles.dots}>
-        {hasHoliday ? (
+        {hasEvent || hasHoliday ? (
           <View
             style={[
               styles.dot,
-              isToday ? styles.dotOnPrimary : styles.holidayDot,
-            ]}
-          />
-        ) : null}
-        {hasEvent ? (
-          <View
-            style={[
-              styles.dot,
-              isToday ? styles.dotOnPrimary : styles.eventDot,
+              isToday
+                ? styles.dotOnPrimary
+                : hasEvent
+                  ? styles.eventDot
+                  : styles.holidayDot,
             ]}
           />
         ) : null}
@@ -95,6 +100,7 @@ export const DayCell = memo(function DayCellView({
 const useStyles = createThemedStyles(t => ({
   cell: {
     alignItems: 'center',
+    paddingHorizontal: t.spacing.xxs,
     justifyContent: 'center',
     borderRadius: t.radius.sm,
   },
@@ -108,8 +114,6 @@ const useStyles = createThemedStyles(t => ({
     backgroundColor: t.colors.surfaceMuted,
   },
   dots: {
-    flexDirection: 'row',
-    gap: 3,
     height: 5,
     marginTop: t.spacing.xxs,
   },
