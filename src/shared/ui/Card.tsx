@@ -12,7 +12,14 @@ export function Card({ title, children, style, ...rest }: CardProps) {
   return (
     <View style={[styles.card, style]} {...rest}>
       {title ? (
-        <AppText variant="label" color="textMuted" style={styles.title}>
+        <AppText
+          variant="label"
+          color="textMuted"
+          style={styles.title}
+          accessibilityRole="header"
+          // Chữ in hoa toàn bộ có máy đọc từng chữ cái.
+          accessibilityLabel={title}
+        >
           {title.toUpperCase()}
         </AppText>
       ) : null}

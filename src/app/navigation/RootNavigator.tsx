@@ -17,6 +17,16 @@ import type { RootStackParamList, TabParamList } from './types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
+// iOS mặc định đọc "Lịch, tab, 2 of 4" (tiếng Anh); nhãn riêng để chỉ đọc tên tab.
+const tabOptions = (
+  title: string,
+  tabBarIcon: BottomTabNavigationOptions['tabBarIcon'],
+): BottomTabNavigationOptions => ({
+  title,
+  tabBarIcon,
+  tabBarAccessibilityLabel: title,
+});
+
 /** Khoảng đệm thêm dưới thanh tab, ngoài vùng an toàn (thanh điều hướng hệ thống). */
 const TAB_BAR_EXTRA_BOTTOM = 8;
 
@@ -51,23 +61,23 @@ function Tabs() {
       <Tab.Screen
         name="Today"
         component={TodayScreen}
-        options={{ title: 'Hôm nay', tabBarIcon: TabIcon.today }}
+        options={tabOptions('Hôm nay', TabIcon.today)}
       />
       <Tab.Screen
         name="Calendar"
         component={CalendarScreen}
-        options={{ title: 'Lịch', tabBarIcon: TabIcon.calendar }}
+        options={tabOptions('Lịch', TabIcon.calendar)}
       />
 
       <Tab.Screen
         name="Events"
         component={EventsScreen}
-        options={{ title: 'Sự kiện', tabBarIcon: TabIcon.events }}
+        options={tabOptions('Sự kiện', TabIcon.events)}
       />
       <Tab.Screen
         name="Converter"
         component={ConverterScreen}
-        options={{ title: 'Đổi ngày', tabBarIcon: TabIcon.converter }}
+        options={tabOptions('Đổi ngày', TabIcon.converter)}
       />
     </Tab.Navigator>
   );

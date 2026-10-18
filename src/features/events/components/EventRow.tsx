@@ -1,7 +1,9 @@
 import { memo } from 'react';
 import { Pressable, View } from 'react-native';
+import { SPOKEN, spokenEvent } from '@core/a11y';
 import { anniversaryAt } from '@core/events';
 import type { CalendarEvent } from '@core/events';
+import { fromJulianDay, weekdayOf } from '@core/lunar';
 import type { JulianDay } from '@core/lunar';
 import { createThemedStyles } from '@shared/theme';
 import { AppText, Chip } from '@shared/ui';
@@ -35,6 +37,16 @@ export const EventRow = memo(function EventRowView({
     <Pressable
       onPress={() => onPress(event.id)}
       accessibilityRole="button"
+      accessibilityLabel={spokenEvent({
+        event,
+        anniversary,
+        next: next && {
+          date: fromJulianDay(next.date),
+          weekday: weekdayOf(next.date),
+          daysAway: describeDaysAway(next.daysAway),
+        },
+      })}
+      accessibilityHint={SPOKEN.hint.editEvent}
       style={({ pressed }) => [styles.card, pressed && styles.pressed]}
     >
       <AppText variant="heading" numberOfLines={2}>

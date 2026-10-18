@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+import { spokenHour } from '@core/a11y';
 import { formatHourRange } from '@core/date/format';
 import type { AuspiciousHour } from '@core/lunar';
 import { createThemedStyles } from '@shared/theme';
@@ -14,7 +15,12 @@ export function AuspiciousHoursCard({
     <Card title="Giờ hoàng đạo">
       <View style={styles.grid}>
         {hours.map(hour => (
-          <View key={hour.branch} style={styles.item}>
+          <View
+            key={hour.branch}
+            style={styles.item}
+            accessible
+            accessibilityLabel={spokenHour(hour)}
+          >
             <AppText variant="heading">{hour.branch}</AppText>
             {/* "15h-17h" ba cột trên màn hẹp + chữ to sẽ dính sang cột bên. */}
             <AppText

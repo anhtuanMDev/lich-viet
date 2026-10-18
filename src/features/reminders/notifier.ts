@@ -45,6 +45,11 @@ const ensureChannel = (): Promise<string> => {
     name: 'Nhắc lịch',
     description: 'Nhắc sự kiện, ngày giỗ, mùng 1 và rằm',
     importance: AndroidImportance.HIGH,
+    // Người khiếm thính không nghe chuông: luôn rung + đèn báo (nếu máy có), kèm banner nổi
+    // nhờ importance HIGH. Hai cờ này là mặc định của thư viện, ghi rõ để không ai tắt nhầm;
+    // kênh đã tạo trên máy không đổi được nên đổi kiểu rung phải dùng id kênh mới.
+    vibration: true,
+    lights: true,
   });
   return channelReady;
 };
@@ -78,7 +83,11 @@ const buildNotification = (item: NotificationInput): Notification => ({
     // Không có pressAction thì bấm vào thông báo trên Android sẽ không mở app.
     pressAction: { id: 'default' },
   },
-  ios: { sound: 'default' },
+  ios: {
+    sound: 'default',
+    // Đang mở app vẫn hiện banner (không chỉ phát tiếng) - người khiếm thính vẫn thấy.
+    foregroundPresentationOptions: { banner: true, list: true, sound: true },
+  },
 });
 
 export const notifier: Notifier = {

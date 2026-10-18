@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Pressable, View } from 'react-native';
+import { SPOKEN, spokenMonth } from '@core/a11y';
 import { formatMonthTitle } from '@core/date/format';
 import type { MonthKey } from '@core/lunar';
 import { createThemedStyles, fontScaleLimit } from '@shared/theme';
@@ -34,6 +35,7 @@ export const MonthHeader = memo(function MonthHeaderView({
           <Pressable
             onPress={onToday}
             accessibilityRole="button"
+            accessibilityHint={SPOKEN.hint.goToday}
             style={styles.todayButton}
           >
             <AppText variant="label" color="primary">
@@ -44,11 +46,15 @@ export const MonthHeader = memo(function MonthHeaderView({
       </View>
 
       <View style={styles.row}>
-        <ArrowButton label="Tháng trước" symbol="‹" onPress={onPrev} />
+        <ArrowButton label={SPOKEN.prevMonth} symbol="‹" onPress={onPrev} />
         <Pressable
           onPress={onPressTitle}
           accessibilityRole="button"
-          accessibilityHint="Chọn nhanh tháng hoặc năm"
+          accessibilityLabel={`${spokenMonth(
+            month.year,
+            month.month,
+          )}. ${lunarSubtitle}`}
+          accessibilityHint={SPOKEN.hint.pickMonth}
           style={({ pressed }) => [styles.titles, pressed && styles.pressed]}
         >
           {/* Màn Lịch không cuộn: tiêu đề xuống dòng sẽ đẩy lưới lịch ra khỏi màn. */}
@@ -77,7 +83,7 @@ export const MonthHeader = memo(function MonthHeaderView({
             {lunarSubtitle}
           </AppText>
         </Pressable>
-        <ArrowButton label="Tháng sau" symbol="›" onPress={onNext} />
+        <ArrowButton label={SPOKEN.nextMonth} symbol="›" onPress={onNext} />
       </View>
     </View>
   );

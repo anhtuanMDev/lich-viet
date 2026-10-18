@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+import { spokenDayHero } from '@core/a11y';
 import { lunarMonthName, weekdayName } from '@core/date/format';
 import { formatCanChi } from '@core/lunar';
 import type { DayDetail } from '@core/lunar';
@@ -13,7 +14,13 @@ export function DayHero({ detail }: { readonly detail: DayDetail }) {
   const isRedDay = weekday === 0 || holidays.some(h => h.kind === 'public');
 
   return (
-    <View style={styles.container}>
+    // Đọc cả khối thành một câu (đầu trang, nên là heading) thay vì "Tháng 10, 2026", "18"…
+    <View
+      style={styles.container}
+      accessible
+      accessibilityRole="header"
+      accessibilityLabel={spokenDayHero(detail)}
+    >
       <AppText variant="heading" color="textMuted" align="center">
         Tháng {solar.month}, {solar.year}
       </AppText>
@@ -21,7 +28,6 @@ export function DayHero({ detail }: { readonly detail: DayDetail }) {
         variant="display"
         color={isRedDay ? 'holiday' : 'text'}
         align="center"
-        accessibilityLabel={`Ngày ${solar.day} tháng ${solar.month} năm ${solar.year}`}
       >
         {solar.day}
       </AppText>

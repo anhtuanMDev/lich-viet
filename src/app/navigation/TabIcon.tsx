@@ -14,6 +14,10 @@ const glyph = (symbol: string) =>
     return (
       <Text
         allowFontScaling={false}
+        // Ký tự trang trí: trình đọc màn hình chỉ đọc tên tab.
+        accessible={false}
+        importantForAccessibility="no"
+        accessibilityElementsHidden
         style={[styles.icon, { color, fontSize: size }]}
       >
         {symbol}

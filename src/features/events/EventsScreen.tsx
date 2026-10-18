@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { Pressable, SectionList, View } from 'react-native';
 import type { SectionListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { SPOKEN } from '@core/a11y';
 import { upcomingEvents } from '@core/events';
 import type { CalendarEvent } from '@core/events';
 import { toJulianDay } from '@core/lunar';
@@ -96,7 +97,7 @@ export function EventsScreen() {
           onPress={openSettings}
           hitSlop={12}
           accessibilityRole="button"
-          accessibilityLabel="Cài đặt"
+          accessibilityLabel={SPOKEN.settings}
         >
           <AppText variant="title" color="textMuted">
             ⚙︎

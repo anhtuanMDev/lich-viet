@@ -1,5 +1,6 @@
 import { memo, useCallback } from 'react';
 import { Pressable, View } from 'react-native';
+import { SPOKEN, spokenDayCell } from '@core/a11y';
 import { lunarCellLabel } from '@core/date/format';
 import type { MonthGridCell, SolarDate } from '@core/lunar';
 import { createThemedStyles, fontScaleLimit } from '@shared/theme';
@@ -44,11 +45,8 @@ export const DayCell = memo(function DayCellView({
     <Pressable
       onPress={handlePress}
       accessibilityRole="button"
-      accessibilityLabel={`Ngày ${cell.solar.day} tháng ${
-        cell.solar.month
-      }, âm lịch ${cell.lunar.day} tháng ${cell.lunar.month}${
-        hasHoliday ? `, ${cell.holidays[0]?.name}` : ''
-      }${hasEvent ? ', có sự kiện' : ''}`}
+      accessibilityLabel={spokenDayCell(cell, { isToday, hasEvent })}
+      accessibilityHint={SPOKEN.hint.openDay}
       style={({ pressed }) => [
         styles.cell,
         { width, height },
@@ -87,8 +85,8 @@ export const DayCell = memo(function DayCellView({
               isToday
                 ? styles.dotOnPrimary
                 : hasEvent
-                  ? styles.eventDot
-                  : styles.holidayDot,
+                ? styles.eventDot
+                : styles.holidayDot,
             ]}
           />
         ) : null}

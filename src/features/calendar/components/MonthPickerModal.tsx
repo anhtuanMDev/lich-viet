@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Modal, Pressable, View } from 'react-native';
+import { SPOKEN } from '@core/a11y';
 import { SUPPORTED_YEAR_RANGE } from '@core/lunar';
 import type { MonthKey } from '@core/lunar';
 import { createThemedStyles } from '@shared/theme';
@@ -96,13 +97,14 @@ function PickerBody({
         style={styles.dismiss}
         onPress={onClose}
         accessibilityRole="button"
-        accessibilityLabel="Đóng"
+        accessibilityLabel={SPOKEN.close}
       />
-      <View style={styles.sheet}>
+      {/* VoiceOver không đọc lọt ra lưới lịch phía sau khi bảng đang mở. */}
+      <View style={styles.sheet} accessibilityViewIsModal>
         <View style={styles.header}>
           <StepButton
             symbol="‹"
-            label={isMonthMode ? 'Năm trước' : '12 năm trước'}
+            label={isMonthMode ? SPOKEN.prevYear : SPOKEN.prevYearPage}
             disabled={!canPrev}
             onPress={() => step(-1)}
           />
@@ -110,7 +112,7 @@ function PickerBody({
             onPress={isMonthMode ? openYears : () => setMode('month')}
             accessibilityRole="button"
             accessibilityHint={
-              isMonthMode ? 'Chọn năm khác' : 'Quay lại chọn tháng'
+              isMonthMode ? SPOKEN.hint.pickYear : SPOKEN.hint.backToMonths
             }
             style={styles.titleButton}
           >
@@ -120,7 +122,7 @@ function PickerBody({
           </Pressable>
           <StepButton
             symbol="›"
-            label={isMonthMode ? 'Năm sau' : '12 năm sau'}
+            label={isMonthMode ? SPOKEN.nextYear : SPOKEN.nextYearPage}
             disabled={!canNext}
             onPress={() => step(1)}
           />
@@ -199,6 +201,7 @@ function GridCell({ label, selected, current, onPress }: GridCellProps) {
       <Pressable
         onPress={onPress}
         accessibilityRole="button"
+        accessibilityLabel={current ? `${label}, hiện tại` : label}
         accessibilityState={{ selected }}
         style={({ pressed }) => [
           styles.cell,

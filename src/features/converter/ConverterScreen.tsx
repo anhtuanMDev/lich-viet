@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { SPOKEN } from '@core/a11y';
 import type { SolarDate } from '@core/lunar';
 import { DateInputRow, LeapMonthSwitch } from '@shared/date-input';
 import type { ConversionDirection } from '@shared/date-input';
@@ -10,8 +11,16 @@ import { ConversionResultCard } from './components/ConversionResultCard';
 import { useConverter } from './hooks/useConverter';
 
 const DIRECTIONS: readonly SegmentOption<ConversionDirection>[] = [
-  { value: 'solarToLunar', label: 'Dương → Âm' },
-  { value: 'lunarToSolar', label: 'Âm → Dương' },
+  {
+    value: 'solarToLunar',
+    label: 'Dương → Âm',
+    spokenLabel: SPOKEN.solarToLunar,
+  },
+  {
+    value: 'lunarToSolar',
+    label: 'Âm → Dương',
+    spokenLabel: SPOKEN.lunarToSolar,
+  },
 ];
 
 export function ConverterScreen() {
@@ -27,7 +36,9 @@ export function ConverterScreen() {
 
   return (
     <Screen>
-      <AppText variant="title">Đổi ngày</AppText>
+      <AppText variant="title" accessibilityRole="header">
+        Đổi ngày
+      </AppText>
       <SegmentedControl
         options={DIRECTIONS}
         value={input.direction}

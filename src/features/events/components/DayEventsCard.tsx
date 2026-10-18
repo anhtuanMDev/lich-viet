@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { SPOKEN, spokenEvent } from '@core/a11y';
 import { anniversaryAt, eventsByDay } from '@core/events';
 import { fromJulianDay } from '@core/lunar';
 import type { JulianDay } from '@core/lunar';
@@ -36,6 +37,9 @@ export function DayEventsCard({ jd }: { readonly jd: JulianDay }) {
               navigation.navigate('EventEdit', { eventId: event.id })
             }
             accessibilityRole="button"
+            // Đang ở chính ngày đó nên không đọc lại ngày diễn ra.
+            accessibilityLabel={spokenEvent({ event, anniversary, next: null })}
+            accessibilityHint={SPOKEN.hint.editEvent}
             style={({ pressed }) => [styles.row, pressed && styles.pressed]}
           >
             <AppText variant="heading">{event.title}</AppText>

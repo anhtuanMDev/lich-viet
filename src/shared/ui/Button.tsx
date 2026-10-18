@@ -1,4 +1,5 @@
 import { Pressable } from 'react-native';
+import { speakable } from '@core/a11y';
 import { createThemedStyles } from '@shared/theme';
 import type { ColorTokens } from '@shared/theme';
 import { AppText } from './AppText';
@@ -30,6 +31,7 @@ export function Button({
       onPress={onPress}
       disabled={disabled}
       accessibilityRole="button"
+      accessibilityLabel={speakable(label)}
       accessibilityState={{ disabled }}
       style={({ pressed }) => [
         styles.base,

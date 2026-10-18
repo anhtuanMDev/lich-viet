@@ -2,9 +2,11 @@ import { useCallback, useMemo, useState } from 'react';
 import { FlatList, ScrollView, useWindowDimensions } from 'react-native';
 import type { ListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { spokenMonth } from '@core/a11y';
 import type { MonthKey, SolarDate } from '@core/lunar';
 import { useEvents } from '@features/events';
 import { useSettings } from '@features/settings';
+import { useAnnounce } from '@shared/a11y';
 import { useToday } from '@shared/hooks/useToday';
 import { createThemedStyles } from '@shared/theme';
 import { Screen } from '@shared/ui';
@@ -40,6 +42,10 @@ export function CalendarScreen() {
   const pager = useMonthPager(today, width);
   const visibleMonth = monthAtIndex(pager.index);
   const todayIndex = indexOfMonth(today);
+  // Vuốt / bấm mũi tên sang tháng khác: báo tháng mới cho người dùng trình đọc màn hình.
+  useAnnounce(spokenMonth(visibleMonth.year, visibleMonth.month), {
+    always: true,
+  });
 
   const subtitle = useMemo(
     () => lunarSubtitle(monthAtIndex(pager.index), weekStart),

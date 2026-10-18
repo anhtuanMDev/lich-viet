@@ -1,5 +1,6 @@
 import { Text } from 'react-native';
 import type { TextProps } from 'react-native';
+import { speakable } from '@core/a11y';
 import { fontScaleLimit, useScaledText, useTheme } from '@shared/theme';
 import type { ColorTokens, TypographyVariant } from '@shared/theme';
 
@@ -19,9 +20,17 @@ export function AppText({
   maxFontSizeMultiplier = variant === 'display'
     ? fontScaleLimit.compact
     : fontScaleLimit.content,
+  accessibilityLabel,
+  children,
   ...rest
 }: AppTextProps) {
   const theme = useTheme();
+  // Chữ hiển thị có mũi tên/dấu "+"… thì đọc bản đã bỏ ký tự trang trí (xem core/a11y).
+  const spokenLabel =
+    accessibilityLabel ??
+    (typeof children === 'string' && speakable(children) !== children
+      ? speakable(children)
+      : undefined);
   const scaled = useScaledText(
     theme.typography[variant],
     maxFontSizeMultiplier,
@@ -30,12 +39,15 @@ export function AppText({
     <Text
       {...rest}
       {...scaled.textProps}
+      accessibilityLabel={spokenLabel}
       style={[
         scaled.style,
         { color: theme.colors[color] },
         align && { textAlign: align },
         style,
       ]}
-    />
+    >
+      {children}
+    </Text>
   );
 }

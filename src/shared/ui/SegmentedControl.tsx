@@ -5,6 +5,8 @@ import { AppText } from './AppText';
 export interface SegmentOption<T extends string> {
   readonly value: T;
   readonly label: string;
+  /** Câu đọc cho trình đọc màn hình khi nhãn hiển thị viết tắt (xem core/a11y). */
+  readonly spokenLabel?: string;
 }
 
 export interface SegmentedControlProps<T extends string> {
@@ -27,6 +29,7 @@ export function SegmentedControl<T extends string>({
           <Pressable
             key={option.value}
             accessibilityRole="tab"
+            accessibilityLabel={option.spokenLabel ?? option.label}
             accessibilityState={{ selected }}
             onPress={() => onChange(option.value)}
             style={[styles.segment, selected && styles.selected]}

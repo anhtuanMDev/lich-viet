@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { TextInput, View } from 'react-native';
 import type { FocusEvent, TextInputProps } from 'react-native';
+import { useAnnounce } from '@shared/a11y';
 import {
   createThemedStyles,
   fontScaleLimit,
@@ -27,6 +28,7 @@ export function TextField({
   const { colors, typography } = useTheme();
   const scaledText = useScaledText(typography.body, fontScaleLimit.content);
   const reveal = useRevealFocusedInput();
+  useAnnounce(error ?? null);
   const handleFocus = useCallback(
     (e: FocusEvent) => {
       reveal();

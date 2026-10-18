@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react';
 import { Pressable, View } from 'react-native';
+import { SPOKEN, spokenAgendaDay } from '@core/a11y';
 import { formatLunarShort, weekdayShort } from '@core/date/format';
 import { eventsByDay } from '@core/events';
 import type { CalendarEvent } from '@core/events';
@@ -75,6 +76,11 @@ const AgendaRow = memo(function AgendaRowView({
     <Pressable
       onPress={() => onPress(cell.solar)}
       accessibilityRole="button"
+      accessibilityLabel={spokenAgendaDay(
+        cell,
+        events.map(event => event.title),
+      )}
+      accessibilityHint={SPOKEN.hint.openDay}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
     >
       <View style={styles.date}>

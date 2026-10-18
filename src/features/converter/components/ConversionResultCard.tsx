@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { SPOKEN, spokenLunarDate, spokenSolarDate } from '@core/a11y';
 import { formatSolar, lunarMonthName, weekdayName } from '@core/date/format';
 import { formatCanChi, toJulianDay, weekdayOf, yearCanChi } from '@core/lunar';
 import type { LunarDate, SolarDate } from '@core/lunar';
+import { useAnnounce } from '@shared/a11y';
 import { createThemedStyles } from '@shared/theme';
 import { AppText, Card } from '@shared/ui';
 import type { ConversionDirection, ConversionResult } from '@shared/date-input';
@@ -18,6 +20,8 @@ export function ConversionResultCard({
   result,
   onOpenDay,
 }: ConversionResultCardProps) {
+  // iOS không có live region: tự đọc kết quả / lỗi mỗi khi đổi.
+  useAnnounce(spokenResult(direction, result));
   if (result.status === 'incomplete') {
     return (
       <Card>
@@ -45,26 +49,56 @@ export function ConversionResultCard({
       lunar={result.lunar}
       solar={result.solar}
       onOpenDay={onOpenDay}
+      spoken={spokenResult(direction, result) ?? ''}
     />
   ) : (
-    <SolarResult solar={result.solar} onOpenDay={onOpenDay} />
+    <SolarResult
+      solar={result.solar}
+      onOpenDay={onOpenDay}
+      spoken={spokenResult(direction, result) ?? ''}
+    />
   );
+}
+
+/** Câu đọc cho kết quả - cùng nội dung với thẻ kết quả bên dưới. */
+function spokenResult(
+  direction: ConversionDirection,
+  result: ConversionResult,
+): string | null {
+  switch (result.status) {
+    case 'incomplete':
+      return null;
+    case 'invalid':
+      return result.message;
+    case 'ok':
+      return direction === 'solarToLunar'
+        ? `Âm lịch: ${spokenLunarDate(result.lunar)}, năm ${formatCanChi(
+            yearCanChi(result.lunar.year),
+          )} ${result.lunar.year}`
+        : `Dương lịch: ${spokenSolarDate(
+            result.solar,
+            weekdayOf(toJulianDay(result.solar)),
+          )}`;
+  }
 }
 
 interface ResultProps {
   readonly solar: SolarDate;
   readonly onOpenDay: (date: SolarDate) => void;
+  readonly spoken: string;
 }
 
 function LunarResult({
   lunar,
   solar,
   onOpenDay,
+  spoken,
 }: ResultProps & { readonly lunar: LunarDate }) {
   return (
     <ResultCard
       solar={solar}
       onOpenDay={onOpenDay}
+      spoken={spoken}
       label="Âm lịch"
       primary={`${lunar.day} ${lunarMonthName(lunar.month, lunar.isLeapMonth)}`}
       secondary={`Năm ${formatCanChi(yearCanChi(lunar.year))} (${lunar.year})`}
@@ -72,12 +106,13 @@ function LunarResult({
   );
 }
 
-function SolarResult({ solar, onOpenDay }: ResultProps) {
+function SolarResult({ solar, onOpenDay, spoken }: ResultProps) {
   const weekday = useMemo(() => weekdayOf(toJulianDay(solar)), [solar]);
   return (
     <ResultCard
       solar={solar}
       onOpenDay={onOpenDay}
+      spoken={spoken}
       label="Dương lịch"
       primary={formatSolar(solar)}
       secondary={weekdayName(weekday)}
@@ -88,6 +123,7 @@ function SolarResult({ solar, onOpenDay }: ResultProps) {
 function ResultCard({
   solar,
   onOpenDay,
+  spoken,
   label,
   primary,
   secondary,
@@ -99,17 +135,22 @@ function ResultCard({
   const styles = useStyles();
   return (
     <Card title={label}>
-      <AppText
-        variant="title"
-        color="lunarAccent"
+      {/* Đọc gộp một câu đầy đủ thay vì "9 tháng Chín" rồi "Năm Bính Ngọ (2026)". */}
+      <View
+        style={styles.result}
+        accessible
+        accessibilityLabel={spoken}
         accessibilityLiveRegion="polite"
       >
-        {primary}
-      </AppText>
-      <AppText color="textMuted">{secondary}</AppText>
+        <AppText variant="title" color="lunarAccent">
+          {primary}
+        </AppText>
+        <AppText color="textMuted">{secondary}</AppText>
+      </View>
       <Pressable
         onPress={() => onOpenDay(solar)}
         accessibilityRole="button"
+        accessibilityHint={SPOKEN.hint.openDay}
         style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       >
         <AppText variant="label" color="primary">
@@ -121,6 +162,10 @@ function ResultCard({
 }
 
 const useStyles = createThemedStyles(t => ({
+  // Giữ khoảng cách cũ giữa hai dòng (bằng gap của Card).
+  result: {
+    gap: t.spacing.sm,
+  },
   button: {
     alignSelf: 'flex-start',
     marginTop: t.spacing.xs,
