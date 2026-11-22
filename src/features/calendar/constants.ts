@@ -21,8 +21,10 @@ const CELL_ASPECT_RATIO = 1.05;
 
 /** Hàng chấm (5) + khoảng cách phía trên (2) trong ô ngày - xem DayCell. */
 const CELL_DOTS_HEIGHT = 7;
-/** Khoảng hở tối thiểu trên + dưới để chữ không chạm mép ô "hôm nay". */
-const CELL_MIN_PADDING = 6;
+/** Khoảng hở tối thiểu trên + dưới trong ô. */
+const CELL_MIN_PADDING = 8;
+/** Vòng tròn đánh dấu hôm nay quanh số ngày dương - xem DayCell. */
+export const TODAY_CIRCLE = 34;
 
 /**
  * Chiều cao ô ngày: theo tỉ lệ chiều rộng, nhưng không thấp hơn phần chữ bên trong.
@@ -31,8 +33,13 @@ const CELL_MIN_PADDING = 6;
  */
 export function cellHeightFor(width: number, fontScale: number): number {
   const scale = Math.min(Math.max(fontScale, 1), fontScaleLimit.compact);
+  const solarLine = Math.max(
+    TODAY_CIRCLE,
+    (typography.body.lineHeight ?? 0) * scale,
+  );
   const content =
-    (typography.heading.lineHeight + typography.caption.lineHeight) * scale +
+    solarLine +
+    (typography.caption.lineHeight ?? 0) * scale +
     CELL_DOTS_HEIGHT +
     CELL_MIN_PADDING;
   return Math.ceil(Math.max((width / 7) * CELL_ASPECT_RATIO, content));

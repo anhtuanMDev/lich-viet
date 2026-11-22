@@ -17,7 +17,7 @@ export async function widgetTaskHandler({
     case 'WIDGET_RESIZED': {
       const [today] = currentSnapshot(1).days;
       if (today) {
-        renderWidget(renderTodayWidget(today, widgetInfo.width));
+        renderWidget(renderTodayWidget(today, widgetInfo));
       }
       return;
     }

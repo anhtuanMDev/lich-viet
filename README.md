@@ -39,8 +39,8 @@ src/
 │  ├─ widget/        # widget Android (JSX), đẩy dữ liệu cho widget iOS, thẻ cài đặt widget
 │  └─ settings/
 └─ shared/
-   ├─ theme/         # tokens sáng/tối, createThemedStyles, ThemeMode
-   ├─ ui/            # AppText, Card, Button, TextField, SegmentedControl…
+   ├─ theme/         # tokens sáng/tối theo từng nền tảng (iOS / Material 3), createThemedStyles
+   ├─ ui/            # AppText, Section/ListRow, Button, TextField, SegmentedControl, Toggle, Moon, Icon…
    ├─ date-input/    # ô nhập ngày/tháng/năm + kiểm tra hợp lệ (dùng chung Đổi ngày & Sự kiện)
    ├─ storage/       # MMKV + persistent store có phiên bản schema
    └─ hooks/
@@ -89,6 +89,7 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 - `core/widget/snapshot.ts` tạo dữ liệu hiển thị (chuỗi đã định dạng) - **đổi cấu trúc thì tăng `WIDGET_SNAPSHOT_VERSION` và sửa `ios/LichVietWidget/LichVietWidget.swift` cho khớp**.
 - **Android** (`react-native-android-widget`): widget vẽ bằng JSX (`features/widget/android/TodayWidget.tsx`), chạy headless qua `widgetTaskHandler` (đăng ký ở `index.js`), tự cập nhật mỗi 30 phút. Native: `android/.../widget/Today.java`, receiver trong `AndroidManifest.xml`, `res/xml/widgetprovider_today.xml`. Kéo rộng ≥ 250dp hiện cột "Sắp tới".
 - **iOS** (WidgetKit, target `LichVietWidget`): app ghi snapshot 60 ngày vào App Group `group.com.lichviet.app` qua native module `WidgetBridge`; widget SwiftUI chỉ đọc và tự sang ngày mới lúc 0h giờ Việt Nam. Hết dữ liệu → widget nhắc mở app. Cỡ nhỏ và vừa.
+- Giao diện hai bên giống nhau: trăng đúng pha ở góc trên, dưới cùng là ngày âm ("Mùng 3 tháng Mười", "Rằm…"), ngày dương, ngày lễ / sự kiện hôm nay; cỡ vừa thêm danh sách "Sắp tới" (hoặc can chi khi không có sự kiện). Pha trăng không nằm trong snapshot: Android gọi `moonPhaseOf`, iOS dùng bản Swift của `newMoonMoment` trong `LichVietWidget.swift` - **sửa công thức ở `core/lunar/astronomy.ts` thì sửa cả bản Swift**.
 - `app/background/syncAll.ts` cập nhật lịch nhắc + widget: khi mở/quay lại app, khi dữ liệu đổi, và chạy nền ~12 giờ/lần.
 - **Cần làm khi ký app thật**: bật App Groups (`group.com.lichviet.app`) cho cả `com.lichviet.app` và `com.lichviet.app.widget` trong Apple Developer, chọn Team cho cả hai target.
 
@@ -107,10 +108,12 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 
 ## Icon
 
-- **Icon app** dùng ảnh thiết kế, nguồn ở `assets/logo/` (`background.png`, `foreground.png`):
-  - Android: Android Studio → New → Image Asset (Launcher Icons, Adaptive) với hai lớp trên → `mipmap-*/ic_launcher*.webp`, `mipmap-anydpi-v26/ic_launcher*.xml`, `src/main/ic_launcher-playstore.png` (chép sang `docs/store/assets/play-icon-512.png` cho Play).
-  - iOS: `ios/LichViet/Images.xcassets/AppIcon.appiconset` (đủ các cỡ). **PNG không được có kênh alpha** - App Store từ chối; kiểm tra bằng `sips -g hasAlpha`.
-- `scripts/generate-icons.js` chỉ còn sinh icon thông báo `ic_notification` (trắng đơn sắc), màu nhấn thông báo và ảnh nổi bật Google Play (`docs/store/assets/feature-graphic-1024x500.png`). Script **không** đụng tới icon app.
+- **Icon app**: mặt trăng đúng pha (khoảng mùng 10, trăng gần tròn) trên nền đỏ son - cùng dấu hiệu mặt trăng trong app. Phẳng, không chữ, không chuyển màu. Vẽ bằng hình học trong `scripts/generate-app-icon.js` (SVG → PNG qua `@resvg/resvg-js`); sửa hằng số màu / pha / bán kính ở đầu script rồi chạy `node scripts/generate-app-icon.js` (Node 22+) và commit kết quả. Script ghi:
+  - iOS: mọi ảnh liệt kê trong `AppIcon.appiconset/Contents.json` (iOS, mac, watchOS). **PNG không được có kênh alpha** - App Store từ chối; script ghi PNG RGB, kiểm tra lại bằng `sips -g hasAlpha`.
+  - Android: adaptive icon dạng vector - nền là màu `ic_launcher_background` (`values/ic_launcher_background.xml`), lớp trước `drawable/ic_launcher_foreground.xml`, lớp đơn sắc `drawable/ic_launcher_monochrome.xml` cho themed icon (Android 13+), khai báo ở `mipmap-anydpi-v26/ic_launcher{,_round}.xml`. Hình nằm trong vùng an toàn (vòng tròn bán kính 33 trong khung 108). PNG dự phòng cho API < 26: `mipmap-{m,h,xh,xxh,xxxh}dpi/ic_launcher{,_round}.png`.
+  - Google Play: `android/app/src/main/ic_launcher-playstore.png` và `docs/store/assets/play-icon-512.png` (512×512, PNG 24-bit không alpha) - tải bản này lên trang thông tin Play khi đổi icon.
+- `assets/logo/` là ảnh thiết kế của icon cũ (lịch đỏ, chùa, hoa mai) - không còn dùng.
+- `scripts/generate-icons.js` chỉ sinh icon thông báo `ic_notification` (trắng đơn sắc), màu nhấn thông báo (`values/notification_accent.xml`) và ảnh nổi bật Google Play (`docs/store/assets/feature-graphic-1024x500.png`). Script **không** đụng tới icon app.
 
 ## Phát hành
 
@@ -137,6 +140,9 @@ Hướng phụ thuộc: `app → features → shared → core`. `core` không ph
 
 - TypeScript strict + `noUncheckedIndexedAccess`; kiểu "đóng dấu" `JulianDay` để không truyền nhầm số bất kỳ.
 - Style: `createThemedStyles(theme => ({...}))` ở cuối file component; không dùng inline style (ESLint báo lỗi).
+- Giao diện theo từng hệ điều hành: iOS dùng màu và cỡ chữ hệ thống của Apple, Android dùng vai màu / vai chữ Material 3 (`shared/theme/tokens.ts` chọn theo `Platform.OS`). Không dùng thẻ (card): nội dung đặt thẳng trên nền bằng `Section` + `ListRow` (`shared/ui/List.tsx`). Xem `DESIGN.md`.
+- Điều hướng: thanh tab native (`@react-navigation/bottom-tabs/unstable`: SF Symbols trên iOS, ảnh `src/app/navigation/icons/` trên Android - sinh bằng `node scripts/generate-tab-icons.js`); mỗi tab là một native stack để iOS có tiêu đề lớn và nút SF Symbols trên thanh tiêu đề.
+- Icon trong app: PNG từ Material Symbols (Apache 2.0) tô màu theo theme, sinh bằng `node scripts/generate-ui-icons.js` từ `shared/ui/iconPaths.ts` (Node 22.12+). Mặt trăng vẽ bằng View (`shared/ui/Moon.tsx`), nên không cần thêm thư viện native như react-native-svg.
 - `memo` chỉ dùng cho component nằm trên đường render nóng (ô lịch, lưới tháng, header), đặt tên hàm `XxxView`: `export const DayCell = memo(function DayCellView(...) {...})`. Component lá đơn giản dùng `function` thường.
 - Logic tính toán đặt ở file `.ts` thuần (VD `shared/date-input/dateInput.ts`, `features/events/eventForm.ts`) và có test; hook chỉ nối logic với React state.
 - Tham số điều hướng là dữ liệu thuần (VD `SolarDate`) để có thể serialize.

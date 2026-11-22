@@ -61,6 +61,21 @@ export const formatLunarShort = ({
   isLeapMonth,
 }: LunarDate): string => `${day}/${month}${isLeapMonth ? ' nhuận' : ''}`;
 
+/** "Mùng 5 tháng Giêng", "Rằm tháng Bảy", "20 tháng Chạp nhuận" - cách người Việt gọi ngày âm. */
+export function lunarDayTitle({ day, month, isLeapMonth }: LunarDate): string {
+  const monthPart = lunarMonthName(month, isLeapMonth);
+  if (day === 15) {
+    return `Rằm ${monthPart}`;
+  }
+  return day <= 10 ? `Mùng ${day} ${monthPart}` : `${day} ${monthPart}`;
+}
+
+/** "Chủ nhật, 22 tháng 11, 2026" */
+export const solarDayTitle = (
+  { day, month, year }: SolarDate,
+  weekday: Weekday,
+): string => `${WEEKDAY_NAMES[weekday]}, ${day} tháng ${month}, ${year}`;
+
 /** "tháng Chạp nhuận" */
 export const lunarMonthName = (
   month: MonthNumber,

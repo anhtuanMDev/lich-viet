@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, ScrollView, useWindowDimensions } from 'react-native';
+import { FlatList, ScrollView, View, useWindowDimensions } from 'react-native';
 import type { ListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { spokenMonth } from '@core/a11y';
@@ -8,8 +8,8 @@ import { useEvents } from '@features/events';
 import { useSettings } from '@features/settings';
 import { useAnnounce } from '@shared/a11y';
 import { useToday } from '@shared/hooks/useToday';
-import { createThemedStyles } from '@shared/theme';
-import { Screen } from '@shared/ui';
+import { createThemedStyles, layout } from '@shared/theme';
+import { Screen, useTabBarSpace } from '@shared/ui';
 import { MonthAgenda } from './components/MonthAgenda';
 import { MonthGrid } from './components/MonthGrid';
 import { MonthHeader } from './components/MonthHeader';
@@ -29,6 +29,8 @@ const MONTH_INDICES: readonly number[] = Array.from(
   (_, i) => i,
 );
 const keyExtractor = (index: number) => String(index);
+/** Khoảng trống cuối danh sách "Trong tháng" (dp). */
+const END_SPACE = 32;
 
 export function CalendarScreen() {
   const styles = useStyles();
@@ -36,8 +38,11 @@ export function CalendarScreen() {
   const today = useToday();
   const events = useEvents();
   const { weekStart } = useSettings();
-  const { width, fontScale } = useWindowDimensions();
+  const { width: windowWidth, fontScale } = useWindowDimensions();
+  // Màn rộng (iPad, tablet): cột lịch có bề rộng tối đa và căn giữa để ô gần vuông.
+  const width = Math.min(windowWidth, layout.calendarWidth);
   const cellHeight = cellHeightFor(width, fontScale);
+  const tabBarSpace = useTabBarSpace();
 
   const pager = useMonthPager(today, width);
   const visibleMonth = monthAtIndex(pager.index);
@@ -93,45 +98,56 @@ export function CalendarScreen() {
   );
 
   return (
-    <Screen scroll={false}>
-      <MonthHeader
-        month={visibleMonth}
-        lunarSubtitle={subtitle}
-        showTodayButton={pager.index !== todayIndex}
-        onPrev={pager.goPrev}
-        onNext={pager.goNext}
-        onToday={goToday}
-        onPressTitle={openPicker}
-      />
-      <WeekdayHeader weekStart={weekStart} />
-      <FlatList
-        ref={pager.listRef}
-        data={MONTH_INDICES}
-        renderItem={renderMonth}
-        keyExtractor={keyExtractor}
-        getItemLayout={pager.getItemLayout}
-        initialScrollIndex={pager.initialIndex}
-        onMomentumScrollEnd={pager.onMomentumScrollEnd}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        // Chỉ giữ tháng hiện tại và hai tháng kề bên trong bộ nhớ.
-        windowSize={3}
-        initialNumToRender={1}
-        maxToRenderPerBatch={1}
-        // renderItem đổi khi tuần/sự kiện/hôm nay đổi; extraData buộc FlatList vẽ lại.
-        extraData={renderMonth}
-        style={[styles.pager, { height: cellHeight * 6 }]}
-      />
-      <ScrollView style={styles.agenda} contentContainerStyle={styles.below}>
-        <MonthAgenda
-          year={visibleMonth.year}
-          month={visibleMonth.month}
-          weekStart={weekStart}
-          events={events}
-          onPressDay={openDay}
+    // Màn này tự vẽ tiêu đề (tháng bấm được), nên tự chừa vùng an toàn phía trên.
+    <Screen scroll={false} edges={['top', 'left', 'right']}>
+      <View style={[styles.column, { width }]}>
+        <MonthHeader
+          month={visibleMonth}
+          lunarSubtitle={subtitle}
+          showTodayButton={pager.index !== todayIndex}
+          onPrev={pager.goPrev}
+          onNext={pager.goNext}
+          onToday={goToday}
+          onPressTitle={openPicker}
         />
-      </ScrollView>
+        <WeekdayHeader weekStart={weekStart} />
+        <FlatList
+          ref={pager.listRef}
+          data={MONTH_INDICES}
+          renderItem={renderMonth}
+          keyExtractor={keyExtractor}
+          getItemLayout={pager.getItemLayout}
+          initialScrollIndex={pager.initialIndex}
+          onMomentumScrollEnd={pager.onMomentumScrollEnd}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          // Chỉ giữ tháng hiện tại và hai tháng kề bên trong bộ nhớ.
+          windowSize={3}
+          initialNumToRender={1}
+          maxToRenderPerBatch={1}
+          // renderItem đổi khi tuần/sự kiện/hôm nay đổi; extraData buộc FlatList vẽ lại.
+          extraData={renderMonth}
+          // +1: hàng cuối không bị cắt mất đường kẻ mảnh làm tròn.
+          style={[styles.pager, { height: cellHeight * 6 + 1 }]}
+        />
+        <ScrollView
+          style={styles.agenda}
+          contentContainerStyle={[
+            styles.below,
+            tabBarSpace > 0 && { paddingBottom: tabBarSpace + END_SPACE },
+          ]}
+          contentInsetAdjustmentBehavior="automatic"
+        >
+          <MonthAgenda
+            year={visibleMonth.year}
+            month={visibleMonth.month}
+            weekStart={weekStart}
+            events={events}
+            onPressDay={openDay}
+          />
+        </ScrollView>
+      </View>
       <MonthPickerModal
         visible={pickerVisible}
         month={visibleMonth}
@@ -144,6 +160,10 @@ export function CalendarScreen() {
 }
 
 const useStyles = createThemedStyles(t => ({
+  column: {
+    flex: 1,
+    alignSelf: 'center',
+  },
   // ScrollView/FlatList mặc định flexShrink: 1 → danh sách sự kiện dài sẽ ép lưới lịch
   // thấp lại và đè lên hàng cuối. Lưới giữ cố định 6 hàng; phần sự kiện tự cuộn.
   pager: {
@@ -154,6 +174,6 @@ const useStyles = createThemedStyles(t => ({
     flex: 1,
   },
   below: {
-    padding: t.spacing.lg,
+    paddingBottom: t.spacing.xxl,
   },
 }));

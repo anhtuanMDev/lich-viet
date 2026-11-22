@@ -8,10 +8,10 @@ import { WidgetSettingsCard } from '@features/widget/WidgetSettingsCard';
 import { runInBackground } from '@shared/async/runInBackground';
 import type { ThemeMode } from '@shared/theme';
 import {
-  AppText,
-  Button,
-  Card,
+  ActionRow,
+  FieldGroup,
   Screen,
+  Section,
   SegmentedControl,
   SwitchRow,
 } from '@shared/ui';
@@ -60,50 +60,50 @@ export function SettingsScreen() {
   );
 
   return (
-    <Screen edges={[]}>
+    <Screen>
       <ReminderSettingsCard />
       <AndroidDeliveryCard />
       <WidgetSettingsCard />
       <BackupCard />
-      <Card title="Giao diện">
-        <SegmentedControl
-          options={THEME_OPTIONS}
-          value={settings.themeMode}
-          onChange={setThemeMode}
-        />
-      </Card>
-      <Card title="Tuần bắt đầu từ">
-        <SegmentedControl
-          options={WEEK_START_OPTIONS}
-          value={settings.weekStart === 1 ? 'monday' : 'sunday'}
-          onChange={setWeekStart}
-        />
-      </Card>
-      <Card title="Báo cáo lỗi">
+      <Section title="Giao diện" separators={false}>
+        <FieldGroup>
+          <SegmentedControl
+            options={THEME_OPTIONS}
+            value={settings.themeMode}
+            onChange={setThemeMode}
+          />
+        </FieldGroup>
+      </Section>
+      <Section title="Tuần bắt đầu từ" separators={false}>
+        <FieldGroup>
+          <SegmentedControl
+            options={WEEK_START_OPTIONS}
+            value={settings.weekStart === 1 ? 'monday' : 'sunday'}
+            onChange={setWeekStart}
+          />
+        </FieldGroup>
+      </Section>
+      <Section
+        title="Báo cáo lỗi"
+        footer="Khi ứng dụng gặp lỗi, thông tin kỹ thuật (loại máy, phiên bản hệ điều hành, vị trí lỗi trong mã) được gửi ẩn danh qua Firebase Crashlytics để sửa lỗi. Không bao gồm sự kiện, ghi chú hay thông tin cá nhân của bạn."
+      >
         <SwitchRow
           label="Gửi báo cáo lỗi"
           value={settings.crashReports}
           onChange={setCrashReports}
         />
-        <AppText color="textMuted">
-          Khi ứng dụng gặp lỗi, thông tin kỹ thuật (loại máy, phiên bản hệ điều
-          hành, vị trí lỗi trong mã) được gửi ẩn danh qua Firebase Crashlytics
-          để sửa lỗi. Không bao gồm sự kiện, ghi chú hay thông tin cá nhân của
-          bạn.
-        </AppText>
-      </Card>
-      <Card title="Về ứng dụng">
-        <AppText color="textMuted">
-          Âm lịch tính theo giờ chuẩn Việt Nam (UTC+7), thuật toán của TS. Hồ
-          Ngọc Đức. Hỗ trợ từ năm 1900 đến 2100. Sự kiện và cài đặt chỉ nằm trên
-          máy và trong bản sao lưu của chính bạn (Google / iCloud).
-        </AppText>
-        <Button
+      </Section>
+      <Section
+        title="Về ứng dụng"
+        footer="Âm lịch tính theo giờ chuẩn Việt Nam (UTC+7), thuật toán của TS. Hồ Ngọc Đức. Hỗ trợ từ năm 1900 đến 2100. Sự kiện và cài đặt chỉ nằm trên máy và trong bản sao lưu của chính bạn (Google / iCloud)."
+      >
+        <ActionRow
           label="Chính sách quyền riêng tư"
-          variant="secondary"
+          materialIcon="open_in_new"
+          opensScreen
           onPress={openPrivacyPolicy}
         />
-      </Card>
+      </Section>
     </Screen>
   );
 }

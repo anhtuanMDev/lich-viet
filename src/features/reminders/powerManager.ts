@@ -15,7 +15,8 @@ const COLOROS_BRANDS: ReadonlySet<string> = new Set([
 ]);
 
 export const isColorOsBrand = (manufacturer: string | null): boolean =>
-  manufacturer !== null && COLOROS_BRANDS.has(manufacturer.trim().toLowerCase());
+  manufacturer !== null &&
+  COLOROS_BRANDS.has(manufacturer.trim().toLowerCase());
 
 /**
  * - `appSettings`: mở Thông tin ứng dụng của Lịch Việt (luôn mở được).

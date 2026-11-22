@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=390">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:390px;height:844px;overflow:hidden;background:#fff;color:#000;font-family:-apple-system,"SF Pro Text",system-ui,sans-serif;position:relative}
+.status{height:47px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 8px 34px;font-weight:600;font-size:16px}
+.nav{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;color:#FF3B30;font-size:17px}
+h1{font-size:34px;line-height:41px;font-weight:700;padding:0 16px 2px}
+.sub{padding:0 16px 10px;color:#8E8E93;font-size:15px}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);font-size:12px;color:#8E8E93;text-align:center;padding:4px 8px;border-bottom:.5px solid #C6C6C8}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 8px}
+.c{height:54px;border-bottom:.5px solid #E5E5EA;display:flex;flex-direction:column;align-items:center;padding-top:6px;gap:1px}
+.c b{font-weight:400;font-size:19px;width:32px;height:32px;line-height:32px;text-align:center;border-radius:50%}
+.c small{font-size:10px;color:#8E8E93}
+.c.out b{color:#C7C7CC}
+.c.sun b{color:#8E8E93}
+.c.today b{background:#FF3B30;color:#fff;font-weight:600}
+.c.dot::after{content:"";width:5px;height:5px;border-radius:50%;background:#8E8E93;margin-top:1px}
+.list{border-top:.5px solid #C6C6C8;margin-top:6px}
+.ev{display:flex;gap:10px;padding:10px 16px;border-bottom:.5px solid #E5E5EA;font-size:16px}
+.ev i{width:4px;border-radius:2px;background:#FF3B30}
+.ev small{display:block;color:#8E8E93;font-size:13px}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:83px;background:#F9F9F9;border-top:.5px solid #C6C6C8;display:flex;padding-top:7px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#8E8E93}
+.tab i{width:24px;height:24px;border:1.6px solid currentColor;border-radius:5px}
+.tab.on{color:#FF3B30}
+</style></head><body>
+<div class="status"><span>9:41</span><span>●●● ▮</span></div>
+<div class="nav"><span>‹ 2026</span><span>Hôm nay</span></div>
+<h1>Tháng 11</h1>
+<p class="sub">Tháng 9 - 10 năm Bính Ngọ</p>
+<div class="wk"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div>
+<div class="grid">
+<div class="c out"><b>26</b><small>17/9</small></div><div class="c out"><b>27</b><small>18</small></div><div class="c out"><b>28</b><small>19</small></div><div class="c out"><b>29</b><small>20</small></div><div class="c out"><b>30</b><small>21</small></div><div class="c out"><b>31</b><small>22</small></div><div class="c sun"><b>1</b><small>23</small></div>
+<div class="c"><b>2</b><small>24</small></div><div class="c"><b>3</b><small>25</small></div><div class="c"><b>4</b><small>26</small></div><div class="c"><b>5</b><small>27</small></div><div class="c"><b>6</b><small>28</small></div><div class="c"><b>7</b><small>29</small></div><div class="c sun"><b>8</b><small>30</small></div>
+<div class="c"><b>9</b><small>1/10</small></div><div class="c"><b>10</b><small>2</small></div><div class="c"><b>11</b><small>3</small></div><div class="c"><b>12</b><small>4</small></div><div class="c"><b>13</b><small>5</small></div><div class="c"><b>14</b><small>6</small></div><div class="c sun"><b>15</b><small>7</small></div>
+<div class="c"><b>16</b><small>8</small></div><div class="c"><b>17</b><small>9</small></div><div class="c dot"><b>18</b><small>10</small></div><div class="c"><b>19</b><small>11</small></div><div class="c dot"><b>20</b><small>12</small></div><div class="c"><b>21</b><small>13</small></div><div class="c today"><b>22</b><small>14</small></div>
+<div class="c"><b>23</b><small>15</small></div><div class="c"><b>24</b><small>16</small></div><div class="c"><b>25</b><small>17</small></div><div class="c"><b>26</b><small>18</small></div><div class="c"><b>27</b><small>19</small></div><div class="c dot"><b>28</b><small>20</small></div><div class="c sun"><b>29</b><small>21</small></div>
+</div>
+<div class="list">
+  <div class="ev"><i></i><div>Chủ nhật, 14 tháng Mười<small>Bắt đầu tiết Tiểu tuyết · Hắc đạo</small></div></div>
+  <div class="ev"><i style="background:#007AFF"></i><div>Giỗ ông nội<small>Thứ Bảy 28/11 · còn 6 ngày</small></div></div>
+</div>
+<nav class="tabs">
+  <div class="tab on"><i></i>Hôm nay</div><div class="tab"><i></i>Lịch</div><div class="tab"><i></i>Sự kiện</div><div class="tab"><i></i>Đổi ngày</div>
+</nav>
+</body></html>

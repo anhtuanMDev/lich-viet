@@ -1,28 +1,38 @@
-import { useCallback, useRef, useState } from 'react';
-import { Alert, View } from 'react-native';
-import type { RootStackScreenProps } from '@app/navigation/types';
-import type { EventCalendar, EventRepeat, ReminderOffset } from '@core/events';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { Alert, Platform, View } from 'react-native';
+
 import { ensureNotificationPermission } from '@features/reminders/permission';
 import { useSettings } from '@features/settings';
+import { runInBackground } from '@shared/async/runInBackground';
 import { DateInputRow, LeapMonthSwitch } from '@shared/date-input';
 import { useToday } from '@shared/hooks/useToday';
-import { createThemedStyles } from '@shared/theme';
+import { createThemedStyles, useTheme } from '@shared/theme';
 import {
+  ActionRow,
   AppText,
   Button,
-  Card,
+  FieldGroup,
+  HeaderIconButton,
   Screen,
+  Section,
   SegmentedControl,
   SwitchRow,
   TextField,
   formatTime,
 } from '@shared/ui';
-import type { SegmentOption } from '@shared/ui';
+
 import { DatePreview } from './components/DatePreview';
 import { TITLE_MAX_LENGTH } from './eventForm';
 import { eventRepository } from './eventRepository';
 import { useEventForm } from './hooks/useEventForm';
-import { runInBackground } from '@shared/async/runInBackground';
+
+import type {
+  RootStackParamList,
+  RootStackScreenProps,
+} from '@app/navigation/types';
+import type { EventCalendar, EventRepeat, ReminderOffset } from '@core/events';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { SegmentOption } from '@shared/ui';
 
 const CALENDAR_OPTIONS: readonly SegmentOption<EventCalendar>[] = [
   { value: 'lunar', label: 'Âm lịch' },
@@ -68,10 +78,10 @@ export function EventEditScreen({
   if (eventId !== undefined && event === undefined) {
     return (
       <Screen edges={['left', 'right', 'bottom']}>
-        <Card>
+        <FieldGroup>
           <AppText>Sự kiện này không còn tồn tại.</AppText>
-        </Card>
-        <Button label="Đóng" variant="secondary" onPress={close} />
+          <Button label="Đóng" variant="tonal" onPress={close} />
+        </FieldGroup>
       </Screen>
     );
   }
@@ -79,6 +89,7 @@ export function EventEditScreen({
   return (
     <EventForm
       key={eventId ?? 'new'}
+      navigation={navigation}
       eventId={eventId}
       source={{ event, date: route.params?.date ?? today }}
       onDone={close}
@@ -86,14 +97,31 @@ export function EventEditScreen({
   );
 }
 
+/** Nút trên thanh tiêu đề Android: đóng (X) bên trái, "Lưu" bên phải. */
+const renderAndroidClose = (onPress: () => void) =>
+  function HeaderClose() {
+    return <HeaderIconButton icon="close" label="Huỷ" onPress={onPress} />;
+  };
+const renderAndroidSave = (onPress: () => void) =>
+  function HeaderSave() {
+    return (
+      <Button label="Lưu" variant="plain" size="small" onPress={onPress} />
+    );
+  };
+
 interface EventFormProps {
+  readonly navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    'EventEdit'
+  >;
   readonly eventId: string | undefined;
   readonly source: Parameters<typeof useEventForm>[0];
   readonly onDone: () => void;
 }
 
-function EventForm({ eventId, source, onDone }: EventFormProps) {
+function EventForm({ navigation, eventId, source, onDone }: EventFormProps) {
   const styles = useStyles();
+  const theme = useTheme();
   const form = useEventForm(source);
   const { state, validation, markSubmitted, setReminder } = form;
 
@@ -148,9 +176,34 @@ function EventForm({ eventId, source, onDone }: EventFormProps) {
     ]);
   }, [eventId, onDone, state.title]);
 
+  // Huỷ / Lưu trên thanh tiêu đề như form native: iOS nút chữ, Android nút đóng (X) + "Lưu".
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Platform.OS === 'ios'
+        ? {
+            unstable_headerLeftItems: () => [
+              { type: 'button', label: 'Huỷ', onPress: onDone },
+            ],
+            unstable_headerRightItems: () => [
+              {
+                type: 'button',
+                label: 'Lưu',
+                variant: 'prominent',
+                tintColor: theme.colors.primary,
+                onPress: save,
+              },
+            ],
+          }
+        : {
+            headerLeft: renderAndroidClose(onDone),
+            headerRight: renderAndroidSave(save),
+          },
+    );
+  }, [navigation, onDone, save, theme.colors.primary]);
+
   return (
     <Screen edges={['left', 'right', 'bottom']}>
-      <Card>
+      <FieldGroup>
         <TextField
           label="Tên sự kiện"
           value={state.title}
@@ -160,25 +213,29 @@ function EventForm({ eventId, source, onDone }: EventFormProps) {
           returnKeyType="done"
           error={form.titleError}
         />
-      </Card>
+      </FieldGroup>
 
-      <Card title="Ngày">
-        <SegmentedControl
-          options={CALENDAR_OPTIONS}
-          value={state.calendar}
-          onChange={form.setCalendar}
-        />
-        <DateInputRow
-          day={state.day}
-          month={state.month}
-          year={state.year}
-          invalidField={
-            validation.date.status === 'invalid' ? validation.date.field : null
-          }
-          onChangeDay={form.setDay}
-          onChangeMonth={form.setMonth}
-          onChangeYear={form.setYear}
-        />
+      <Section title="Ngày" separators={false}>
+        <FieldGroup>
+          <SegmentedControl
+            options={CALENDAR_OPTIONS}
+            value={state.calendar}
+            onChange={form.setCalendar}
+          />
+          <DateInputRow
+            day={state.day}
+            month={state.month}
+            year={state.year}
+            invalidField={
+              validation.date.status === 'invalid'
+                ? validation.date.field
+                : null
+            }
+            onChangeDay={form.setDay}
+            onChangeMonth={form.setMonth}
+            onChangeYear={form.setYear}
+          />
+        </FieldGroup>
         {form.canChooseLeap ? (
           <LeapMonthSwitch
             month={state.month}
@@ -186,70 +243,82 @@ function EventForm({ eventId, source, onDone }: EventFormProps) {
             onChange={form.setLeap}
           />
         ) : null}
-        <DatePreview calendar={state.calendar} result={validation.date} />
-      </Card>
+        <FieldGroup>
+          <DatePreview calendar={state.calendar} result={validation.date} />
+        </FieldGroup>
+      </Section>
 
-      <Card title="Lặp lại">
-        <SegmentedControl
-          options={REPEAT_OPTIONS}
-          value={state.repeat}
-          onChange={form.setRepeat}
-        />
-        {state.repeat === 'yearly' && state.calendar === 'lunar' ? (
-          <AppText variant="label" color="textMuted">
-            Ngày ở tháng nhuận sẽ được tính theo tháng thường các năm sau; ngày
-            30 gặp tháng thiếu sẽ tính vào ngày 29.
-          </AppText>
-        ) : null}
-      </Card>
+      <Section
+        title="Lặp lại"
+        separators={false}
+        footer={
+          state.repeat === 'yearly' && state.calendar === 'lunar'
+            ? 'Ngày ở tháng nhuận được tính theo tháng thường các năm sau; ngày 30 gặp tháng thiếu tính vào ngày 29.'
+            : undefined
+        }
+      >
+        <FieldGroup>
+          <SegmentedControl
+            options={REPEAT_OPTIONS}
+            value={state.repeat}
+            onChange={form.setRepeat}
+          />
+        </FieldGroup>
+      </Section>
 
-      <Card title="Nhắc lịch">
+      <Section
+        title="Nhắc lịch"
+        separators={false}
+        footer={
+          state.remindDaysBefore !== null
+            ? reminderHint(state.remindDaysBefore, reminderTime)
+            : undefined
+        }
+      >
         <SwitchRow
           label="Gửi thông báo nhắc"
           value={state.remindDaysBefore !== null}
           onChange={toggleReminder}
         />
         {state.remindDaysBefore !== null ? (
-          <>
+          <FieldGroup>
             <SegmentedControl
               options={REMINDER_OPTIONS}
               value={String(state.remindDaysBefore) as ReminderOption}
               onChange={changeReminder}
             />
-            <AppText variant="label" color="textMuted">
-              {reminderHint(state.remindDaysBefore, reminderTime)}
-            </AppText>
-          </>
+          </FieldGroup>
         ) : null}
-      </Card>
+      </Section>
 
-      <Card>
-        <TextField
-          label="Ghi chú"
-          value={state.note}
-          onChangeText={form.setNote}
-          placeholder="Không bắt buộc"
-          multiline
-        />
-      </Card>
+      <Section separators={false}>
+        <FieldGroup>
+          <TextField
+            label="Ghi chú"
+            value={state.note}
+            onChangeText={form.setNote}
+            placeholder="Không bắt buộc"
+            multiline
+          />
+        </FieldGroup>
+      </Section>
 
-      <View style={styles.actions}>
-        <Button label="Lưu" onPress={save} />
-        {eventId !== undefined ? (
-          <Button
+      {eventId !== undefined ? (
+        // Tách xa các ô nhập để không bấm nhầm.
+        <View style={styles.danger}>
+          <ActionRow
             label="Xoá sự kiện"
-            variant="danger"
+            tone="danger"
             onPress={confirmDelete}
           />
-        ) : null}
-      </View>
+        </View>
+      ) : null}
     </Screen>
   );
 }
 
 const useStyles = createThemedStyles(t => ({
-  actions: {
-    gap: t.spacing.sm,
-    marginTop: t.spacing.sm,
+  danger: {
+    marginTop: t.spacing.xxl,
   },
 }));

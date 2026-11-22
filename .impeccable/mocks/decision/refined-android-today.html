@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=390">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#B02A20;--onSurface:#1D1B1B;--variant:#534341;--outline:#857371;--surface:#FFF8F7;--container:#F7EAE8;--containerHigh:#F1E4E2;--pc:#FFDAD5;--onPc:#410001;--sc:#F2DEDB;--moon:#E2A23B;--event:#2F6FDB}
+body{width:390px;height:844px;overflow:hidden;background:var(--surface);font-family:Roboto,system-ui,sans-serif;color:var(--onSurface);position:relative}
+.status{height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:14px;font-weight:500}
+.bar{height:64px;display:flex;align-items:center;justify-content:flex-end;padding:0 8px}
+.bar span{width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+h1{font-size:32px;line-height:40px;font-weight:400;padding:0 16px 14px}
+.head{display:flex;gap:16px;align-items:center;padding:0 16px 8px}
+.head .t{font-size:22px;line-height:28px;font-weight:500}
+.head .s{font-size:14px;color:var(--variant);margin-top:2px;letter-spacing:.25px}
+.sh{padding:20px 16px 4px;font-size:14px;font-weight:500;color:var(--primary);letter-spacing:.1px}
+.group{margin:0}
+.r{display:flex;align-items:center;gap:16px;min-height:56px;padding:8px 16px;font-size:16px;letter-spacing:.5px}
+.r .v{margin-left:auto;color:var(--variant);font-size:14px}
+.r .sub{display:block;font-size:14px;color:var(--variant);letter-spacing:.25px}
+.badge{font-size:12px;font-weight:500;background:var(--pc);color:var(--onPc);border-radius:8px;padding:4px 8px}
+.ic{width:24px;display:flex;justify-content:center;flex:none}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--event)}
+.strip{padding:8px 16px 4px}
+.hb{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;height:8px;position:relative}
+.hb i{border-radius:4px;background:#E6D6D3}
+.hb i.on{background:var(--primary)}
+.lab{display:grid;grid-template-columns:repeat(12,1fr);margin-top:8px;font-size:11px;color:var(--outline);text-align:center}
+.lab .on{color:var(--onSurface);font-weight:500}
+.fab{position:absolute;right:16px;bottom:96px;width:56px;height:56px;border-radius:16px;background:var(--pc);box-shadow:0 3px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center}
+.nav{position:absolute;left:0;right:0;bottom:0;height:80px;background:var(--containerHigh);display:flex;padding-top:12px}
+.it{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--variant)}
+.ind{width:64px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center}
+.it.on .ind{background:var(--sc)}
+.it.on{color:var(--onSurface)}
+.it i{width:22px;height:20px;border:2px solid currentColor;border-radius:4px}
+</style></head><body>
+<div class="status"><span>9:41</span><span>▾ ▮</span></div>
+<div class="bar"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#534341" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span></div>
+<h1>Hôm nay</h1>
+<div class="head">
+  <svg width="40" height="40" viewBox="-10 -10 20 20"><circle r="9" fill="#E2A23B"/><path d="M0,-9 A9,9 0 0 0 0,9 A8.3,9 0 0 1 0,-9Z" fill="#EFE0DD"/></svg>
+  <div><p class="t">14 tháng Mười</p><p class="s">Chủ nhật, 22 tháng 11, 2026</p></div>
+</div>
+<p class="sh">Sắp tới</p>
+<div class="group">
+  <div class="r"><span class="ic"><svg width="16" height="16" viewBox="-10 -10 20 20"><circle r="9" fill="#E2A23B"/></svg></span><span>Rằm tháng Mười<span class="sub">Thứ Hai 23/11</span></span><span class="v badge">Mai</span></div>
+  <div class="r"><span class="ic"><span class="dot"></span></span><span>Giỗ ông nội<span class="sub">20 tháng Mười · Thứ Bảy 28/11</span></span><span class="v">6 ngày</span></div>
+  <div class="r"><span class="ic"><svg width="16" height="16" viewBox="-10 -10 20 20"><circle r="8" fill="none" stroke="#857371" stroke-width="2"/></svg></span><span>Mùng 1 tháng Một<span class="sub">Thứ Tư 9/12</span></span><span class="v">17 ngày</span></div>
+</div>
+<p class="sh">Ngày Canh Tý</p>
+<div class="group">
+  <div class="r">Hắc đạo<span class="v">Bạch Hổ</span></div>
+  <div class="r">Tiết khí<span class="v">Tiểu tuyết · bắt đầu</span></div>
+</div>
+<p class="sh">Giờ hoàng đạo</p>
+<div class="group"><div class="strip">
+  <div class="hb"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i></i><i></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+  <div class="lab"><span class="on">Tý</span><span class="on">Sửu</span><span>Dần</span><span class="on">Mão</span><span>Thìn</span><span>Tỵ</span><span class="on">Ngọ</span><span>Mùi</span><span class="on">Thân</span><span class="on">Dậu</span><span>Tuất</span><span>Hợi</span></div>
+</div></div>
+<div class="fab"><svg width="24" height="24" viewBox="0 0 24 24" stroke="#410001" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+<nav class="nav"><div class="it on"><span class="ind"><i></i></span>Hôm nay</div><div class="it"><span class="ind"><i></i></span>Lịch</div><div class="it"><span class="ind"><i></i></span>Sự kiện</div><div class="it"><span class="ind"><i></i></span>Đổi ngày</div></nav>
+</body></html>

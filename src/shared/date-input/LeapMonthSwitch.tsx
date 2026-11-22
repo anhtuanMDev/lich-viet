@@ -1,6 +1,4 @@
-import { Switch, View } from 'react-native';
-import { createThemedStyles } from '@shared/theme';
-import { AppText, useSwitchColors } from '@shared/ui';
+import { SwitchRow } from '@shared/ui';
 
 export interface LeapMonthSwitchProps {
   readonly month: string;
@@ -8,33 +6,18 @@ export interface LeapMonthSwitchProps {
   readonly onChange: (value: boolean) => void;
 }
 
+/** Hàng công tắc "Tháng N nhuận" - chỉ hiện khi năm đó có tháng N nhuận. */
 export function LeapMonthSwitch({
   month,
   value,
   onChange,
 }: LeapMonthSwitchProps) {
-  const styles = useStyles();
-  const switchColors = useSwitchColors(value);
   return (
-    <View style={styles.row}>
-      <AppText style={styles.label}>Tháng {month} nhuận</AppText>
-      <Switch
-        value={value}
-        onValueChange={onChange}
-        {...switchColors}
-        accessibilityLabel={`Chọn tháng ${month} nhuận`}
-      />
-    </View>
+    <SwitchRow
+      label={`Tháng ${month} nhuận`}
+      value={value}
+      onChange={onChange}
+      accessibilityLabel={`Chọn tháng ${month} nhuận`}
+    />
   );
 }
-
-const useStyles = createThemedStyles(() => ({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  label: {
-    flex: 1,
-  },
-}));

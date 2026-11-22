@@ -43,7 +43,10 @@ function previewOf(
   };
 }
 
-/** Dòng "tương ứng" bên dưới ô nhập ngày - để người dùng chắc chắn đã chọn đúng ngày. */
+/**
+ * Dòng "tương ứng" bên dưới ô nhập ngày - để người dùng chắc chắn đã chọn đúng ngày. Ngày âm
+ * tô màu trăng, ngày dương chữ phụ, lỗi màu danger.
+ */
 export function DatePreview({
   calendar,
   result,
@@ -59,8 +62,14 @@ export function DatePreview({
   }
   return (
     <AppText
-      variant="label"
-      color={preview.invalid ? 'holiday' : 'lunarAccent'}
+      variant="footnote"
+      color={
+        preview.invalid
+          ? 'danger'
+          : calendar === 'solar'
+            ? 'lunarAccent'
+            : 'textMuted'
+      }
       accessibilityLabel={preview.spoken}
       accessibilityLiveRegion="polite"
     >

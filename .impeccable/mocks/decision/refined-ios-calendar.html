@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=390">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--tint:#C8281E;--label:#000;--sec:#6D6D72;--ter:#AEAEB2;--sep:#E0E0E4;--moon:#E2A23B;--event:#2F6FDB}
+body{width:390px;height:844px;overflow:hidden;background:#fff;font-family:-apple-system,"SF Pro Text",system-ui,sans-serif;color:var(--label);position:relative;-webkit-font-smoothing:antialiased}
+.status{height:54px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 32px 10px 40px;font-weight:600;font-size:17px}
+.nav{height:44px;display:flex;justify-content:flex-end;align-items:center;padding:0 12px;gap:8px}
+.pill{height:36px;padding:0 14px;border-radius:18px;background:#F2F2F7;display:flex;align-items:center;font-size:17px;color:var(--tint);font-weight:500}
+h1{font-size:34px;line-height:41px;font-weight:700;letter-spacing:.37px;padding:0 20px;display:flex;align-items:center;gap:6px}
+h1 svg{margin-top:4px}
+.sub{padding:2px 20px 12px;font-size:15px;color:var(--sec)}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);font-size:13px;color:var(--sec);text-align:center;padding:0 6px 6px}
+.wk span:last-child{color:var(--tint)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 6px;border-top:.33px solid var(--sep)}
+.c{height:58px;border-bottom:.33px solid var(--sep);display:flex;flex-direction:column;align-items:center;padding-top:5px}
+.c b{font-weight:400;font-size:19px;width:32px;height:32px;line-height:32px;text-align:center;border-radius:50%;font-variant-numeric:tabular-nums}
+.c small{font-size:10px;color:var(--ter);display:flex;align-items:center;gap:2px;height:12px}
+.c.out{opacity:.35}
+.c.sun b{color:var(--tint)}
+.c.today b{background:var(--tint);color:#fff;font-weight:600}
+.c.today small{color:var(--label)}
+.c .k{display:flex;gap:3px;height:6px;margin-top:2px}
+.e{width:5px;height:5px;border-radius:50%;background:var(--event)}
+.h{width:5px;height:5px;border-radius:50%;border:1.2px solid var(--tint)}
+.m{color:#B26A00 !important;font-weight:600}
+.list{margin-top:14px}
+.lh{padding:0 20px 6px;font-size:15px;font-weight:600}
+.row{display:flex;gap:14px;padding:10px 20px;align-items:center;position:relative}
+.row+.row::before{content:"";position:absolute;top:0;left:68px;right:0;height:.33px;background:var(--sep)}
+.d{width:34px;text-align:center}
+.d b{display:block;font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.d span{font-size:12px;color:var(--sec)}
+.row p{font-size:17px}
+.row p small{display:block;font-size:13px;color:var(--sec)}
+.row .k2{margin-left:auto}
+.tabs{position:absolute;left:16px;right:16px;bottom:26px;height:64px;border-radius:32px;background:rgba(250,250,252,.9);box-shadow:0 6px 24px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.06);display:flex;padding:4px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:600;color:#3C3C43;border-radius:28px}
+.tab.on{color:var(--tint);background:rgba(0,0,0,.05)}
+.tab i{width:24px;height:22px;border:1.7px solid currentColor;border-radius:5px}
+</style></head><body>
+<div class="status"><span>9:41</span><span>●●● ▮</span></div>
+<div class="nav"><span class="pill">Hôm nay</span></div>
+<h1>Tháng 11 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#C8281E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5l4 4 4-4"/></svg></h1>
+<p class="sub">2026 · tháng 9 - 10 năm Bính Ngọ</p>
+<div class="wk"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div>
+<div class="grid">
+<div class="c out"><b>26</b><small>17/9</small></div><div class="c out"><b>27</b><small>18</small></div><div class="c out"><b>28</b><small>19</small></div><div class="c out"><b>29</b><small>20</small></div><div class="c out"><b>30</b><small>21</small></div><div class="c out"><b>31</b><small>22</small></div><div class="c sun"><b>1</b><small>23</small></div>
+<div class="c"><b>2</b><small>24</small></div><div class="c"><b>3</b><small>25</small></div><div class="c"><b>4</b><small>26</small></div><div class="c"><b>5</b><small>27</small></div><div class="c"><b>6</b><small>28</small></div><div class="c"><b>7</b><small>29</small></div><div class="c sun"><b>8</b><small>30</small></div>
+<div class="c"><b>9</b><small class="m"><svg width="8" height="8" viewBox="-10 -10 20 20"><circle r="8" fill="none" stroke="#B26A00" stroke-width="2.6"/></svg>1/10</small></div><div class="c"><b>10</b><small>2</small></div><div class="c"><b>11</b><small>3</small></div><div class="c"><b>12</b><small>4</small></div><div class="c"><b>13</b><small>5</small></div><div class="c"><b>14</b><small>6</small></div><div class="c sun"><b>15</b><small>7</small></div>
+<div class="c"><b>16</b><small>8</small></div><div class="c"><b>17</b><small>9</small></div><div class="c"><b>18</b><small>10</small><span class="k"><span class="h"></span></span></div><div class="c"><b>19</b><small>11</small></div><div class="c"><b>20</b><small>12</small><span class="k"><span class="h"></span></span></div><div class="c"><b>21</b><small>13</small></div><div class="c sun today"><b>22</b><small>14</small></div>
+<div class="c"><b>23</b><small class="m"><svg width="8" height="8" viewBox="-10 -10 20 20"><circle r="9" fill="#E2A23B"/></svg>15</small></div><div class="c"><b>24</b><small>16</small></div><div class="c"><b>25</b><small>17</small></div><div class="c"><b>26</b><small>18</small></div><div class="c"><b>27</b><small>19</small></div><div class="c"><b>28</b><small>20</small><span class="k"><span class="e"></span></span></div><div class="c sun"><b>29</b><small>21</small></div>
+</div>
+<div class="list">
+  <p class="lh">Trong tháng</p>
+  <div class="row"><div class="d"><b>18</b><span>T4</span></div><p>Tết Thường tân<small>10 tháng Mười</small></p></div>
+  <div class="row"><div class="d"><b>20</b><span>T6</span></div><p>Ngày Nhà giáo Việt Nam<small>12 tháng Mười</small></p></div>
+  <div class="row"><div class="d"><b>28</b><span>T7</span></div><p>Giỗ ông nội<small>20 tháng Mười · lần thứ 12</small></p><span class="k2 e"></span></div>
+</div>
+<nav class="tabs"><div class="tab"><i></i>Hôm nay</div><div class="tab on"><i></i>Lịch</div><div class="tab"><i></i>Sự kiện</div><div class="tab"><i></i>Đổi ngày</div></nav>
+</body></html>

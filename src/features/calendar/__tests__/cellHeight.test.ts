@@ -1,8 +1,13 @@
 import { cellHeightFor } from '../constants';
 
 describe('chiều cao ô ngày', () => {
-  it('cỡ chữ mặc định, màn thường: giữ tỉ lệ theo chiều rộng', () => {
-    expect(cellHeightFor(392, 1)).toBe(Math.ceil((392 / 7) * 1.05));
+  it('cỡ chữ mặc định, màn rộng: giữ tỉ lệ theo chiều rộng', () => {
+    expect(cellHeightFor(430, 1)).toBe(Math.ceil((430 / 7) * 1.05));
+  });
+
+  it('cỡ chữ mặc định, màn thường: đủ chỗ cho vòng tròn "hôm nay" + ngày âm + chấm', () => {
+    // Vòng tròn 34 + ngày âm 13 + hàng chấm 7 + khoảng hở 8.
+    expect(cellHeightFor(392, 1)).toBe(62);
   });
 
   it('màn hẹp (cỡ hiển thị lớn) + chữ to: ô cao đủ chứa chữ', () => {

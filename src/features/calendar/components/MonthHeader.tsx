@@ -1,14 +1,18 @@
 import { memo } from 'react';
-import { Pressable, View } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
+
 import { SPOKEN, spokenMonth } from '@core/a11y';
-import { formatMonthTitle } from '@core/date/format';
-import type { MonthKey } from '@core/lunar';
 import { createThemedStyles, fontScaleLimit } from '@shared/theme';
-import { AppText } from '@shared/ui';
+import { AppText, Button, Icon } from '@shared/ui';
+
+import { MonthArrowButton } from './MonthArrowButton';
+
+import type { MonthKey } from '@core/lunar';
+import type { Theme, ThemedStyles } from '@shared/theme';
 
 export interface MonthHeaderProps {
   readonly month: MonthKey;
-  /** VD: "Tháng 8 - 9 năm Bính Ngọ" */
+  /** VD: "Tháng 9 - 10 năm Bính Ngọ" */
   readonly lunarSubtitle: string;
   readonly showTodayButton: boolean;
   readonly onPrev: () => void;
@@ -18,6 +22,13 @@ export interface MonthHeaderProps {
   readonly onPressTitle: () => void;
 }
 
+const lowerFirst = (text: string): string =>
+  text.charAt(0).toLowerCase() + text.slice(1);
+
+/**
+ * Tiêu đề tháng cỡ tiêu đề lớn (như app Lịch), bấm để chọn tháng; dòng dưới là năm và
+ * tháng âm tương ứng. Bên phải: "Hôm nay" (khi đang xem tháng khác) và hai nút đổi tháng.
+ */
 export const MonthHeader = memo(function MonthHeaderView({
   month,
   lunarSubtitle,
@@ -30,23 +41,7 @@ export const MonthHeader = memo(function MonthHeaderView({
   const styles = useStyles();
   return (
     <View style={styles.container}>
-      <View style={styles.toolbar}>
-        {showTodayButton ? (
-          <Pressable
-            onPress={onToday}
-            accessibilityRole="button"
-            accessibilityHint={SPOKEN.hint.goToday}
-            style={styles.todayButton}
-          >
-            <AppText variant="label" color="primary">
-              Hôm nay
-            </AppText>
-          </Pressable>
-        ) : null}
-      </View>
-
       <View style={styles.row}>
-        <ArrowButton label={SPOKEN.prevMonth} symbol="‹" onPress={onPrev} />
         <Pressable
           onPress={onPressTitle}
           accessibilityRole="button"
@@ -58,91 +53,73 @@ export const MonthHeader = memo(function MonthHeaderView({
           style={({ pressed }) => [styles.titles, pressed && styles.pressed]}
         >
           {/* Màn Lịch không cuộn: tiêu đề xuống dòng sẽ đẩy lưới lịch ra khỏi màn. */}
-          <AppText
-            variant="title"
-            align="center"
-            maxFontSizeMultiplier={fontScaleLimit.compact}
-            numberOfLines={1}
-            adjustsFontSizeToFit
-            minimumFontScale={0.7}
-          >
-            {formatMonthTitle(month.year, month.month)}{' '}
-            <AppText variant="label" color="textFaint">
-              ▾
+          <View style={styles.titleRow}>
+            <AppText
+              variant="largeTitle"
+              maxFontSizeMultiplier={fontScaleLimit.compact}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.7}
+              style={styles.title}
+            >
+              Tháng {month.month}
             </AppText>
-          </AppText>
+            <Icon name="keyboard_arrow_down" size={22} color="primary" />
+          </View>
           <AppText
-            variant="label"
-            color="lunarAccent"
-            align="center"
+            variant="subhead"
+            color="textMuted"
             maxFontSizeMultiplier={fontScaleLimit.compact}
             numberOfLines={1}
             adjustsFontSizeToFit
             minimumFontScale={0.7}
           >
-            {lunarSubtitle}
+            {month.year} · {lowerFirst(lunarSubtitle)}
           </AppText>
         </Pressable>
-        <ArrowButton label={SPOKEN.nextMonth} symbol="›" onPress={onNext} />
+        <View style={styles.actions}>
+          {showTodayButton ? (
+            <Button
+              label="Hôm nay"
+              variant={Platform.OS === 'android' ? 'plain' : 'tonal'}
+              size="small"
+              onPress={onToday}
+            />
+          ) : null}
+          <MonthArrowButton
+            label={SPOKEN.prevMonth}
+            icon="chevron_left"
+            onPress={onPrev}
+          />
+          <MonthArrowButton
+            label={SPOKEN.nextMonth}
+            icon="chevron_right"
+            onPress={onNext}
+          />
+        </View>
       </View>
     </View>
   );
 });
 
-interface ArrowButtonProps {
-  readonly label: string;
-  readonly symbol: string;
-  readonly onPress: () => void;
+function monthHeaderStyles(theme: Theme) {
+  return {
+    container: {
+      paddingLeft: theme.gutter,
+      paddingRight: theme.spacing.xs,
+      paddingTop: theme.spacing.sm,
+    },
+    row: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs },
+    titles: { flex: 1 },
+    titleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: theme.spacing.xxs,
+    },
+    title: { flexShrink: 1 },
+    actions: { flexDirection: 'row', alignItems: 'center' },
+    pressed: { opacity: 0.5 },
+  } satisfies ThemedStyles;
 }
 
-const ArrowButton = memo(function ArrowButtonView({
-  label,
-  symbol,
-  onPress,
-}: ArrowButtonProps) {
-  const styles = useStyles();
-  return (
-    <Pressable
-      onPress={onPress}
-      hitSlop={12}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      style={styles.arrow}
-    >
-      <AppText variant="title" color="textMuted">
-        {symbol}
-      </AppText>
-    </Pressable>
-  );
-});
-
-const useStyles = createThemedStyles(t => ({
-  container: {
-    paddingHorizontal: t.spacing.lg,
-    paddingTop: t.spacing.sm,
-  },
-  toolbar: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    minHeight: 28,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  arrow: {
-    paddingHorizontal: t.spacing.md,
-  },
-  titles: {
-    flex: 1,
-  },
-  pressed: {
-    opacity: 0.6,
-  },
-  todayButton: {
-    paddingHorizontal: t.spacing.md,
-    paddingVertical: t.spacing.xs,
-    borderRadius: t.radius.pill,
-    backgroundColor: t.colors.primarySoft,
-  },
-}));
+const useStyles = createThemedStyles(monthHeaderStyles);

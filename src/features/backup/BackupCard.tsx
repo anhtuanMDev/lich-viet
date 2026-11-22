@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { serializeBackup } from '@core/events';
 import { eventRepository } from '@features/events/eventRepository';
 import { reportError } from '@shared/crash';
-import { AppText, Button, Card } from '@shared/ui';
+import { ActionRow, Section } from '@shared/ui';
 
 const AUTO_BACKUP_NOTE = Platform.select({
   ios: 'Dữ liệu được sao lưu tự động cùng bản sao lưu iCloud của iPhone. Khi khôi phục máy mới từ bản sao lưu, sự kiện và ngày giỗ sẽ trở lại.',
@@ -39,14 +39,21 @@ export function BackupCard() {
   );
 
   return (
-    <Card title="Sao lưu dữ liệu">
-      <AppText color="textMuted">{AUTO_BACKUP_NOTE}</AppText>
-      <AppText color="textMuted">
-        Bạn cũng có thể tự xuất dữ liệu (gửi qua Zalo, email, ghi chú…) rồi nhập
-        lại trên máy khác.
-      </AppText>
-      <Button label="Xuất dữ liệu" variant="secondary" onPress={exportData} />
-      <Button label="Nhập dữ liệu" variant="secondary" onPress={openImport} />
-    </Card>
+    <Section
+      title="Sao lưu dữ liệu"
+      footer={`${AUTO_BACKUP_NOTE} Bạn cũng có thể tự xuất dữ liệu (gửi qua Zalo, email, ghi chú…) rồi nhập lại trên máy khác.`}
+    >
+      <ActionRow
+        label="Xuất dữ liệu"
+        materialIcon="ios_share"
+        onPress={exportData}
+      />
+      <ActionRow
+        label="Nhập dữ liệu"
+        materialIcon="download"
+        opensScreen
+        onPress={openImport}
+      />
+    </Section>
   );
 }

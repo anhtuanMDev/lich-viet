@@ -28,11 +28,16 @@ if (!fs.existsSync(src)) {
   process.exit(1);
 }
 
-const gradle = fs.readFileSync(path.join(ROOT, 'android/app/build.gradle'), 'utf8');
+const gradle = fs.readFileSync(
+  path.join(ROOT, 'android/app/build.gradle'),
+  'utf8',
+);
 const versionName = gradle.match(/versionName\s+"([^"]+)"/)?.[1];
 const versionCode = gradle.match(/versionCode\s+(\d+)/)?.[1];
 if (!versionName || !versionCode) {
-  console.error('Không đọc được versionName/versionCode trong android/app/build.gradle');
+  console.error(
+    'Không đọc được versionName/versionCode trong android/app/build.gradle',
+  );
   process.exit(1);
 }
 
@@ -44,7 +49,10 @@ const timestamp =
   `-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
 
 const destDir = path.join(ROOT, 'releases', versionName);
-const dest = path.join(destDir, `lichviet-${versionName}-${versionCode}-${timestamp}.${kind}`);
+const dest = path.join(
+  destDir,
+  `lichviet-${versionName}-${versionCode}-${timestamp}.${kind}`,
+);
 fs.mkdirSync(destDir, { recursive: true });
 fs.copyFileSync(src, dest);
 

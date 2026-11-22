@@ -1,6 +1,11 @@
-import { Pressable, View } from 'react-native';
-import { createThemedStyles } from '@shared/theme';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
+
+import { createThemedStyles, useTheme } from '@shared/theme';
+
 import { AppText } from './AppText';
+import { Icon } from './Icon';
+
+import type { IconName } from './Icon';
 
 export interface TimeValue {
   readonly hour: number;
@@ -17,6 +22,10 @@ export interface TimeStepperProps {
 
 const MINUTES_PER_DAY = 24 * 60;
 const pad2 = (n: number) => String(n).padStart(2, '0');
+const isAndroid = Platform.OS === 'android';
+/** Vùng chạm thêm quanh nút bước để đủ 44pt / 48dp. */
+const STEP_HIT_SLOP = Platform.select({ android: 4, default: 6 });
+const STEP_ICON_SIZE = Platform.select({ android: 20, default: 18 });
 
 function shift({ hour, minute }: TimeValue, delta: number): TimeValue {
   const total =
@@ -28,7 +37,10 @@ function shift({ hour, minute }: TimeValue, delta: number): TimeValue {
 export const formatTime = ({ hour, minute }: TimeValue): string =>
   `${pad2(hour)}:${pad2(minute)}`;
 
-/** Chọn giờ bằng nút −/+ - đủ dùng cho giờ nhắc, không cần thư viện picker native. */
+/**
+ * Giờ + nút bước −/+, đặt ở cuối một hàng danh sách. iOS: cụm nút như UIStepper;
+ * Android: hai nút icon viền tròn của Material.
+ */
 export function TimeStepper({
   value,
   onChange,
@@ -54,33 +66,42 @@ export function TimeStepper({
         )
       }
     >
-      <StepButton symbol="−" onPress={() => onChange(shift(value, -step))} />
-      <AppText variant="title" style={styles.value}>
+      <AppText variant="bodyStrong" style={styles.value}>
         {text}
       </AppText>
-      <StepButton symbol="+" onPress={() => onChange(shift(value, step))} />
+      <View style={isAndroid ? styles.androidButtons : styles.iosStepper}>
+        <StepButton
+          icon="remove"
+          onPress={() => onChange(shift(value, -step))}
+        />
+        {isAndroid ? null : <View style={styles.iosDivider} />}
+        <StepButton icon="add" onPress={() => onChange(shift(value, step))} />
+      </View>
     </View>
   );
 }
 
 function StepButton({
-  symbol,
+  icon,
   onPress,
 }: {
-  readonly symbol: string;
+  readonly icon: IconName;
   readonly onPress: () => void;
 }) {
   const styles = useStyles();
+  const { colors } = useTheme();
   return (
     <Pressable
       onPress={onPress}
-      hitSlop={8}
+      hitSlop={STEP_HIT_SLOP}
       importantForAccessibility="no"
-      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      android_ripple={{ color: colors.fill, borderless: true, radius: 22 }}
+      style={({ pressed }) => [
+        isAndroid ? styles.androidButton : styles.iosButton,
+        pressed && !isAndroid && styles.pressed,
+      ]}
     >
-      <AppText variant="title" color="primary">
-        {symbol}
-      </AppText>
+      <Icon name={icon} size={STEP_ICON_SIZE} color="text" />
     </Pressable>
   );
 }
@@ -89,25 +110,44 @@ const useStyles = createThemedStyles(t => ({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: t.spacing.lg,
+    gap: t.spacing.md,
   },
   value: {
-    minWidth: 88,
-    textAlign: 'center',
     fontVariant: ['tabular-nums'],
+    minWidth: 52,
+    textAlign: 'right',
   },
-  // min* thay vì cố định: dấu −/+ phóng theo cỡ chữ máy vẫn nằm trọn trong nút tròn.
-  button: {
-    minWidth: 44,
-    minHeight: 44,
-    aspectRatio: 1,
+  iosStepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: t.colors.fill,
     borderRadius: t.radius.pill,
+  },
+  iosButton: {
+    width: 47,
+    height: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: t.colors.primarySoft,
+  },
+  iosDivider: {
+    width: StyleSheet.hairlineWidth,
+    height: 18,
+    backgroundColor: t.colors.outline,
   },
   pressed: {
-    opacity: 0.6,
+    opacity: 0.5,
+  },
+  androidButtons: {
+    flexDirection: 'row',
+    gap: t.spacing.sm,
+  },
+  androidButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: t.colors.outline,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));

@@ -5,7 +5,7 @@ import type { SolarDate } from '@core/lunar';
 import { DateInputRow, LeapMonthSwitch } from '@shared/date-input';
 import type { ConversionDirection } from '@shared/date-input';
 import { useToday } from '@shared/hooks/useToday';
-import { AppText, Card, Screen, SegmentedControl } from '@shared/ui';
+import { FieldGroup, Screen, Section, SegmentedControl } from '@shared/ui';
 import type { SegmentOption } from '@shared/ui';
 import { ConversionResultCard } from './components/ConversionResultCard';
 import { useConverter } from './hooks/useConverter';
@@ -35,31 +35,33 @@ export function ConverterScreen() {
   );
 
   return (
-    <Screen>
-      <AppText variant="title" accessibilityRole="header">
-        Đổi ngày
-      </AppText>
-      <SegmentedControl
-        options={DIRECTIONS}
-        value={input.direction}
-        onChange={converter.setDirection}
-      />
-      <Card
+    <Screen inTabs>
+      <FieldGroup>
+        <SegmentedControl
+          options={DIRECTIONS}
+          value={input.direction}
+          onChange={converter.setDirection}
+        />
+      </FieldGroup>
+      <Section
         title={
           input.direction === 'solarToLunar'
             ? 'Ngày dương lịch'
             : 'Ngày âm lịch'
         }
+        separators={false}
       >
-        <DateInputRow
-          day={input.day}
-          month={input.month}
-          year={input.year}
-          invalidField={result.status === 'invalid' ? result.field : null}
-          onChangeDay={converter.setDay}
-          onChangeMonth={converter.setMonth}
-          onChangeYear={converter.setYear}
-        />
+        <FieldGroup>
+          <DateInputRow
+            day={input.day}
+            month={input.month}
+            year={input.year}
+            invalidField={result.status === 'invalid' ? result.field : null}
+            onChangeDay={converter.setDay}
+            onChangeMonth={converter.setMonth}
+            onChangeYear={converter.setYear}
+          />
+        </FieldGroup>
         {converter.canChooseLeap ? (
           <LeapMonthSwitch
             month={input.month}
@@ -67,7 +69,7 @@ export function ConverterScreen() {
             onChange={converter.setLeap}
           />
         ) : null}
-      </Card>
+      </Section>
       <ConversionResultCard
         direction={input.direction}
         result={result}
