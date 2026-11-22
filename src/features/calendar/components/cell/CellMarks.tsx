@@ -26,11 +26,11 @@ const useStyles = createThemedStyles(theme => ({
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 3,
-    height: 5,
-    marginTop: theme.spacing.xxs,
+    gap: 2,
+    height: 4,
+    marginTop: 1,
   },
-  mark: { width: 5, height: 5, borderRadius: 2.5 },
+  mark: { width: 4, height: 4, borderRadius: 2 },
   event: { backgroundColor: theme.colors.event },
-  holiday: { borderWidth: 1.2, borderColor: theme.colors.holiday },
+  holiday: { borderWidth: 1, borderColor: theme.colors.holiday },
 }));

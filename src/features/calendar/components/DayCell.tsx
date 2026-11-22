@@ -60,7 +60,8 @@ export const DayCell = memo(function DayCellView({
 const useStyles = createThemedStyles(theme => ({
   cell: {
     alignItems: 'center',
-    paddingTop: theme.spacing.xs,
+    paddingTop: 2,
+    paddingBottom: 1,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: theme.colors.separator,
   },

@@ -41,7 +41,7 @@ export function CalendarScreen() {
   const { width: windowWidth, fontScale } = useWindowDimensions();
   // Màn rộng (iPad, tablet): cột lịch có bề rộng tối đa và căn giữa để ô gần vuông.
   const width = Math.min(windowWidth, layout.calendarWidth);
-  const cellHeight = cellHeightFor(width, fontScale);
+  const cellHeight = cellHeightFor(fontScale);
   const tabBarSpace = useTabBarSpace();
 
   const pager = useMonthPager(today, width);

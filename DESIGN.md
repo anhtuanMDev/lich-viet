@@ -321,7 +321,7 @@ Single column, list-shaped, on the ground. The horizontal gutter is 20pt on iOS 
 
 A section opens with 20pt (iOS) or 16dp (Android) of space above its header and 4pt / 8dp between header and first row. Rows are at least 44pt (iOS) or 56dp (Android) tall, with 10pt / 8dp vertical padding. Leading columns are 20pt / 24dp wide with a 12pt / 16dp gap to the text; on iOS the hairline separator starts at the text (or after the leading column, or after a custom date column as in "Trong tháng"), never at the screen edge. Section footers are `footnote` in `textMuted`, 4pt under the last row. Touch targets are at least 44pt / 48dp; 40dp Material buttons get 4dp hit slop.
 
-On wide screens (iPad, Android tablets) content keeps a readable width: the scrolling column is centred at a maximum of 820, like UIKit's readable content guide, and the month grid is capped at 600 so cells stay close to square (height 1.05× width, never shorter than their text at the capped font scale). Screens with a FAB reserve 96dp at the bottom so the last row clears it.
+On wide screens (iPad, Android tablets) content keeps a readable width: the scrolling column is centred at a maximum of 820, like UIKit's readable content guide, and the month grid is capped at 600. Month cells are compact and sized by their content, not their width: 40pt at the default text size (20 today circle + 12 lunar line + 5 mark row + 3 padding), growing only with the capped font scale. Screens with a FAB reserve 96dp at the bottom so the last row clears it.
 
 The month grid is the one place a hairline appears on Android: its week rows are divided by a `separator` rule on both platforms, as in both Apple and Google Calendar. Out-of-month days drop to 35% opacity.
 
@@ -343,7 +343,7 @@ Flat by default. iOS is flat: depth comes from the system's own materials (large
 
 ## Shapes
 
-Circles and capsules, nothing in between unless the platform specifies it. Buttons, segmented tracks and thumbs, steppers, the today circle (34pt), every mark and the moon are full pills or circles (`pill`, 999). Platform-specified corners are kept as the platform draws them: iOS fields 10pt round on all corners, Android filled fields round only the top two corners at 4dp above an underline; dialogs 14pt on iOS and 28dp on Android; the Android FAB 16dp; the Android widget 24dp. Rings scale with their mark: 1/6 of the diameter, never thinner than 1.2; the holiday ring in lists is 1.6. Separators are hairlines (one device pixel). The moon is a plain disc with a straight-edged half and an elliptical terminator: no craters, no glow, no texture.
+Circles and capsules, nothing in between unless the platform specifies it. Buttons, segmented tracks and thumbs, steppers, the today circle (20pt), every mark and the moon are full pills or circles (`pill`, 999). Platform-specified corners are kept as the platform draws them: iOS fields 10pt round on all corners, Android filled fields round only the top two corners at 4dp above an underline; dialogs 14pt on iOS and 28dp on Android; the Android FAB 16dp; the Android widget 24dp. Rings scale with their mark: 1/6 of the diameter, never thinner than 1.2; the holiday ring in lists is 1.6. Separators are hairlines (one device pixel). The moon is a plain disc with a straight-edged half and an elliptical terminator: no craters, no glow, no texture.
 
 ## Components
 
@@ -392,7 +392,7 @@ One mark set across the month grid, Sắp tới, day rows and widgets: personal 
 Twelve equal two-hour segments in a row with 3pt gaps, 8pt tall. Good hours are 8pt `primary` pills; ordinary hours are 2pt `textFaint` tracks. A 2×18pt `text` bar marks the current time at its exact position. Under it, the twelve branch names in `caption`: good hours `text` at 600, ordinary `textMuted`. A `footnote` `textMuted` line below spells out the next good hour or the full list of good hours.
 
 ### Month grid day cell
-Solar day in `body` with tabular figures inside a 34pt circle: `primary` with `onPrimary` bold for today, `fill` while pressed, `holiday` numerals on Sundays and public holidays. The lunar day sits under it in `caption` `textMuted`, switching to `lunarAccent` at 600 with its moon mark on mùng 1 (written "1/10") and rằm. A 5pt mark row at the bottom always reserves its space so cells align.
+Solar day at 13/16 with tabular figures inside a 20pt circle: `primary` with `onPrimary` at 600 for today, `fill` while pressed, `holiday` numerals on Sundays and public holidays. The lunar day sits under it at 10/12, `textMuted`, switching to `lunarAccent` at 600 with its moon mark on mùng 1 (written "1/10") and rằm. A 4pt mark row at the bottom always reserves its space so cells align.
 
 ### Home-screen widgets
 - **iOS (SwiftUI):** system background; moon top-left, then the lunar title in `.headline` (`lunarAccent` on moon days, label colour otherwise), the solar line in `.subheadline` (son red on red days, secondary otherwise) and the first highlight in `.footnote`. The medium size adds a Sắp tới column: a `.footnote` semibold secondary label, then rows with the shared marks and right-aligned monospaced day counts, son red at one day or less. In accented rendering the moon's shade becomes the primary colour at 25%.

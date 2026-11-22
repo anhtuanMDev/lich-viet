@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { createThemedStyles, fontScaleLimit } from '@shared/theme';
 import { AppText } from '@shared/ui';
 
-import { TODAY_CIRCLE } from '../../constants';
+import { SOLAR_DAY_TEXT, TODAY_CIRCLE } from '../../constants';
 import { solarDayColor } from '../../dayColors';
 
 import type { MonthGridCell } from '@core/lunar';
@@ -29,10 +29,10 @@ export function CellSolarDay({
     >
       {/* Ô cao theo cellHeightFor - chữ phải dùng cùng trần phóng chữ. */}
       <AppText
-        variant={isToday ? 'bodyStrong' : 'body'}
+        variant="subhead"
         color={solarDayColor(cell, isToday)}
         maxFontSizeMultiplier={fontScaleLimit.compact}
-        style={styles.number}
+        style={[styles.number, isToday && styles.todayNumber]}
       >
         {cell.solar.day}
       </AppText>
@@ -48,9 +48,10 @@ const useStyles = createThemedStyles(theme => ({
     borderRadius: TODAY_CIRCLE / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: theme.spacing.xxs,
+    paddingHorizontal: 3,
   },
   today: { backgroundColor: theme.colors.primary },
   pressed: { backgroundColor: theme.colors.fill },
-  number: { fontVariant: ['tabular-nums'] },
+  number: { ...SOLAR_DAY_TEXT, fontVariant: ['tabular-nums'] },
+  todayNumber: { fontWeight: '600' },
 }));
