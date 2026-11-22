@@ -35,10 +35,10 @@ export const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Tabs: {
         screens: {
-          Today: 'today',
-          Calendar: 'calendar',
-          Events: 'events',
-          Converter: 'convert',
+          Today: { screens: { TodayHome: 'today' } },
+          Calendar: { screens: { CalendarHome: 'calendar' } },
+          Events: { screens: { EventsHome: 'events' } },
+          Converter: { screens: { ConverterHome: 'convert' } },
         },
       },
       DayDetail: {

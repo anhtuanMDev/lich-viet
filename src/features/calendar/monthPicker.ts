@@ -14,7 +14,9 @@ export const clampYear = (year: number): number =>
 /** Năm đầu của trang chứa `year`; các trang đếm từ năm nhỏ nhất được hỗ trợ (1900, 1912…). */
 export const yearPageStart = (year: number): number => {
   const { min } = SUPPORTED_YEAR_RANGE;
-  return min + Math.floor((clampYear(year) - min) / YEARS_PER_PAGE) * YEARS_PER_PAGE;
+  return (
+    min + Math.floor((clampYear(year) - min) / YEARS_PER_PAGE) * YEARS_PER_PAGE
+  );
 };
 
 /** Các năm của trang bắt đầu từ `start`, bỏ những năm vượt quá năm lớn nhất được hỗ trợ. */

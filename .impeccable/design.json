@@ -1,0 +1,820 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T07:04:10.695Z",
+  "title": "Design System: Lịch Việt",
+  "extensions": {
+    "platformNote": "Tokens are roles resolved per platform and theme in src/shared/theme. Frontmatter values are the iOS light set; colorMeta.<token>.platforms holds iosLight, iosDark, androidLight, androidDark; typographyMeta.<token>.android holds the M3 equivalents. Spacing gutter is 20 on iOS, 16 on Android. Radii: field 10 iOS / 4 Android (top corners only), dialog 14 iOS / 28 Android. Control sizes: row 44/56, button 50/40, buttonSmall 34/40, segment 32/40, field 44/48, touch 44/48.",
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Son Red",
+        "canonical": "#C8281E",
+        "oklch": "oklch(54.1% 0.197 29.1)",
+        "platforms": {
+          "iosLight": "#C8281E",
+          "iosDark": "#FF5F52",
+          "androidLight": "#AF2C21",
+          "androidDark": "#FFB4A9"
+        },
+        "tonalRamp": [
+          "#1C0302",
+          "#4D0000",
+          "#810000",
+          "#B6120C",
+          "#DE4436",
+          "#FD7564",
+          "#FEB3A8",
+          "#FEE9E6"
+        ],
+        "note": "Frontmatter value is iOS light. Android uses the M3 tone of the same son-red seed."
+      },
+      "onPrimary": {
+        "role": "primary",
+        "displayName": "On Son Red",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "platforms": {
+          "iosLight": "#FFFFFF",
+          "iosDark": "#FFFFFF",
+          "androidLight": "#FFFFFF",
+          "androidDark": "#690002"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "primaryContainer": {
+        "role": "primary",
+        "displayName": "Son Blush",
+        "canonical": "#FBE9E7",
+        "oklch": "oklch(94.8% 0.020 25.2)",
+        "platforms": {
+          "iosLight": "#FBE9E7",
+          "iosDark": "#3B1613",
+          "androidLight": "#FFDAD5",
+          "androidDark": "#8C1D15"
+        },
+        "tonalRamp": [
+          "#0D0A0A",
+          "#2B2322",
+          "#4B3F3D",
+          "#6C5D5C",
+          "#8E7E7C",
+          "#B0A1A0",
+          "#D1C6C5",
+          "#F2EDED"
+        ]
+      },
+      "onPrimaryContainer": {
+        "role": "primary",
+        "displayName": "Deep Son",
+        "canonical": "#8E1B14",
+        "oklch": "oklch(42.2% 0.151 28.9)",
+        "platforms": {
+          "iosLight": "#8E1B14",
+          "iosDark": "#FFB4AB",
+          "androidLight": "#410001",
+          "androidDark": "#FFDAD5"
+        },
+        "tonalRamp": [
+          "#180503",
+          "#490A06",
+          "#781A13",
+          "#A5352B",
+          "#CC594C",
+          "#EB8375",
+          "#FEB3A8",
+          "#FEE9E5"
+        ]
+      },
+      "secondaryContainer": {
+        "role": "neutral",
+        "displayName": "Quiet Container",
+        "canonical": "#EFEFF1",
+        "oklch": "oklch(95.3% 0.003 286.3)",
+        "platforms": {
+          "iosLight": "#EFEFF1",
+          "iosDark": "#2C2C2E",
+          "androidLight": "#F7DCD8",
+          "androidDark": "#5D3F3B"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252526",
+          "#424243",
+          "#616163",
+          "#828284",
+          "#A5A5A6",
+          "#C9C9CA",
+          "#EEEEEF"
+        ]
+      },
+      "onSecondaryContainer": {
+        "role": "neutral",
+        "displayName": "On Quiet Container",
+        "canonical": "#000000",
+        "oklch": "oklch(0.0% 0.000 0)",
+        "platforms": {
+          "iosLight": "#000000",
+          "iosDark": "#FFFFFF",
+          "androidLight": "#2C1512",
+          "androidDark": "#FFDAD5"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "holiday": {
+        "role": "primary",
+        "displayName": "Son Holiday",
+        "canonical": "#C8281E",
+        "oklch": "oklch(54.1% 0.197 29.1)",
+        "platforms": {
+          "iosLight": "#C8281E",
+          "iosDark": "#FF5F52",
+          "androidLight": "#AF2C21",
+          "androidDark": "#FFB4A9"
+        },
+        "tonalRamp": [
+          "#1C0302",
+          "#4D0000",
+          "#810000",
+          "#B6120C",
+          "#DE4436",
+          "#FD7564",
+          "#FEB3A8",
+          "#FEE9E6"
+        ],
+        "note": "Same role as primary by paper-calendar convention (Sunday, public holidays)."
+      },
+      "moonLit": {
+        "role": "secondary",
+        "displayName": "Moon Amber",
+        "canonical": "#E2A23B",
+        "oklch": "oklch(75.6% 0.137 75.3)",
+        "platforms": {
+          "iosLight": "#E2A23B",
+          "iosDark": "#F2C36B",
+          "androidLight": "#E2A23B",
+          "androidDark": "#F2C36B"
+        },
+        "tonalRamp": [
+          "#130900",
+          "#352000",
+          "#5A3B00",
+          "#835701",
+          "#AE7502",
+          "#D09A47",
+          "#EAC28A",
+          "#FCECD6"
+        ]
+      },
+      "lunarAccent": {
+        "role": "secondary",
+        "displayName": "Lunar Ink",
+        "canonical": "#9A5B00",
+        "oklch": "oklch(53.1% 0.119 65.1)",
+        "platforms": {
+          "iosLight": "#9A5B00",
+          "iosDark": "#F2B04F",
+          "androidLight": "#8B5000",
+          "androidDark": "#FFB95C"
+        },
+        "tonalRamp": [
+          "#140801",
+          "#391D00",
+          "#603700",
+          "#8B5203",
+          "#B2722A",
+          "#D1975D",
+          "#EBC097",
+          "#FDEBDA"
+        ]
+      },
+      "moonShade": {
+        "role": "secondary",
+        "displayName": "Moon Shadow",
+        "canonical": "#E5E5EA",
+        "oklch": "oklch(92.3% 0.007 286.3)",
+        "platforms": {
+          "iosLight": "#E5E5EA",
+          "iosDark": "#3A3A3C",
+          "androidLight": "#EADBD8",
+          "androidDark": "#3D3231"
+        },
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#424245",
+          "#616165",
+          "#828286",
+          "#A4A4A9",
+          "#C9C9CC",
+          "#EEEEEF"
+        ]
+      },
+      "event": {
+        "role": "tertiary",
+        "displayName": "Family Blue",
+        "canonical": "#2F6FDB",
+        "oklch": "oklch(56.1% 0.178 260.3)",
+        "platforms": {
+          "iosLight": "#2F6FDB",
+          "iosDark": "#64A0FF",
+          "androidLight": "#2F62C8",
+          "androidDark": "#AFC6FF"
+        },
+        "tonalRamp": [
+          "#020A1E",
+          "#002059",
+          "#023A91",
+          "#1B5AC2",
+          "#3E7EE9",
+          "#6FA4FE",
+          "#ABCBFE",
+          "#E6EFFE"
+        ]
+      },
+      "auspicious": {
+        "role": "tertiary",
+        "displayName": "Auspicious Green",
+        "canonical": "#248A3D",
+        "oklch": "oklch(55.8% 0.146 147.5)",
+        "platforms": {
+          "iosLight": "#248A3D",
+          "iosDark": "#30D158",
+          "androidLight": "#2E6B30",
+          "androidDark": "#90D88E"
+        },
+        "tonalRamp": [
+          "#020F03",
+          "#002F0B",
+          "#00511A",
+          "#02762B",
+          "#39994C",
+          "#6BBA76",
+          "#A2DAA8",
+          "#DFF6E1"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Alert Red",
+        "canonical": "#D70015",
+        "oklch": "oklch(55.3% 0.225 27.3)",
+        "platforms": {
+          "iosLight": "#D70015",
+          "iosDark": "#FF6961",
+          "androidLight": "#BA1A1A",
+          "androidDark": "#FFB4AB"
+        },
+        "tonalRamp": [
+          "#1E0101",
+          "#4D0002",
+          "#810008",
+          "#B80211",
+          "#EA2E2C",
+          "#FF7367",
+          "#FEB3AA",
+          "#FFE9E6"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "platforms": {
+          "iosLight": "#FFFFFF",
+          "iosDark": "#000000",
+          "androidLight": "#FFF8F7",
+          "androidDark": "#1A1110"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "platforms": {
+          "iosLight": "#FFFFFF",
+          "iosDark": "#1C1C1E",
+          "androidLight": "#FCEAE7",
+          "androidDark": "#271D1C"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "fill": {
+        "role": "neutral",
+        "displayName": "Fill",
+        "canonical": "#EFEFF1",
+        "oklch": "oklch(95.3% 0.003 286.3)",
+        "platforms": {
+          "iosLight": "#EFEFF1",
+          "iosDark": "#2C2C2E",
+          "androidLight": "#F3E0DD",
+          "androidDark": "#3D3231"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252526",
+          "#424243",
+          "#616163",
+          "#828284",
+          "#A5A5A6",
+          "#C9C9CA",
+          "#EEEEEF"
+        ]
+      },
+      "separator": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#D1D1D6",
+        "oklch": "oklch(86.2% 0.007 286.3)",
+        "platforms": {
+          "iosLight": "#D1D1D6",
+          "iosDark": "#38383A",
+          "androidLight": "#EBDAD7",
+          "androidDark": "#3D3231"
+        },
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#424245",
+          "#616165",
+          "#828286",
+          "#A4A4A9",
+          "#C9C9CC",
+          "#EEEEEF"
+        ]
+      },
+      "outline": {
+        "role": "neutral",
+        "displayName": "Outline",
+        "canonical": "#C7C7CC",
+        "oklch": "oklch(83.1% 0.007 286.2)",
+        "platforms": {
+          "iosLight": "#C7C7CC",
+          "iosDark": "#48484A",
+          "androidLight": "#857371",
+          "androidDark": "#A08C8A"
+        },
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#424245",
+          "#616165",
+          "#828286",
+          "#A4A4A9",
+          "#C9C9CC",
+          "#EEEEEF"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Label",
+        "canonical": "#000000",
+        "oklch": "oklch(0.0% 0.000 0)",
+        "platforms": {
+          "iosLight": "#000000",
+          "iosDark": "#FFFFFF",
+          "androidLight": "#231918",
+          "androidDark": "#F1DFDC"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "textMuted": {
+        "role": "neutral",
+        "displayName": "Secondary Label",
+        "canonical": "#6E6E73",
+        "oklch": "oklch(54.0% 0.008 286.1)",
+        "platforms": {
+          "iosLight": "#6E6E73",
+          "iosDark": "#98989F",
+          "androidLight": "#534341",
+          "androidDark": "#D8C2BF"
+        },
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#414145",
+          "#616165",
+          "#828287",
+          "#A4A4A9",
+          "#C9C9CC",
+          "#EEEEF0"
+        ]
+      },
+      "textFaint": {
+        "role": "neutral",
+        "displayName": "Faint Label",
+        "canonical": "#AEAEB2",
+        "oklch": "oklch(75.2% 0.006 286.3)",
+        "platforms": {
+          "iosLight": "#AEAEB2",
+          "iosDark": "#5A5A5F",
+          "androidLight": "#A08C8A",
+          "androidDark": "#857371"
+        },
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#424244",
+          "#616164",
+          "#828286",
+          "#A5A5A8",
+          "#C9C9CB",
+          "#EEEEEF"
+        ]
+      },
+      "segmentThumb": {
+        "role": "neutral",
+        "displayName": "Segment Thumb",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "platforms": {
+          "iosLight": "#FFFFFF",
+          "iosDark": "#636366",
+          "androidLight": "#F7DCD8",
+          "androidDark": "#5D3F3B"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "scrim": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgba(0,0,0,0.4)",
+        "platforms": {
+          "iosLight": "rgba(0,0,0,0.4)",
+          "iosDark": "rgba(0,0,0,0.4)",
+          "androidLight": "rgba(0,0,0,0.32)",
+          "androidDark": "rgba(0,0,0,0.32)"
+        },
+        "note": "Dimming layer behind centred dialogs (month picker); iOS 40% black, Material 3 scrim 32%."
+      }
+    },
+    "typographyMeta": {
+      "largeTitle": {
+        "displayName": "Large Title",
+        "purpose": "Month header on Lịch; native large titles. Android: headlineMedium 28/36, 400, 0.",
+        "android": {
+          "fontSize": 28,
+          "lineHeight": 36,
+          "fontWeight": 400,
+          "letterSpacing": 0
+        }
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Lunar date beside the moon; Android top app bar title. Android: titleLarge 22/28, 400.",
+        "android": {
+          "fontSize": 22,
+          "lineHeight": 28,
+          "fontWeight": 400,
+          "letterSpacing": 0
+        }
+      },
+      "headline": {
+        "displayName": "Section Header",
+        "purpose": "Sentence-case section headers. iOS bold 20 in text; Android titleSmall 14/20, 500 in primary.",
+        "android": {
+          "fontSize": 14,
+          "lineHeight": 20,
+          "fontWeight": 500,
+          "letterSpacing": 0.1
+        }
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Row titles, grid dates, field text. Android: bodyLarge 16/24.",
+        "android": {
+          "fontSize": 16,
+          "lineHeight": 24,
+          "fontWeight": 400,
+          "letterSpacing": 0.5
+        }
+      },
+      "bodyStrong": {
+        "displayName": "Body Strong",
+        "purpose": "Today's date in the grid, emphasised row text. Android: titleMedium 16/24, 500.",
+        "android": {
+          "fontSize": 16,
+          "lineHeight": 24,
+          "fontWeight": 500,
+          "letterSpacing": 0.15
+        }
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "Solar date line, row subtitles. Android: bodyMedium 14/20.",
+        "android": {
+          "fontSize": 14,
+          "lineHeight": 20,
+          "fontWeight": 400,
+          "letterSpacing": 0.25
+        }
+      },
+      "footnote": {
+        "displayName": "Footnote",
+        "purpose": "Section footers, iOS field labels, iOS segment labels. Android: bodySmall 12/16.",
+        "android": {
+          "fontSize": 12,
+          "lineHeight": 16,
+          "fontWeight": 400,
+          "letterSpacing": 0.4
+        }
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Lunar day in grid cells, hour names under the strip. Android: labelSmall 11/16, 500.",
+        "android": {
+          "fontSize": 11,
+          "lineHeight": 16,
+          "fontWeight": 500,
+          "letterSpacing": 0.5
+        }
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Button and Android segment labels. Android: labelLarge 14/20, 500.",
+        "android": {
+          "fontSize": 14,
+          "lineHeight": 20,
+          "fontWeight": 500,
+          "letterSpacing": 0.1
+        }
+      }
+    },
+    "fontScaleLimit": {
+      "content": 1.6,
+      "compact": 1.3,
+      "strip": 1.1
+    },
+    "shadows": [
+      {
+        "name": "segment-lift",
+        "value": "0 2px 4px rgba(0,0,0,0.12)",
+        "purpose": "iOS segmented control selected thumb only (shadowColor shadow, opacity 0.12, radius 4, offset 0 2)."
+      },
+      {
+        "name": "fab-elevation",
+        "value": "0 1px 3px rgba(0,0,0,0.3), 0 4px 8px 3px rgba(0,0,0,0.15)",
+        "purpose": "Android FAB only (elevation 3, M3 level 3 approximated in CSS)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "toggle",
+        "value": "150ms",
+        "purpose": "Android M3 switch thumb and track transition (TOGGLE_DURATION)."
+      },
+      {
+        "name": "press-ios",
+        "value": "opacity 0.6",
+        "purpose": "iOS button pressed state; rows and day cells instead take a fill ground."
+      },
+      {
+        "name": "press-android",
+        "value": "ripple in fill",
+        "purpose": "Android pressed state for rows, buttons, segments and the FAB."
+      },
+      {
+        "name": "native-transitions",
+        "value": "platform default",
+        "purpose": "Screen pushes, form sheet and modal use the native stack transitions; no custom motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "readable-width",
+        "value": "820px",
+        "purpose": "Max width of the centred content column on iPad and Android tablets."
+      },
+      {
+        "name": "calendar-width",
+        "value": "600px",
+        "purpose": "Max width of the month grid, centred."
+      },
+      {
+        "name": "month-picker",
+        "value": "360px",
+        "purpose": "Max width of the month picker dialog."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Filled Button",
+      "kind": "button",
+      "refersTo": "button-filled",
+      "description": "Primary action: son-red capsule. iOS 50pt tall; Android 40dp with 24dp padding.",
+      "html": "<button class=\"ds-btn-filled\">Lưu</button>",
+      "css": ".ds-btn-filled{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;min-height:50px;padding:0 20px;border:none;border-radius:999px;background:#C8281E;color:#FFFFFF;font-size:17px;line-height:22px;font-weight:600;letter-spacing:-0.41px;cursor:pointer;transition:opacity .1s}.ds-btn-filled:hover{opacity:.85}.ds-btn-filled:active{opacity:.6}.ds-btn-filled:focus-visible{outline:2px solid #C8281E;outline-offset:2px}.ds-btn-filled:disabled{opacity:.38}"
+    },
+    {
+      "name": "Tonal Button",
+      "kind": "button",
+      "refersTo": "button-tonal",
+      "description": "Secondary action: the iOS grey system button (fill ground, tint label); Android secondaryContainer with onSecondaryContainer label.",
+      "html": "<button class=\"ds-btn-tonal\">Hôm nay</button>",
+      "css": ".ds-btn-tonal{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;min-height:50px;padding:0 20px;border:none;border-radius:999px;background:#EFEFF1;color:#C8281E;font-size:17px;line-height:22px;font-weight:600;letter-spacing:-0.41px;cursor:pointer;transition:opacity .1s}.ds-btn-tonal:hover{opacity:.85}.ds-btn-tonal:active{opacity:.6}.ds-btn-tonal:focus-visible{outline:2px solid #C8281E;outline-offset:2px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "iOS: label above in footnote, grey fill, 10pt corners. Android: M3 filled field, 4dp top corners, underline that turns 2dp primary on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Tên sự kiện</span><input class=\"ds-field-input\" placeholder=\"Giỗ ông nội\"></label>",
+      "css": ".ds-field{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;display:flex;flex-direction:column;gap:4px;max-width:340px}.ds-field-label{padding:0 4px;font-size:13px;line-height:18px;color:#6E6E73}.ds-field-input{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;min-height:44px;padding:0 12px;border:1px solid transparent;border-radius:10px;background:#EFEFF1;color:#000;font-size:17px;letter-spacing:-0.41px;outline:none}.ds-field-input::placeholder{color:#AEAEB2}.ds-field-input:focus-visible{border-color:#C8281E}.ds-field-input[aria-invalid=true]{border-color:#D70015}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "segmented-thumb",
+      "description": "iOS: fill capsule track, white lifted thumb (the only iOS shadow). Android: outlined M3 segmented button, selected secondaryContainer with a check.",
+      "html": "<div class=\"ds-seg\" role=\"tablist\"><button class=\"ds-seg-item\" aria-selected=\"true\">Tắt</button><button class=\"ds-seg-item\">Đúng ngày</button><button class=\"ds-seg-item\">Trước 1 ngày</button></div>",
+      "css": ".ds-seg{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;display:flex;padding:2px;border-radius:999px;background:#EFEFF1;max-width:360px}.ds-seg-item{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;flex:1 1 auto;min-width:56px;min-height:32px;padding:0 8px;border:none;border-radius:999px;background:transparent;color:#000;font-size:13px;line-height:18px;white-space:nowrap;cursor:pointer;transition:background .15s}.ds-seg-item[aria-selected=true]{background:#FFFFFF;font-weight:600;box-shadow:0 2px 4px rgba(0,0,0,.12)}.ds-seg-item:hover:not([aria-selected=true]){background:rgba(0,0,0,.04)}.ds-seg-item:focus-visible{outline:2px solid #C8281E;outline-offset:1px}"
+    },
+    {
+      "name": "Section List",
+      "kind": "custom",
+      "refersTo": "list-row",
+      "description": "The no-card pattern: content on the ground, bold sentence-case header, rows with inset hairlines (iOS only), trailing values muted or semantic, tinted action row, footnote footer.",
+      "html": "<section class=\"ds-sec\"><h3 class=\"ds-sec-h\">Ngày Canh Tý</h3><div class=\"ds-row\"><span>Hắc đạo</span><span class=\"ds-row-v\">Bạch Hổ</span></div><div class=\"ds-row\"><span>Tiết khí</span><span class=\"ds-row-v ds-lunar\">Tiểu tuyết, ngày đầu</span></div><div class=\"ds-row\"><span>Tháng, năm</span><span class=\"ds-row-v\">Kỷ Hợi, Bính Ngọ</span></div><button class=\"ds-row ds-action\">Thêm sự kiện vào ngày này</button><p class=\"ds-sec-f\">Giờ tốt kế tiếp: Thân, 15h-17h</p></section>",
+      "css": ".ds-sec{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;background:#FFFFFF;padding-top:20px;max-width:420px}.ds-sec-h{margin:0;padding:0 20px 4px;font-size:20px;line-height:25px;font-weight:700;letter-spacing:.38px;color:#000}.ds-row{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;box-sizing:border-box;padding:10px 20px;border:none;background:transparent;font-size:17px;line-height:22px;letter-spacing:-.41px;color:#000;text-align:left;position:relative}.ds-row+.ds-row::before{content:\"\";position:absolute;top:0;left:20px;right:0;height:.5px;background:#D1D1D6}.ds-row-v{color:#6E6E73}.ds-lunar{color:#9A5B00}.ds-action{color:#C8281E;cursor:pointer}.ds-action:hover{background:#F7F7F8}.ds-action:active{background:#EFEFF1}.ds-action:focus-visible{outline:2px solid #C8281E;outline-offset:-2px}.ds-sec-f{margin:0;padding:4px 20px 0;font-size:13px;line-height:18px;color:#6E6E73}"
+    },
+    {
+      "name": "iOS Tab Bar",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Native UITabBar (iOS 26 floating Liquid Glass) with SF Symbols; selected tab in son red. Android uses the M3 navigation bar on surface with a secondaryContainer pill indicator.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M12 3a9 9 0 0 0 0 18z\" fill=\"currentColor\"/></svg>Hôm nay</a><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><rect x=\"3.5\" y=\"5\" width=\"17\" height=\"15\" rx=\"3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M3.5 9.5h17M8 3v4M16 3v4\" stroke=\"currentColor\" stroke-width=\"1.8\"/></svg>Lịch</a><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><path d=\"M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg>Sự kiện</a><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><path d=\"M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Đổi ngày</a></nav>",
+      "css": ".ds-tabs{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;display:flex;gap:4px;padding:4px;max-width:420px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);box-shadow:0 0 0 .5px rgba(0,0,0,.08)}.ds-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:999px;color:#000;font-size:11px;line-height:13px;font-weight:500;text-decoration:none;cursor:pointer}.ds-tab[aria-current=page]{color:#C8281E;background:rgba(0,0,0,.06)}.ds-tab:hover{background:rgba(0,0,0,.04)}.ds-tab:focus-visible{outline:2px solid #C8281E}"
+    },
+    {
+      "name": "Android FAB",
+      "kind": "button",
+      "refersTo": "fab",
+      "description": "Android only: M3 FAB, 56dp, 16dp corners, primaryContainer with onPrimaryContainer icon, elevation 3. iOS puts + in the nav bar instead.",
+      "html": "<button class=\"ds-fab\" aria-label=\"Thêm sự kiện\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\"><path d=\"M12 5v14M5 12h14\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></button>",
+      "css": ".ds-fab{width:56px;height:56px;display:grid;place-items:center;border:none;border-radius:16px;background:#FFDAD5;color:#410001;box-shadow:0 1px 3px rgba(0,0,0,.3),0 4px 8px 3px rgba(0,0,0,.15);cursor:pointer;transition:background .15s}.ds-fab:hover{background:#F6CFC9}.ds-fab:active{background:#EDC3BD}.ds-fab:focus-visible{outline:2px solid #AF2C21;outline-offset:2px}"
+    },
+    {
+      "name": "Moon Day Header",
+      "kind": "custom",
+      "refersTo": "moon-header",
+      "description": "Signature: a plain disc at the true phase (here waxing gibbous) beside the lunar date title and the solar line. No craters, no glow.",
+      "html": "<div class=\"ds-dayhead\"><div class=\"ds-moon\" aria-hidden=\"true\"><span class=\"ds-moon-half\"></span><span class=\"ds-moon-term\"></span></div><div><div class=\"ds-dayhead-t\">14 tháng Mười</div><div class=\"ds-dayhead-s\">Chủ nhật, 22 tháng 11, 2026</div></div></div>",
+      "css": ".ds-dayhead{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;display:flex;align-items:center;gap:16px;padding:8px 20px;background:#FFFFFF}.ds-moon{position:relative;flex:none;width:44px;height:44px;border-radius:50%;overflow:hidden;background:#E5E5EA}.ds-moon-half{position:absolute;top:0;right:0;width:22px;height:44px;background:#E2A23B}.ds-moon-term{position:absolute;inset:0;border-radius:50%;background:#E2A23B;transform:scaleX(.82)}.ds-dayhead-t{font-size:22px;line-height:28px;font-weight:600;letter-spacing:.35px;color:#000}.ds-dayhead-s{font-size:15px;line-height:20px;letter-spacing:-.24px;color:#C8281E}"
+    },
+    {
+      "name": "Lunar and Event Marks",
+      "kind": "custom",
+      "refersTo": "mark-event",
+      "description": "Shape before colour: filled blue dot = personal event, filled amber disc = rằm, amber ring = mùng 1, son-red ring = holiday.",
+      "html": "<ul class=\"ds-marks\"><li><span class=\"ds-mark ds-mark-event\"></span>Giỗ ông nội</li><li><span class=\"ds-mark ds-mark-full\"></span>Rằm tháng Mười</li><li><span class=\"ds-mark ds-mark-new\"></span>Mùng 1 tháng Mười một</li><li><span class=\"ds-mark ds-mark-holiday\"></span>Tết Thường tân</li></ul>",
+      "css": ".ds-marks{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:17px;color:#000}.ds-marks li{display:flex;align-items:center;gap:12px}.ds-mark{display:inline-block;width:12px;height:12px;border-radius:50%;box-sizing:border-box}.ds-mark-event{width:9px;height:9px;margin:0 1.5px;background:#2F6FDB}.ds-mark-full{background:#E2A23B}.ds-mark-new{border:2px solid #9A5B00}.ds-mark-holiday{border:1.6px solid #C8281E}"
+    },
+    {
+      "name": "Giờ Hoàng Đạo Strip",
+      "kind": "custom",
+      "refersTo": "hour-good",
+      "description": "Signature: twelve equal two-hour segments; good hours a thick son-red pill, ordinary hours a thin faint track; a vertical now marker; branch names below, good ones bold.",
+      "html": "<div class=\"ds-hours\"><div class=\"ds-hours-bar\"><i class=\"g\"></i><i class=\"g\"></i><i></i><i class=\"g\"></i><i></i><i></i><i class=\"g\"></i><i></i><i class=\"g\"></i><i class=\"g\"></i><i></i><i></i><b class=\"ds-now\" style=\"left:58%\"></b></div><div class=\"ds-hours-names\"><span class=\"g\">Tý</span><span class=\"g\">Sửu</span><span>Dần</span><span class=\"g\">Mão</span><span>Thìn</span><span>Tỵ</span><span class=\"g\">Ngọ</span><span>Mùi</span><span class=\"g\">Thân</span><span class=\"g\">Dậu</span><span>Tuất</span><span>Hợi</span></div></div>",
+      "css": ".ds-hours{font-family:-apple-system,system-ui,\"SF Pro Text\",Roboto,sans-serif;max-width:400px;padding:8px 20px;background:#FFFFFF}.ds-hours-bar{position:relative;display:flex;align-items:center;gap:3px;height:8px}.ds-hours-bar i{flex:1;height:2px;border-radius:1px;background:#AEAEB2}.ds-hours-bar i.g{height:8px;border-radius:4px;background:#C8281E}.ds-now{position:absolute;top:-5px;width:2px;height:18px;margin-left:-1px;border-radius:1px;background:#000}.ds-hours-names{display:flex;margin-top:6px}.ds-hours-names span{flex:1;text-align:center;font-size:11px;line-height:13px;color:#6E6E73}.ds-hours-names span.g{color:#000;font-weight:600}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Native Almanac",
+    "overview": "Lịch Việt should look as if it came in the box: Apple Calendar on an iPhone, Google Calendar on an Android phone, kept at Things 3 tidiness. It is a React Native app with one identity and two native dialects. iOS speaks in system grounds (white or black), SF Pro text styles, large titles, inset hairlines and a floating Liquid Glass tab bar. Android speaks Material 3: tonal surfaces seeded from son red, M3 type roles, primary-coloured subheaders, a navigation bar with a pill indicator, and a FAB. Every token is a role (`primary`, `fill`, `textMuted`) that resolves to a different value per platform and per light or dark theme; components are written once against roles.\n\nAgainst that deliberately stock canvas the app owns one thing a stock calendar does not have: the real moon. A plain disc drawn at today's true phase sits beside the lunar date on Hôm nay and Chi tiết ngày, shrinks to a disc or ring on mùng 1 and rằm in the month grid, leads the home-screen widgets, and is the app icon (a waxing moon on son red). The other borrowed signature is the 24-hour giờ hoàng đạo strip: twelve equal two-hour segments, good hours a thick son-red pill, ordinary hours a thin track, a vertical now marker.\n\nThe density is calm and list-shaped. Content sits directly on the ground in plain lists; there are no cards. Hierarchy comes from weight and colour inside the system type scale, never from oversized numerals or tracked labels. One tint carries every interactive accent. The system refuses red-and-gold Tết decoration, card stacks, giant numerals and tracked uppercase labels.",
+    "keyCharacteristics": [
+      "Adaptive: iOS system look on iPhone and iPad, Material 3 on Android, one set of role tokens resolved per platform and theme.",
+      "One tint, son red, which is also the colour of Sundays and public holidays.",
+      "Moon amber belongs to lunar information only.",
+      "Marks and states differ by shape first, colour second.",
+      "No cards: sections on the ground, separated by headers and space.",
+      "System fonts and system type scales only.",
+      "Flat on iOS, tonal on Android; two shadows in the whole app."
+    ],
+    "rules": [
+      {
+        "name": "The One Tint Rule",
+        "body": "Son red is the only accent that means \"you can press this\" or \"this is selected\". There is no second brand colour; blue, green and amber are semantic, never decorative.",
+        "section": "colors"
+      },
+      {
+        "name": "The Moon Owns Amber Rule",
+        "body": "Amber appears only where the information is lunar: the moon, the mùng 1 and rằm marks, lunar labels, tiết khí. Never use it for a highlight, a badge or a Tết flourish.",
+        "section": "colors"
+      },
+      {
+        "name": "The Shape Before Colour Rule",
+        "body": "Every mark is told apart by shape as well as colour: filled blue dot = personal event, filled amber disc = rằm, amber ring = mùng 1, son-red ring = holiday; a thick pill = good hour, a thin track = ordinary hour. A new mark must pass in greyscale.",
+        "section": "colors"
+      },
+      {
+        "name": "The System Voice Rule",
+        "body": "System fonts only. Never set a font family, import a web or brand font, or draw a numeral larger than the native large title.",
+        "section": "typography"
+      },
+      {
+        "name": "The Weight Not Size Rule",
+        "body": "Hierarchy comes from weight and colour within the system ramp. The lunar date is a 22pt title beside a moon, not a giant number.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Header Rule",
+        "body": "Section headers are sentence case. iOS: bold 20pt `headline` in `text`. Android: M3 titleSmall in `primary`. Never tracked uppercase.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ground Rule",
+        "body": "No cards. Content sits directly on `background`; sections are separated by a header and space. iOS adds inset hairlines between rows; Android rows have none.",
+        "section": "layout"
+      },
+      {
+        "name": "The Readable Column Rule",
+        "body": "On tablets nothing stretches edge to edge: lists stop at 820 and the month grid at 600, centred.",
+        "section": "layout"
+      },
+      {
+        "name": "The Two Shadows Rule",
+        "body": "Exactly two shadows exist: the iOS segmented thumb and the Android FAB. Nothing else casts one: no row, sheet, chip or moon.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do write components against role tokens (`primary`, `fill`, `textMuted`) and let `src/shared/theme/colors.ts` resolve them for iOS or Android, light or dark.",
+      "Do follow each platform's own convention when they differ: SF text styles, 44pt rows, inset hairlines and nav-bar actions on iOS; M3 roles, 56dp rows, primary subheaders, tonal surfaces and a FAB on Android.",
+      "Do put content straight on `background` in plain sections, with a sentence-case header and space between sections.",
+      "Do draw the moon at the true phase of the date being shown wherever a single day is the subject.",
+      "Do give every new mark or state a distinct shape (filled, ring, thick, thin) before choosing its colour.",
+      "Do set `maxFontSizeMultiplier` on every text: 1.6 for content, 1.3 inside fixed frames, 1.1 for the hour-name strip.",
+      "Do cap wide layouts at 820 for lists and 600 for the month grid, centred.",
+      "Do keep touch targets at 44pt (iOS) / 48dp (Android)."
+    ],
+    "donts": [
+      "Don't wrap content in cards, tiles or boxed panels, or stack identical cards.",
+      "Don't use red-and-gold Tết decoration, lanterns, blossoms or gradients.",
+      "Don't set display numerals larger than the native large title.",
+      "Don't set section headers or labels in tracked uppercase.",
+      "Don't load a custom font or set `fontFamily`.",
+      "Don't add a second accent colour or use amber for anything that is not lunar.",
+      "Don't add shadows beyond the iOS segmented thumb and the Android FAB.",
+      "Don't draw hairline row separators on Android or show the FAB on iOS.",
+      "Don't add craters, glow or texture to the moon.",
+      "Don't tell marks apart by colour alone."
+    ]
+  }
+}

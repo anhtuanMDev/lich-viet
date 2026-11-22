@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 /**
  * Sinh các icon vẽ từ hình học (các path bên dưới):
- *   - Android: icon thông báo (vector trắng đơn sắc), màu nhấn thông báo, vector lịch cũ.
- *   - Store: ảnh nổi bật (feature graphic) 1024×500.
+ *   - Android: icon thông báo (vector trắng đơn sắc), màu nhấn thông báo.
+ *   - Store: ảnh nổi bật (feature graphic) 1024×500 - vẫn dùng hình tờ lịch cũ bên dưới.
  *
- * KHÔNG còn sinh icon app: từ 10/2026 icon launcher Android (mipmap-*, lớp .webp từ Image
- * Asset của Android Studio), AppIcon iOS và icon Google Play 512 dùng ảnh thiết kế
- * (assets/logo/). Script cũ ghi đè các file đó - đừng thêm lại.
+ * KHÔNG sinh icon app: icon launcher Android, AppIcon iOS và icon Google Play 512 do
+ * scripts/generate-app-icon.js sinh. Đừng ghi lại các file đó ở đây.
  *
  * Sửa thiết kế → sửa hằng số ở đây → `node scripts/generate-icons.js` → commit kết quả.
  */
 const fs = require('fs');
 const path = require('path');
-const zlib = require('zlib');
 const { Resvg } = require('@resvg/resvg-js');
+const { encodeRgbPng } = require('./lib/png');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -31,7 +30,6 @@ const GOLD = '#D4952B';
 const SHEET =
   'M39,32 H69 A6,6 0 0 1 75,38 V72 A6,6 0 0 1 69,78 H39 A6,6 0 0 1 33,72 V38 A6,6 0 0 1 39,32 Z';
 const HEADER = 'M33,44 V38 A6,6 0 0 1 39,32 H69 A6,6 0 0 1 75,38 V44 Z';
-const HEADER_GAP = 'M33,43 H75 V45 H33 Z';
 const ring = x =>
   `M${x},28 A2,2 0 0 1 ${x + 2},30 V35 A2,2 0 0 1 ${x},37 A2,2 0 0 1 ${
     x - 2
@@ -58,11 +56,6 @@ const FOREGROUND = [
   { d: RINGS, fill: PAPER },
   { d: ICON_MOON, fill: GOLD },
 ];
-// Monochrome: hệ thống tự tô một màu theo hình nền → trăng và vạch đầu tờ lịch là lỗ khoét.
-const MONOCHROME = [
-  { d: `${SHEET} ${HEADER_GAP} ${ICON_MOON}`, fill: '#000000', evenOdd: true },
-  { d: RINGS, fill: '#000000' },
-];
 
 // ---------- SVG → PNG ----------
 
@@ -76,47 +69,14 @@ const svgPaths = paths =>
     )
     .join('');
 
-/**
- * PNG RGB 8-bit (bỏ kênh alpha) từ ảnh RGBA đã render - dành cho icon iOS và ảnh nổi bật
- * Google Play (Play chỉ nhận JPEG hoặc PNG 24-bit, không alpha).
- */
+/** PNG kín nền (không alpha) - Google Play chỉ nhận JPEG hoặc PNG 24-bit. */
 function renderOpaque(svg, width, options = {}) {
   const image = new Resvg(svg, {
     fitTo: { mode: 'width', value: width },
     background: RED,
     ...options,
   }).render();
-  const { width: w, height: h, pixels } = image;
-  const raw = Buffer.alloc((w * 3 + 1) * h);
-  for (let y = 0; y < h; y++) {
-    raw[y * (w * 3 + 1)] = 0; // filter: none
-    for (let x = 0; x < w; x++) {
-      const src = (y * w + x) * 4;
-      const dst = y * (w * 3 + 1) + 1 + x * 3;
-      raw[dst] = pixels[src];
-      raw[dst + 1] = pixels[src + 1];
-      raw[dst + 2] = pixels[src + 2];
-    }
-  }
-  const chunk = (type, data) => {
-    const length = Buffer.alloc(4);
-    length.writeUInt32BE(data.length);
-    const body = Buffer.concat([Buffer.from(type, 'ascii'), data]);
-    const crc = Buffer.alloc(4);
-    crc.writeUInt32BE(zlib.crc32(body));
-    return Buffer.concat([length, body, crc]);
-  };
-  const header = Buffer.alloc(13);
-  header.writeUInt32BE(w, 0);
-  header.writeUInt32BE(h, 4);
-  header[8] = 8; // bit depth
-  header[9] = 2; // color type: RGB
-  return Buffer.concat([
-    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
-    chunk('IHDR', header),
-    chunk('IDAT', zlib.deflateSync(raw, { level: 9 })),
-    chunk('IEND', Buffer.alloc(0)),
-  ]);
+  return encodeRgbPng(image.width, image.height, image.pixels);
 }
 
 // ---------- Android vector drawable ----------
@@ -161,22 +121,13 @@ const FEATURE_GRAPHIC = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" he
 
 console.log('Android:');
 write(
-  'android/app/src/main/res/values/ic_launcher_background.xml',
+  'android/app/src/main/res/values/notification_accent.xml',
   `<?xml version="1.0" encoding="utf-8"?>
 <!-- Sinh bởi scripts/generate-icons.js - đừng sửa tay. -->
 <resources>
-    <color name="ic_launcher_background">${RED}</color>
     <color name="notification_accent">${RED}</color>
 </resources>
 `,
-);
-write(
-  'android/app/src/main/res/drawable/ic_launcher_foreground.xml',
-  vectorDrawable(108, 108, FOREGROUND),
-);
-write(
-  'android/app/src/main/res/drawable/ic_launcher_monochrome.xml',
-  vectorDrawable(108, 108, MONOCHROME),
 );
 write(
   'android/app/src/main/res/drawable/ic_notification.xml',

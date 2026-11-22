@@ -19,7 +19,7 @@ export async function syncWidgets(): Promise<void> {
     if (today) {
       await requestWidgetUpdate({
         widgetName: TODAY_WIDGET_NAME,
-        renderWidget: info => renderTodayWidget(today, info.width),
+        renderWidget: info => renderTodayWidget(today, info),
       });
     }
     return;

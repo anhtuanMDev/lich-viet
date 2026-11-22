@@ -31,3 +31,22 @@ export function describeDaysAway(daysAway: number): string {
 /** "Thứ bảy, 18/04/2026" */
 export const describeSolarDay = (jd: JulianDay): string =>
   `${weekdayName(weekdayOf(jd))}, ${formatSolar(fromJulianDay(jd))}`;
+
+/** "Mai", "6 ngày" - số ngày còn lại dạng ngắn, đặt ở cuối hàng danh sách. */
+export function shortDaysAway(daysAway: number): string {
+  if (daysAway === 0) {
+    return 'Hôm nay';
+  }
+  return daysAway === 1 ? 'Mai' : `${String(daysAway)} ngày`;
+}
+
+/** Ngày gốc của sự kiện, thêm "lần thứ N" khi sự kiện lặp hằng năm đã có từ trước. */
+export function describeOriginWithAnniversary(
+  event: CalendarEvent,
+  anniversary: number,
+): string {
+  const origin = describeOrigin(event);
+  return anniversary > 0
+    ? `${origin} · lần thứ ${String(anniversary)}`
+    : origin;
+}

@@ -1,18 +1,21 @@
 import { memo, useMemo } from 'react';
-import { Pressable, View } from 'react-native';
+
 import { SPOKEN, spokenAgendaDay } from '@core/a11y';
-import { formatLunarShort, weekdayShort } from '@core/date/format';
+import { lunarDayTitle } from '@core/date/format';
 import { eventsByDay } from '@core/events';
-import type { CalendarEvent } from '@core/events';
 import { getMonthGrid } from '@core/lunar';
+import { EventDot } from '@features/events';
+import { ListRow, Section } from '@shared/ui';
+
+import { AgendaDateColumn } from './AgendaDateColumn';
+
+import type { CalendarEvent } from '@core/events';
 import type {
   MonthGridCell,
   MonthNumber,
   SolarDate,
   WeekStart,
 } from '@core/lunar';
-import { createThemedStyles } from '@shared/theme';
-import { AppText, Card } from '@shared/ui';
 
 export interface MonthAgendaProps {
   readonly year: number;
@@ -26,6 +29,11 @@ interface AgendaDay {
   readonly cell: MonthGridCell;
   readonly events: readonly CalendarEvent[];
 }
+
+/** Cột ngày đầu hàng: số ngày + thứ. */
+const DATE_COLUMN = 36;
+/** Chấm sự kiện cuối hàng - nhỏ như chấm trên lưới lịch. */
+const AGENDA_DOT_SIZE = 7;
 
 /** Ngày lễ và sự kiện cá nhân trong tháng đang xem, theo thứ tự ngày. */
 export const MonthAgenda = memo(function MonthAgendaView({
@@ -54,11 +62,11 @@ export const MonthAgenda = memo(function MonthAgendaView({
     return null;
   }
   return (
-    <Card title="Trong tháng">
+    <Section title="Trong tháng" separatorInset={DATE_COLUMN}>
       {days.map(day => (
         <AgendaRow key={day.cell.jd} day={day} onPress={onPressDay} />
       ))}
-    </Card>
+    </Section>
   );
 });
 
@@ -69,62 +77,26 @@ const AgendaRow = memo(function AgendaRowView({
   readonly day: AgendaDay;
   readonly onPress: (date: SolarDate) => void;
 }) {
-  const styles = useStyles();
-  const isRedDay =
-    cell.weekday === 0 || cell.holidays.some(h => h.kind === 'public');
+  const names = [
+    ...events.map(event => event.title),
+    ...cell.holidays.map(holiday => holiday.name),
+  ];
   return (
-    <Pressable
-      onPress={() => onPress(cell.solar)}
-      accessibilityRole="button"
-      accessibilityLabel={spokenAgendaDay(
-        cell,
-        events.map(event => event.title),
-      )}
-      accessibilityHint={SPOKEN.hint.openDay}
-      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-    >
-      <View style={styles.date}>
-        <AppText variant="heading" color={isRedDay ? 'holiday' : 'text'}>
-          {cell.solar.day}
-        </AppText>
-        <AppText variant="caption" color="textMuted">
-          {weekdayShort(cell.weekday)}
-        </AppText>
-      </View>
-      <View style={styles.names}>
-        {cell.holidays.map(holiday => (
-          <AppText key={holiday.name}>{holiday.name}</AppText>
-        ))}
-        {events.map(event => (
-          <AppText key={event.id} color="event">
-            {event.title}
-          </AppText>
-        ))}
-        <AppText variant="caption" color="lunarAccent">
-          Âm lịch {formatLunarShort(cell.lunar)}
-        </AppText>
-      </View>
-    </Pressable>
+    <ListRow
+      leading={<AgendaDateColumn cell={cell} />}
+      title={names.join(' · ')}
+      subtitle={lunarDayTitle(cell.lunar)}
+      trailing={
+        events.length > 0 ? <EventDot size={AGENDA_DOT_SIZE} /> : undefined
+      }
+      action={{ onPress: () => onPress(cell.solar), hint: SPOKEN.hint.openDay }}
+      presentation={{
+        leadingWidth: DATE_COLUMN,
+        spokenLabel: spokenAgendaDay(
+          cell,
+          events.map(event => event.title),
+        ),
+      }}
+    />
   );
 });
-
-const useStyles = createThemedStyles(t => ({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: t.spacing.md,
-    paddingVertical: t.spacing.xs,
-    borderRadius: t.radius.sm,
-  },
-  pressed: {
-    backgroundColor: t.colors.surfaceMuted,
-  },
-  date: {
-    minWidth: 40,
-    alignItems: 'center',
-  },
-  names: {
-    flex: 1,
-    gap: t.spacing.xxs,
-  },
-}));

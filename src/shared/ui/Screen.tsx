@@ -10,17 +10,30 @@ import type {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { Edge } from 'react-native-safe-area-context';
-import { createThemedStyles } from '@shared/theme';
+import { createThemedStyles, layout } from '@shared/theme';
+import { FAB_CLEARANCE } from './Fab';
 import { RevealInputContext } from './revealInput';
+import { useTabBarSpace } from './tabBarSpace';
 
 export interface ScreenProps {
   readonly children: ReactNode;
   /** Mặc định cuộn được; tắt khi con đã là list ảo hoá (FlatList…). */
   readonly scroll?: boolean;
+  /**
+   * Cạnh cần chừa vùng an toàn. Mặc định chỉ hai bên: thanh tiêu đề native và thanh tab
+   * đã lo phần trên/dưới (ScrollView tự chỉnh inset với contentInsetAdjustmentBehavior).
+   */
   readonly edges?: readonly Edge[];
+  /** Chừa chỗ cuối trang cho nút nổi (FAB) của Android. */
+  readonly fabSpace?: boolean;
+  /** Màn nằm trong tab: chừa chỗ cho thanh điều hướng Android (iOS tự chỉnh). */
+  readonly inTabs?: boolean;
 }
 
-const DEFAULT_EDGES: readonly Edge[] = ['top', 'left', 'right'];
+const DEFAULT_EDGES: readonly Edge[] = ['left', 'right'];
+
+/** Khoảng trống cuối trang (dp) để hàng cuối không sát thanh điều hướng. */
+const END_SPACE = 32;
 
 /** Khoảng hở giữa ô đang nhập và mép bàn phím. */
 const KEYBOARD_GAP = 24;
@@ -29,12 +42,25 @@ export function Screen({
   children,
   scroll = true,
   edges = DEFAULT_EDGES,
+  fabSpace = false,
+  inTabs = false,
 }: ScreenProps) {
   const styles = useStyles();
+  const tabBarSpace = useTabBarSpace();
   return (
     <SafeAreaView style={styles.root} edges={edges}>
       {scroll ? (
-        <KeyboardAwareScroll contentStyle={styles.content}>
+        <KeyboardAwareScroll
+          contentStyle={[
+            styles.content,
+            fabSpace && styles.fabSpace,
+            inTabs &&
+              tabBarSpace > 0 && {
+                paddingBottom:
+                  tabBarSpace + (fabSpace ? FAB_CLEARANCE : END_SPACE),
+              },
+          ]}
+        >
           {children}
         </KeyboardAwareScroll>
       ) : (
@@ -109,7 +135,9 @@ function KeyboardAwareScroll({
       keyboardTop.current = e.endCoordinates.screenY;
       measureFrame(() => {
         const box = frame.current;
-        setOverlap(box ? Math.max(0, box.bottom - e.endCoordinates.screenY) : 0);
+        setOverlap(
+          box ? Math.max(0, box.bottom - e.endCoordinates.screenY) : 0,
+        );
         // Chờ đệm mới được áp dụng rồi mới cuộn, nếu không sẽ không cuộn quá cuối nội dung.
         requestAnimationFrame(reveal);
       });
@@ -124,12 +152,9 @@ function KeyboardAwareScroll({
     };
   }, [measureFrame, reveal]);
 
-  const onScroll = useCallback(
-    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      offsetY.current = e.nativeEvent.contentOffset.y;
-    },
-    [],
-  );
+  const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    offsetY.current = e.nativeEvent.contentOffset.y;
+  }, []);
 
   // Chuyển sang ô khác khi bàn phím đang mở: không có keyboardDidShow mới.
   const revealSoon = useCallback(() => {
@@ -137,7 +162,10 @@ function KeyboardAwareScroll({
   }, [reveal]);
 
   const contentContainerStyle = useMemo(
-    () => [contentStyle, overlap > 0 && { paddingBottom: overlap + KEYBOARD_GAP }],
+    () => [
+      contentStyle,
+      overlap > 0 && { paddingBottom: overlap + KEYBOARD_GAP },
+    ],
     [contentStyle, overlap],
   );
 
@@ -170,8 +198,15 @@ const useStyles = createThemedStyles(t => ({
   fill: {
     flex: 1,
   },
+  // Màn rộng: nội dung không kéo dài quá tầm đọc (iPad ngang, tablet Android) và nằm giữa,
+  // như readableContentGuide của UIKit.
   content: {
-    padding: t.spacing.lg,
-    gap: t.spacing.md,
+    width: '100%',
+    maxWidth: layout.readableWidth,
+    alignSelf: 'center',
+    paddingBottom: t.spacing.xxl,
+  },
+  fabSpace: {
+    paddingBottom: FAB_CLEARANCE,
   },
 }));

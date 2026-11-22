@@ -17,3 +17,5 @@ export {
   upcomingEvents,
 } from './schedule';
 export type { UpcomingEvent } from './schedule';
+export { upcomingItems, upcomingMarkOf } from './upcomingItems';
+export type { UpcomingItem, UpcomingKind } from './upcomingItems';

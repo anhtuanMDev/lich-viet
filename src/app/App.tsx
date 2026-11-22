@@ -26,9 +26,9 @@ function ThemedNavigation() {
         ...base.colors,
         primary: theme.colors.primary,
         background: theme.colors.background,
-        card: theme.colors.surface,
+        card: theme.colors.background,
         text: theme.colors.text,
-        border: theme.colors.border,
+        border: theme.colors.separator,
       },
     };
   }, [theme]);

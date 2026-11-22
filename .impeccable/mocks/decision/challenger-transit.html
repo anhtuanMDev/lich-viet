@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=390">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--night:#0F1B3D;--panel:#16264F;--porcelain:#F3F1EA;--scarlet:#E0412E;--cobalt:#2E6FD8;--amber:#F0A830;--muted:#9AA6C4}
+body{width:390px;height:844px;overflow:hidden;background:var(--night);color:var(--porcelain);font-family:"Be Vietnam Pro",system-ui,sans-serif;position:relative}
+.status{height:47px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 8px 34px;font-weight:600;font-size:16px}
+.nav{height:44px}
+h1{font-size:34px;line-height:41px;font-weight:700;padding:0 16px 6px}
+.date{padding:0 16px;font-size:15px;color:var(--muted)}
+.map{position:relative;margin:22px 16px 0;height:520px}
+.track{position:absolute;left:21px;top:18px;width:6px;height:470px;background:var(--scarlet);border-radius:3px}
+.st{position:absolute;left:0;display:flex;align-items:center;gap:16px;width:100%}
+.dot{width:48px;display:flex;justify-content:center;flex:none}
+.tick{width:16px;height:16px;border-radius:50%;background:var(--night);border:4px solid var(--porcelain)}
+.inter{width:26px;height:26px;border-radius:50%;background:var(--porcelain);border:5px solid var(--night);box-shadow:0 0 0 3px var(--amber)}
+.here{width:44px;height:44px;border-radius:50%;background:var(--scarlet);border:5px solid var(--porcelain)}
+.name{font-size:17px;font-weight:600}
+.meta{font-size:13px;color:var(--muted)}
+.big .name{font-size:26px;font-weight:700}
+.dist{margin-left:auto;font-size:13px;font-weight:600;background:var(--panel);border-radius:999px;padding:4px 10px}
+.dist.soon{background:var(--amber);color:var(--night)}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:83px;background:#0B1530;border-top:.5px solid #243660;display:flex;padding-top:7px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--muted)}
+.tab i{width:24px;height:24px;border:2px solid currentColor;border-radius:50%}
+.tab.on{color:var(--porcelain)}
+.tab.on i{border-color:var(--scarlet)}
+</style></head><body>
+<div class="status"><span>9:41</span><span>●●● ▮</span></div>
+<div class="nav"></div>
+<h1>Hôm nay</h1>
+<p class="date">Chủ nhật 22/11/2026 · ngày Canh Tý</p>
+<div class="map">
+  <div class="track"></div>
+  <div class="st big" style="top:0"><span class="dot"><span class="here"></span></span><div><p class="name">14 tháng Mười</p><p class="meta">Năm Bính Ngọ · Hắc đạo Bạch Hổ</p></div></div>
+  <div class="st" style="top:96px"><span class="dot"><span class="inter"></span></span><div><p class="name">Rằm tháng Mười</p><p class="meta">Thứ Hai 23/11</p></div><span class="dist soon">Mai</span></div>
+  <div class="st" style="top:168px"><span class="dot"><span class="tick"></span></span><div><p class="name">Tiết Tiểu tuyết</p><p class="meta">Bắt đầu hôm nay</p></div></div>
+  <div class="st" style="top:240px"><span class="dot"><span class="inter"></span></span><div><p class="name">Giỗ ông nội</p><p class="meta">20 tháng Mười · Thứ Bảy 28/11</p></div><span class="dist">6 ngày</span></div>
+  <div class="st" style="top:312px"><span class="dot"><span class="tick"></span></span><div><p class="name">Mùng 1 tháng Một</p><p class="meta">Thứ Ba 8/12</p></div><span class="dist">16 ngày</span></div>
+  <div class="st" style="top:384px"><span class="dot"><span class="inter"></span></span><div><p class="name">Sinh nhật mẹ</p><p class="meta">5 tháng Một · Thứ Bảy 12/12</p></div><span class="dist">20 ngày</span></div>
+  <div class="st" style="top:456px"><span class="dot"><span class="tick"></span></span><div><p class="name">Ông Táo về trời</p><p class="meta">23 tháng Chạp</p></div><span class="dist">2 tháng</span></div>
+</div>
+<nav class="tabs">
+  <div class="tab on"><i></i>Hôm nay</div><div class="tab"><i></i>Lịch</div><div class="tab"><i></i>Sự kiện</div><div class="tab"><i></i>Đổi ngày</div>
+</nav>
+</body></html>

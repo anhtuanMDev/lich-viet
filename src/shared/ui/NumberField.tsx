@@ -1,13 +1,14 @@
-import { useCallback } from 'react';
-import { TextInput, View } from 'react-native';
-import {
-  createThemedStyles,
-  fontScaleLimit,
-  useScaledText,
-  useTheme,
-} from '@shared/theme';
+import { Platform, TextInput, View } from 'react-native';
+
+import { createThemedStyles } from '@shared/theme';
+
 import { AppText } from './AppText';
-import { useRevealFocusedInput } from './revealInput';
+import { fieldLabelColor } from './field/fieldLabelColor';
+import { fieldFrameStyles } from './field/fieldStyles';
+import { useFieldFocus } from './field/useFieldFocus';
+import { useThemedInputProps } from './field/useThemedInputProps';
+
+import type { Theme, ThemedStyles } from '@shared/theme';
 
 export interface NumberFieldProps {
   readonly label: string;
@@ -18,59 +19,65 @@ export interface NumberFieldProps {
   readonly invalid?: boolean;
 }
 
+const isAndroid = Platform.OS === 'android';
+const keepDigits = (text: string): string => text.replaceAll(/\D/g, '');
+
+/** Ô nhập số (ngày, tháng, năm) - cùng kiểu khung với TextField của từng nền tảng. */
 export function NumberField({
   label,
   value,
   onChangeValue,
   maxLength,
-  invalid = false,
+  invalid: isInvalid = false,
 }: NumberFieldProps) {
   const styles = useStyles();
-  const { colors, typography } = useTheme();
-  const scaledText = useScaledText(typography.title, fontScaleLimit.content);
-  const reveal = useRevealFocusedInput();
-  const handleChange = useCallback(
-    (text: string) => onChangeValue(text.replace(/\D/g, '')),
-    [onChangeValue],
-  );
+  const { textStyle, ...inputProps } = useThemedInputProps('bodyStrong');
+  const { isFocused, handleFocus, handleBlur } = useFieldFocus();
 
   return (
     <View style={styles.container}>
-      <AppText variant="label" color="textMuted">
+      <AppText
+        variant="footnote"
+        color={fieldLabelColor({ isInvalid, isFocused })}
+        align="center"
+      >
         {label}
       </AppText>
       <TextInput
         value={value}
-        onChangeText={handleChange}
+        onChangeText={text => onChangeValue(keepDigits(text))}
         keyboardType="number-pad"
         inputMode="numeric"
         maxLength={maxLength}
         selectTextOnFocus
-        onFocus={reveal}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         accessibilityLabel={label}
-        {...scaledText.textProps}
-        placeholderTextColor={colors.textFaint}
-        style={[scaledText.style, styles.input, invalid && styles.invalid]}
+        {...inputProps}
+        style={[
+          textStyle,
+          styles.frame,
+          styles.input,
+          isAndroid && isFocused && styles.focused,
+          isInvalid && styles.invalid,
+        ]}
       />
     </View>
   );
 }
 
-const useStyles = createThemedStyles(t => ({
-  container: {
-    flex: 1,
-    gap: t.spacing.xs,
-  },
-  input: {
-    color: t.colors.text,
-    textAlign: 'center',
-    backgroundColor: t.colors.surfaceMuted,
-    borderRadius: t.radius.sm,
-    borderWidth: 1,
-    borderColor: t.colors.border,
-    paddingVertical: t.spacing.sm,
-  },
-  invalid: {
-    borderColor: t.colors.holiday,
-  },
-}));
+function numberFieldStyles(theme: Theme) {
+  return {
+    ...fieldFrameStyles(theme),
+    container: { flex: 1, gap: theme.spacing.xs },
+    input: {
+      color: theme.colors.text,
+      textAlign: 'center',
+      minHeight: theme.controlSize.field,
+      paddingVertical: theme.spacing.sm,
+      fontVariant: ['tabular-nums'],
+    },
+  } satisfies ThemedStyles;
+}
+
+const useStyles = createThemedStyles(numberFieldStyles);

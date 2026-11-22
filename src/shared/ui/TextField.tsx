@@ -1,15 +1,16 @@
-import { useCallback } from 'react';
-import { TextInput, View } from 'react-native';
-import type { FocusEvent, TextInputProps } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
+
 import { useAnnounce } from '@shared/a11y';
-import {
-  createThemedStyles,
-  fontScaleLimit,
-  useScaledText,
-  useTheme,
-} from '@shared/theme';
-import { AppText } from './AppText';
-import { useRevealFocusedInput } from './revealInput';
+import { createThemedStyles } from '@shared/theme';
+
+import { FieldError } from './field/FieldError';
+import { FieldLabel } from './field/FieldLabel';
+import { fieldFrameStyles } from './field/fieldStyles';
+import { useFieldFocus } from './field/useFieldFocus';
+import { useThemedInputProps } from './field/useThemedInputProps';
+
+import type { Theme, ThemedStyles } from '@shared/theme';
+import type { TextInputProps } from 'react-native';
 
 export interface TextFieldProps
   extends Omit<TextInputProps, 'style' | 'placeholderTextColor'> {
@@ -17,75 +18,83 @@ export interface TextFieldProps
   readonly error?: string | null;
 }
 
+const isAndroid = Platform.OS === 'android';
+
+/**
+ * iOS: ô xám bo tròn, nhãn nhỏ phía trên. Android: ô nhập kiểu "filled" của Material 3 -
+ * nhãn nằm trong ô, gạch chân đổi màu khi đang nhập.
+ */
 export function TextField({
   label,
   error,
   multiline,
   onFocus,
+  onBlur,
   ...rest
 }: TextFieldProps) {
   const styles = useStyles();
-  const { colors, typography } = useTheme();
-  const scaledText = useScaledText(typography.body, fontScaleLimit.content);
-  const reveal = useRevealFocusedInput();
+  const { textStyle, ...inputProps } = useThemedInputProps('body');
+  const { isFocused, handleFocus, handleBlur } = useFieldFocus({
+    onFocus,
+    onBlur,
+  });
   useAnnounce(error ?? null);
-  const handleFocus = useCallback(
-    (e: FocusEvent) => {
-      reveal();
-      onFocus?.(e);
-    },
-    [onFocus, reveal],
+  const isInvalid = Boolean(error);
+  const labelText = (
+    <FieldLabel label={label} isInvalid={isInvalid} isFocused={isFocused} />
   );
+
   return (
     <View style={styles.container}>
-      <AppText variant="label" color="textMuted">
-        {label}
-      </AppText>
-      <TextInput
-        accessibilityLabel={label}
-        {...scaledText.textProps}
-        placeholderTextColor={colors.textFaint}
-        multiline={multiline}
+      {isAndroid ? null : labelText}
+      <View
         style={[
-          scaledText.style,
-          styles.input,
-          multiline && styles.multiline,
-          error ? styles.invalid : null,
+          styles.frame,
+          styles.framePadding,
+          isAndroid && isFocused && styles.focused,
+          isInvalid && styles.invalid,
         ]}
-        {...rest}
-        onFocus={handleFocus}
-      />
-      {error ? (
-        <AppText
-          variant="label"
-          color="holiday"
-          accessibilityLiveRegion="polite"
-        >
-          {error}
-        </AppText>
-      ) : null}
+      >
+        {isAndroid ? labelText : null}
+        <TextInput
+          accessibilityLabel={label}
+          {...inputProps}
+          multiline={multiline}
+          style={[textStyle, styles.input, multiline && styles.multiline]}
+          {...rest}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </View>
+      {error ? <FieldError message={error} /> : null}
     </View>
   );
 }
 
-const useStyles = createThemedStyles(t => ({
-  container: {
-    gap: t.spacing.xs,
-  },
-  input: {
-    color: t.colors.text,
-    backgroundColor: t.colors.surfaceMuted,
-    borderRadius: t.radius.sm,
-    borderWidth: 1,
-    borderColor: t.colors.border,
-    paddingHorizontal: t.spacing.md,
-    paddingVertical: t.spacing.sm,
-  },
-  multiline: {
-    minHeight: 80,
-    textAlignVertical: 'top',
-  },
-  invalid: {
-    borderColor: t.colors.holiday,
-  },
-}));
+/** Ô nhập một dòng: Material đặt nhãn trong ô nên phần chữ thấp hơn ô iOS. */
+const INPUT_MIN_HEIGHT = Platform.select({ android: 32, default: 44 });
+const INPUT_PADDING_Y = Platform.select({ android: 4, default: 11 });
+const MULTILINE_MIN_HEIGHT = 88;
+
+function textFieldStyles(theme: Theme) {
+  return {
+    ...fieldFrameStyles(theme),
+    container: { gap: theme.spacing.xs },
+    framePadding: isAndroid
+      ? {
+          paddingHorizontal: theme.spacing.lg,
+          paddingTop: theme.spacing.sm,
+          paddingBottom: theme.spacing.xs,
+        }
+      : { paddingHorizontal: theme.spacing.md },
+    input: {
+      color: theme.colors.text,
+      minHeight: INPUT_MIN_HEIGHT,
+      paddingVertical: INPUT_PADDING_Y,
+      paddingHorizontal: 0,
+    },
+    multiline: { minHeight: MULTILINE_MIN_HEIGHT, textAlignVertical: 'top' },
+  } satisfies ThemedStyles;
+}
+
+const useStyles = createThemedStyles(textFieldStyles);

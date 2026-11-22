@@ -1,38 +1,33 @@
-import { Switch, View } from 'react-native';
-import { createThemedStyles } from '@shared/theme';
-import { AppText } from './AppText';
-import { useSwitchColors } from './useSwitchColors';
+import { ListRow } from './list/ListRow';
+import { Toggle } from './Toggle';
 
 export interface SwitchRowProps {
   readonly label: string;
+  readonly subtitle?: string;
   readonly value: boolean;
   readonly onChange: (value: boolean) => void;
+  readonly accessibilityLabel?: string;
 }
 
-export function SwitchRow({ label, value, onChange }: SwitchRowProps) {
-  const styles = useStyles();
-  const switchColors = useSwitchColors(value);
+/** Hàng danh sách có công tắc ở cuối. */
+export function SwitchRow({
+  label,
+  subtitle,
+  value,
+  onChange,
+  accessibilityLabel,
+}: SwitchRowProps) {
   return (
-    <View style={styles.row}>
-      <AppText style={styles.label}>{label}</AppText>
-      <Switch
-        value={value}
-        onValueChange={onChange}
-        {...switchColors}
-        accessibilityLabel={label}
-      />
-    </View>
+    <ListRow
+      title={label}
+      subtitle={subtitle}
+      trailing={
+        <Toggle
+          value={value}
+          onChange={onChange}
+          accessibilityLabel={accessibilityLabel ?? label}
+        />
+      }
+    />
   );
 }
-
-const useStyles = createThemedStyles(t => ({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: t.spacing.md,
-  },
-  label: {
-    flex: 1,
-  },
-}));

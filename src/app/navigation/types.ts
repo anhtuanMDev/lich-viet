@@ -1,16 +1,21 @@
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import type {
-  CompositeScreenProps,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { SolarDate } from '@core/lunar';
+import type { NavigatorScreenParams } from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+/**
+ * Mỗi tab là một native stack một màn hình: nhờ vậy iOS có tiêu đề lớn native
+ * (co lại khi cuộn) và nút SF Symbols trên thanh tiêu đề.
+ */
+export type TodayStackParamList = Record<'TodayHome', undefined>;
+export type CalendarStackParamList = Record<'CalendarHome', undefined>;
+export type EventsStackParamList = Record<'EventsHome', undefined>;
+export type ConverterStackParamList = Record<'ConverterHome', undefined>;
 
 export type TabParamList = {
-  Today: undefined;
-  Calendar: undefined;
-  Events: undefined;
-  Converter: undefined;
+  Today: NavigatorScreenParams<TodayStackParamList>;
+  Calendar: NavigatorScreenParams<CalendarStackParamList>;
+  Events: NavigatorScreenParams<EventsStackParamList>;
+  Converter: NavigatorScreenParams<ConverterStackParamList>;
 };
 
 export type RootStackParamList = {
@@ -26,11 +31,6 @@ export type RootStackParamList = {
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
-
-export type TabScreenProps<T extends keyof TabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<TabParamList, T>,
-  RootStackScreenProps<keyof RootStackParamList>
->;
 
 // Cho phép useNavigation() biết kiểu của toàn bộ cây điều hướng.
 declare global {

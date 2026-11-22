@@ -3,8 +3,9 @@ import { Modal, Pressable, View } from 'react-native';
 import { SPOKEN } from '@core/a11y';
 import { SUPPORTED_YEAR_RANGE } from '@core/lunar';
 import type { MonthKey } from '@core/lunar';
-import { createThemedStyles } from '@shared/theme';
-import { AppText, Button } from '@shared/ui';
+import { createThemedStyles, useTheme } from '@shared/theme';
+import { AppText, Button, Icon } from '@shared/ui';
+import type { IconName } from '@shared/ui';
 import {
   MONTH_NUMBERS,
   YEARS_PER_PAGE,
@@ -103,7 +104,7 @@ function PickerBody({
       <View style={styles.sheet} accessibilityViewIsModal>
         <View style={styles.header}>
           <StepButton
-            symbol="‹"
+            icon="chevron_left"
             label={isMonthMode ? SPOKEN.prevYear : SPOKEN.prevYearPage}
             disabled={!canPrev}
             onPress={() => step(-1)}
@@ -116,12 +117,19 @@ function PickerBody({
             }
             style={styles.titleButton}
           >
-            <AppText variant="heading" align="center">
-              {title} {isMonthMode ? '▾' : '▴'}
-            </AppText>
+            <View style={styles.titleRow}>
+              <AppText variant="bodyStrong" align="center">
+                {title}
+              </AppText>
+              <Icon
+                name={isMonthMode ? 'keyboard_arrow_down' : 'chevron_left'}
+                size={20}
+                color="primary"
+              />
+            </View>
           </Pressable>
           <StepButton
-            symbol="›"
+            icon="chevron_right"
             label={isMonthMode ? SPOKEN.nextYear : SPOKEN.nextYearPage}
             disabled={!canNext}
             onPress={() => step(1)}
@@ -150,24 +158,26 @@ function PickerBody({
               ))}
         </View>
 
-        <Button
-          label="Về tháng hiện tại"
-          variant="secondary"
-          onPress={() => onSelect(today)}
-        />
+        <View style={styles.footer}>
+          <Button
+            label="Về tháng hiện tại"
+            variant="plain"
+            onPress={() => onSelect(today)}
+          />
+        </View>
       </View>
     </View>
   );
 }
 
 interface StepButtonProps {
-  readonly symbol: string;
+  readonly icon: IconName;
   readonly label: string;
   readonly disabled: boolean;
   readonly onPress: () => void;
 }
 
-function StepButton({ symbol, label, disabled, onPress }: StepButtonProps) {
+function StepButton({ icon, label, disabled, onPress }: StepButtonProps) {
   const styles = useStyles();
   return (
     <Pressable
@@ -179,9 +189,7 @@ function StepButton({ symbol, label, disabled, onPress }: StepButtonProps) {
       accessibilityState={{ disabled }}
       style={styles.step}
     >
-      <AppText variant="title" color={disabled ? 'textFaint' : 'textMuted'}>
-        {symbol}
-      </AppText>
+      <Icon name={icon} size={24} color={disabled ? 'textFaint' : 'primary'} />
     </Pressable>
   );
 }
@@ -196,6 +204,7 @@ interface GridCellProps {
 
 function GridCell({ label, selected, current, onPress }: GridCellProps) {
   const styles = useStyles();
+  const { colors } = useTheme();
   return (
     <View style={styles.cellSlot}>
       <Pressable
@@ -203,6 +212,7 @@ function GridCell({ label, selected, current, onPress }: GridCellProps) {
         accessibilityRole="button"
         accessibilityLabel={current ? `${label}, hiện tại` : label}
         accessibilityState={{ selected }}
+        android_ripple={{ color: colors.fill }}
         style={({ pressed }) => [
           styles.cell,
           current && styles.cellCurrent,
@@ -211,8 +221,9 @@ function GridCell({ label, selected, current, onPress }: GridCellProps) {
         ]}
       >
         <AppText
-          variant="label"
+          variant="subhead"
           color={selected ? 'onPrimary' : current ? 'primary' : 'text'}
+          style={selected || current ? styles.cellStrong : null}
           numberOfLines={1}
           adjustsFontSizeToFit
           minimumFontScale={0.8}
@@ -228,8 +239,8 @@ const useStyles = createThemedStyles(t => ({
   backdrop: {
     flex: 1,
     justifyContent: 'center',
-    padding: t.spacing.lg,
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    padding: t.spacing.xl,
+    backgroundColor: t.colors.scrim,
   },
   dismiss: {
     position: 'absolute',
@@ -241,10 +252,12 @@ const useStyles = createThemedStyles(t => ({
   sheet: {
     alignSelf: 'center',
     width: '100%',
-    maxWidth: 400,
-    gap: t.spacing.md,
-    padding: t.spacing.lg,
-    borderRadius: t.radius.lg,
+    maxWidth: 360,
+    gap: t.spacing.sm,
+    paddingHorizontal: t.spacing.md,
+    paddingTop: t.spacing.md,
+    paddingBottom: t.spacing.sm,
+    borderRadius: t.radius.dialog,
     backgroundColor: t.colors.surface,
   },
   header: {
@@ -252,11 +265,20 @@ const useStyles = createThemedStyles(t => ({
     alignItems: 'center',
   },
   step: {
-    paddingHorizontal: t.spacing.md,
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   titleButton: {
     flex: 1,
     paddingVertical: t.spacing.xs,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: t.spacing.xxs,
   },
   grid: {
     flexDirection: 'row',
@@ -264,26 +286,27 @@ const useStyles = createThemedStyles(t => ({
   },
   cellSlot: {
     width: '33.333%',
-    padding: t.spacing.xs,
+    padding: t.spacing.xxs,
   },
   cell: {
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 44,
     paddingHorizontal: t.spacing.xs,
-    borderRadius: t.radius.sm,
-    borderWidth: 1,
-    borderColor: 'transparent',
-    backgroundColor: t.colors.surfaceMuted,
+    borderRadius: t.radius.pill,
+    overflow: 'hidden',
   },
-  cellCurrent: {
-    borderColor: t.colors.primary,
-  },
+  cellCurrent: {},
   cellSelected: {
     backgroundColor: t.colors.primary,
-    borderColor: t.colors.primary,
   },
   cellPressed: {
-    opacity: 0.7,
+    backgroundColor: t.colors.fill,
+  },
+  cellStrong: {
+    fontWeight: '600',
+  },
+  footer: {
+    alignItems: 'center',
   },
 }));

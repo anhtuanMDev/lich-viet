@@ -4,8 +4,8 @@ import {
   toIsoDate,
   weekdayName,
 } from '@core/date/format';
-import { eventsByDay, upcomingEvents } from '@core/events';
-import type { CalendarEvent } from '@core/events';
+import { eventsByDay, upcomingItems, upcomingMarkOf } from '@core/events';
+import type { CalendarEvent, UpcomingKind } from '@core/events';
 import {
   addDays,
   formatCanChi,
@@ -19,7 +19,7 @@ import type { JulianDay } from '@core/lunar';
  * chỉ việc hiển thị, không cần biết gì về âm lịch.
  * Đổi cấu trúc → tăng WIDGET_SNAPSHOT_VERSION và cập nhật phía Swift (LichVietWidget.swift).
  */
-export const WIDGET_SNAPSHOT_VERSION = 2;
+export const WIDGET_SNAPSHOT_VERSION = 3;
 
 export interface WidgetUpcoming {
   readonly title: string;
@@ -27,6 +27,8 @@ export interface WidgetUpcoming {
   readonly when: string;
   /** "10/10" */
   readonly date: string;
+  /** Ký hiệu đầu hàng như mục "Sắp tới" trong app: sự kiện, rằm, mùng 1, ngày lễ. */
+  readonly mark: UpcomingKind;
 }
 
 export interface WidgetHighlight {
@@ -50,7 +52,7 @@ export interface WidgetDay {
   readonly isRedDay: boolean;
   /** Ngày lễ và sự kiện cá nhân của chính ngày này. */
   readonly highlights: readonly WidgetHighlight[];
-  /** Tối đa 3 sự kiện cá nhân sắp tới (không gồm hôm nay). */
+  /** Ba ngày cần để ý sắp tới (không gồm hôm nay), cùng nguồn với mục "Sắp tới" trong app. */
   readonly upcoming: readonly WidgetUpcoming[];
 }
 
@@ -61,6 +63,12 @@ export interface WidgetSnapshot {
 }
 
 const MAX_UPCOMING = 3;
+
+/** Cột "Sắp tới" của widget hẹp: mùng 1 / rằm bỏ tên tháng, số ngày còn lại đã đủ rõ. */
+const COMPACT_TITLE: Partial<Record<UpcomingKind, string>> = {
+  fullMoon: 'Rằm',
+  newMoon: 'Mùng 1',
+};
 
 const describeWhen = (daysAway: number): string =>
   daysAway === 1 ? 'Ngày mai' : `Còn ${daysAway} ngày`;
@@ -73,16 +81,12 @@ function buildDay(
   const detail = getDayDetail(fromJulianDay(jd));
   const { solar, lunar, weekday, holidays, canChi } = detail;
 
-  const upcoming = upcomingEvents(events, addDays(jd, 1))
-    .slice(0, MAX_UPCOMING)
-    .map(({ event, date, daysAway }) => {
-      const target = fromJulianDay(date);
-      return {
-        title: event.title,
-        when: describeWhen(daysAway + 1),
-        date: `${target.day}/${target.month}`,
-      };
-    });
+  const upcoming = upcomingItems(events, jd, MAX_UPCOMING).map(item => ({
+    title: COMPACT_TITLE[item.kind] ?? item.title,
+    when: describeWhen(item.daysAway),
+    date: `${item.day.solar.day}/${item.day.solar.month}`,
+    mark: upcomingMarkOf(item),
+  }));
 
   return {
     date: toIsoDate(solar),

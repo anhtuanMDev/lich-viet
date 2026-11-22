@@ -16,8 +16,8 @@ export function AppText({
   color = 'text',
   align,
   style,
-  // Số ngày cỡ 72 đã rất to; phóng thêm 1.6x sẽ tràn khối "tờ lịch".
-  maxFontSizeMultiplier = variant === 'display'
+  // Tiêu đề lớn đã to sẵn; phóng thêm 1.6x sẽ chiếm hết chiều ngang màn hình.
+  maxFontSizeMultiplier = variant === 'largeTitle'
     ? fontScaleLimit.compact
     : fontScaleLimit.content,
   accessibilityLabel,

@@ -1,18 +1,27 @@
-import { useCallback, useMemo } from 'react';
-import { Pressable, SectionList, View } from 'react-native';
-import type { SectionListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SPOKEN } from '@core/a11y';
+import { useCallback, useMemo } from 'react';
+import { Platform, SectionList, StyleSheet, View } from 'react-native';
+
 import { upcomingEvents } from '@core/events';
-import type { CalendarEvent } from '@core/events';
 import { toJulianDay } from '@core/lunar';
-import type { JulianDay } from '@core/lunar';
 import { useToday } from '@shared/hooks/useToday';
-import { createThemedStyles } from '@shared/theme';
-import { AppText, Button, Card, Screen } from '@shared/ui';
+import { createThemedStyles, layout } from '@shared/theme';
+import {
+  FAB_CLEARANCE,
+  Fab,
+  Screen,
+  SectionHeader,
+  useTabBarSpace,
+} from '@shared/ui';
+
 import { EventRow } from './components/EventRow';
-import type { EventRowProps } from './components/EventRow';
+import { EventsEmptyState } from './components/EventsEmptyState';
 import { useEvents } from './eventRepository';
+
+import type { EventRowProps } from './components/EventRow';
+import type { CalendarEvent } from '@core/events';
+import type { JulianDay } from '@core/lunar';
+import type { SectionListRenderItem } from 'react-native';
 
 type Item = Pick<EventRowProps, 'event' | 'next'>;
 
@@ -48,8 +57,9 @@ function buildSections(events: readonly CalendarEvent[], todayJd: JulianDay) {
 }
 
 const keyExtractor = (item: Item) => item.event.id;
+const isAndroid = Platform.OS === 'android';
 const renderSectionHeader = ({ section }: { section: Section }) => (
-  <SectionHeader title={section.title} />
+  <SectionHeader title={section.title} spaced />
 );
 
 export function EventsScreen() {
@@ -57,6 +67,7 @@ export function EventsScreen() {
   const navigation = useNavigation();
   const events = useEvents();
   const today = useToday();
+  const tabBarSpace = useTabBarSpace();
 
   const sections = useMemo(
     () => buildSections(events, toJulianDay(today)),
@@ -71,10 +82,6 @@ export function EventsScreen() {
     () => navigation.navigate('EventEdit'),
     [navigation],
   );
-  const openSettings = useCallback(
-    () => navigation.navigate('Settings'),
-    [navigation],
-  );
 
   const renderItem = useCallback<SectionListRenderItem<Item, Section>>(
     ({ item }) => (
@@ -84,51 +91,25 @@ export function EventsScreen() {
   );
 
   return (
-    <Screen scroll={false}>
-      <View style={styles.header}>
-        <AppText
-          variant="title"
-          style={styles.title}
-          accessibilityRole="header"
-        >
-          Sự kiện
-        </AppText>
-        <Pressable
-          onPress={openSettings}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={SPOKEN.settings}
-        >
-          <AppText variant="title" color="textMuted">
-            ⚙︎
-          </AppText>
-        </Pressable>
-      </View>
-
-      <SectionList
-        sections={sections}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        renderSectionHeader={renderSectionHeader}
-        ItemSeparatorComponent={Separator}
-        ListEmptyComponent={EmptyState}
-        stickySectionHeadersEnabled={false}
-        contentContainerStyle={styles.list}
-      />
-
-      <View style={styles.footer}>
-        <Button label="+ Thêm sự kiện" onPress={addEvent} />
-      </View>
-    </Screen>
-  );
-}
-
-function SectionHeader({ title }: { readonly title: string }) {
-  const styles = useStyles();
-  return (
-    <AppText variant="label" color="textMuted" style={styles.sectionTitle}>
-      {title.toUpperCase()}
-    </AppText>
+    <View style={styles.root}>
+      <Screen scroll={false}>
+        <SectionList
+          sections={sections}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          renderSectionHeader={renderSectionHeader}
+          ItemSeparatorComponent={Separator}
+          ListEmptyComponent={<EventsEmptyState onAdd={addEvent} />}
+          stickySectionHeadersEnabled={false}
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={[
+            styles.list,
+            { paddingBottom: tabBarSpace + FAB_CLEARANCE },
+          ]}
+        />
+      </Screen>
+      <Fab icon="add" label="Thêm sự kiện" onPress={addEvent} />
+    </View>
   );
 }
 
@@ -137,43 +118,19 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-function EmptyState() {
-  return (
-    <Card>
-      <AppText variant="heading">Chưa có sự kiện nào</AppText>
-      <AppText color="textMuted">
-        Lưu ngày giỗ, sinh nhật âm lịch hay các dịp quan trọng - app sẽ tự tính
-        ngày dương lịch tương ứng cho mỗi năm.
-      </AppText>
-    </Card>
-  );
-}
-
-const useStyles = createThemedStyles(t => ({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: t.spacing.lg,
-    paddingVertical: t.spacing.md,
-  },
-  title: {
-    flex: 1,
-  },
+const useStyles = createThemedStyles(theme => ({
+  root: { flex: 1 },
+  // Màn rộng: danh sách không kéo dài quá tầm đọc.
   list: {
-    paddingHorizontal: t.spacing.lg,
-    paddingBottom: t.spacing.lg,
     flexGrow: 1,
+    width: '100%',
+    maxWidth: layout.readableWidth,
+    alignSelf: 'center',
   },
-  sectionTitle: {
-    letterSpacing: 0.5,
-    marginTop: t.spacing.md,
-    marginBottom: t.spacing.sm,
-  },
+  // Material không kẻ giữa các hàng danh sách.
   separator: {
-    height: t.spacing.sm,
-  },
-  footer: {
-    paddingHorizontal: t.spacing.lg,
-    paddingBottom: t.spacing.md,
+    height: isAndroid ? 0 : StyleSheet.hairlineWidth,
+    marginLeft: theme.gutter,
+    backgroundColor: theme.colors.separator,
   },
 }));

@@ -1,23 +1,28 @@
 import { useCallback } from 'react';
-import type { LunarPhaseReminder } from '@core/reminders';
+
 import {
   updateReminderSettings,
   useSettings,
 } from '@features/settings/settingsStore';
+import { runInBackground } from '@shared/async/runInBackground';
 import {
-  AppText,
-  Button,
-  Card,
+  ActionRow,
+  FieldGroup,
+  Icon,
+  ListRow,
+  Section,
   SegmentedControl,
   TimeStepper,
 } from '@shared/ui';
-import type { SegmentOption, TimeValue } from '@shared/ui';
+
 import { notifier } from '../notifier';
 import {
   ensureNotificationPermission,
   useNotificationPermission,
 } from '../permission';
-import { runInBackground } from '@shared/async/runInBackground';
+
+import type { LunarPhaseReminder } from '@core/reminders';
+import type { SegmentOption, TimeValue } from '@shared/ui';
 
 const LUNAR_PHASE_OPTIONS: readonly SegmentOption<LunarPhaseReminder>[] = [
   { value: 'off', label: 'Tắt' },
@@ -25,6 +30,7 @@ const LUNAR_PHASE_OPTIONS: readonly SegmentOption<LunarPhaseReminder>[] = [
   { value: 'dayBefore', label: 'Trước 1 ngày' },
 ];
 
+/** Mục "Nhắc lịch" trong Cài đặt. */
 export function ReminderSettingsCard() {
   const { reminders } = useSettings();
   const permission = useNotificationPermission();
@@ -40,7 +46,7 @@ export function ReminderSettingsCard() {
     }
   }, []);
 
-  const sendTest = useCallback(async () => {
+  const sendTestNotification = useCallback(async () => {
     if (await ensureNotificationPermission()) {
       await notifier.showNow({
         title: 'Lịch Việt',
@@ -49,47 +55,64 @@ export function ReminderSettingsCard() {
       });
     }
   }, []);
+  const sendTest = useCallback(
+    () => runInBackground(sendTestNotification(), 'reminders'),
+    [sendTestNotification],
+  );
+  const { request } = permission;
+  const requestPermission = useCallback(
+    () => runInBackground(request(), 'reminders'),
+    [request],
+  );
+
+  const isBlocked =
+    permission.state === 'denied' || permission.state === 'undetermined';
 
   return (
-    <Card title="Nhắc lịch">
-      {permission.state === 'denied' || permission.state === 'undetermined' ? (
-        <>
-          <AppText color="holiday">
-            {permission.state === 'denied'
-              ? 'Thông báo đang bị tắt - bạn sẽ không nhận được lời nhắc.'
-              : 'Chưa bật thông báo.'}
-          </AppText>
-          <Button
-            label="Bật thông báo"
-            variant="secondary"
-            onPress={permission.request}
+    <>
+      <Section
+        title="Nhắc lịch"
+        footer="Nhắc từng sự kiện được chọn khi thêm hoặc sửa sự kiện. Mọi lời nhắc trong cùng một ngày gộp thành một thông báo."
+      >
+        {isBlocked ? (
+          <ListRow
+            leading={<Icon name="notifications" size={22} color="danger" />}
+            title={
+              permission.state === 'denied'
+                ? 'Thông báo đang bị tắt'
+                : 'Chưa bật thông báo'
+            }
+            subtitle="Bạn sẽ không nhận được lời nhắc."
+            value="Bật"
+            action={{ onPress: requestPermission }}
+            presentation={{ valueColor: 'primary' }}
           />
-        </>
-      ) : null}
-
-      <AppText variant="label" color="textMuted">
-        Giờ nhắc mỗi ngày
-      </AppText>
-      <TimeStepper label="Giờ nhắc" value={reminders.time} onChange={setTime} />
-
-      <AppText variant="label" color="textMuted">
-        Nhắc mùng 1 và rằm
-      </AppText>
-      <SegmentedControl
-        options={LUNAR_PHASE_OPTIONS}
-        value={reminders.lunarPhase}
-        onChange={setLunarPhase}
-      />
-
-      <AppText variant="label" color="textMuted">
-        Nhắc từng sự kiện được chọn khi thêm/sửa sự kiện. Mọi lời nhắc trong
-        cùng một ngày gộp thành một thông báo.
-      </AppText>
-      <Button
-        label="Gửi thông báo thử"
-        variant="secondary"
-        onPress={sendTest}
-      />
-    </Card>
+        ) : null}
+        <ListRow
+          title="Giờ nhắc mỗi ngày"
+          trailing={
+            <TimeStepper
+              label="Giờ nhắc"
+              value={reminders.time}
+              onChange={setTime}
+            />
+          }
+        />
+        <ActionRow
+          label="Gửi thông báo thử"
+          materialIcon="notifications"
+          onPress={sendTest}
+        />
+      </Section>
+      <Section title="Mùng 1 và rằm" separators={false}>
+        <FieldGroup>
+          <SegmentedControl
+            options={LUNAR_PHASE_OPTIONS}
+            value={reminders.lunarPhase}
+            onChange={setLunarPhase}
+          />
+        </FieldGroup>
+      </Section>
+    </>
   );
 }

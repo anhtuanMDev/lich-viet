@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { parseBackup } from '@core/events';
 import type { RootStackScreenProps } from '@app/navigation/types';
 import { eventRepository } from '@features/events/eventRepository';
-import { AppText, Button, Card, Screen, TextField } from '@shared/ui';
+import { Button, FieldGroup, Screen, Section, TextField } from '@shared/ui';
 
 function describeResult(
   added: number,
@@ -54,27 +54,31 @@ export function ImportBackupScreen({
 
   return (
     <Screen edges={['left', 'right', 'bottom']}>
-      <Card>
-        <AppText color="textMuted">
-          Dán toàn bộ nội dung đã xuất từ Lịch Việt vào ô dưới đây. Sự kiện được
-          gộp với dữ liệu hiện có - không sự kiện nào bị xoá.
-        </AppText>
-        <TextField
-          label="Nội dung sao lưu"
-          value={text}
-          onChangeText={changeText}
-          placeholder='{"app":"lich-viet", …}'
-          multiline
-          autoCorrect={false}
-          autoCapitalize="none"
-          error={error}
+      <Section
+        separators={false}
+        footer="Dán toàn bộ nội dung đã xuất từ Lịch Việt vào ô trên. Sự kiện được gộp với dữ liệu hiện có, không sự kiện nào bị xoá."
+      >
+        <FieldGroup>
+          <TextField
+            label="Nội dung sao lưu"
+            value={text}
+            onChangeText={changeText}
+            placeholder='{"app":"lich-viet", …}'
+            multiline
+            autoCorrect={false}
+            autoCapitalize="none"
+            error={error}
+          />
+        </FieldGroup>
+      </Section>
+      <FieldGroup>
+        <Button
+          label="Nhập dữ liệu"
+          stretch
+          onPress={importData}
+          disabled={text.trim().length === 0}
         />
-      </Card>
-      <Button
-        label="Nhập dữ liệu"
-        onPress={importData}
-        disabled={text.trim().length === 0}
-      />
+      </FieldGroup>
     </Screen>
   );
 }

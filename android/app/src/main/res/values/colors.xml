@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Màu chủ đạo (son) cho thành phần native: nút hộp thoại, con trỏ, tay kéo chọn chữ.
+         Khớp androidLight.primary trong src/shared/theme/colors.ts. -->
+    <color name="app_accent">#AF2C21</color>
+</resources>

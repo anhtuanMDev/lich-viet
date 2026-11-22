@@ -22,3 +22,10 @@ export function msUntilNextVietnamMidnight(now: number = Date.now()): number {
   const local = now + VIETNAM_TIMEZONE * MS_PER_HOUR;
   return msPerDay - (((local % msPerDay) + msPerDay) % msPerDay);
 }
+
+/** Giờ hiện tại theo giờ Việt Nam, có phần lẻ (VD 13.5 = 13h30). */
+export function vietnamHourNow(now: number = Date.now()): number {
+  const msPerDay = 24 * MS_PER_HOUR;
+  const local = now + VIETNAM_TIMEZONE * MS_PER_HOUR;
+  return (((local % msPerDay) + msPerDay) % msPerDay) / MS_PER_HOUR;
+}

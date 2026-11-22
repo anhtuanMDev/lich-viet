@@ -44,7 +44,26 @@ describe('buildWidgetSnapshot', () => {
       canChi: 'Ngày Canh Tuất · Năm Bính Ngọ',
       isRedDay: false,
       highlights: [],
-      upcoming: [{ title: 'Giỗ ông nội', when: 'Còn 7 ngày', date: '10/10' }],
+      upcoming: [
+        {
+          title: 'Giỗ ông nội',
+          when: 'Còn 7 ngày',
+          date: '10/10',
+          mark: 'event',
+        },
+        {
+          title: 'Mùng 1',
+          when: 'Còn 7 ngày',
+          date: '10/10',
+          mark: 'newMoon',
+        },
+        {
+          title: 'Tết Trùng cửu',
+          when: 'Còn 15 ngày',
+          date: '18/10',
+          mark: 'holiday',
+        },
+      ],
     });
   });
 

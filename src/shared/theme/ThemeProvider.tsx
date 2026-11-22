@@ -36,7 +36,9 @@ export const useTheme = (): Theme => useContext(ThemeContext);
  *   const useStyles = createThemedStyles(t => ({ box: { backgroundColor: t.colors.surface } }));
  *   const styles = useStyles();
  */
-type NamedStyles = Record<string, ViewStyle | TextStyle | ImageStyle>;
+/** Bảng style như StyleSheet.create nhận. Hàm tạo style đặt tên riêng dùng `satisfies ThemedStyles`. */
+export type ThemedStyles = Record<string, ViewStyle | TextStyle | ImageStyle>;
+type NamedStyles = ThemedStyles;
 
 export function createThemedStyles<S extends NamedStyles>(
   // `& NamedStyles` giữ kiểu literal ('row', 'center'…) giống StyleSheet.create.
